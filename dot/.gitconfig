@@ -1,0 +1,54 @@
+[include]
+  path = .gitconfig_local
+
+[user]
+  name = futsuuu
+  email = futsuuu123@gmail.com
+
+[core]
+  editor = nvim
+  pager = delta
+  autocrlf = input
+
+[alias]
+  ad = add
+  br = branch
+  cm = commit
+  df = diff
+  ps = push
+  pl = pull
+  st = status --short --branch
+  lg = log --oneline --graph --decorate
+  rs = restore
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+[init]
+  defaultBranch = main
+
+[credential "helperselector"]
+  selected = manager
+
+[commit]
+  verbose = true
+
+[pull]
+  ff = false
+
+[ghq]
+  root = ~/dev
+
+[color]
+  ui = true
+
+[delta]
+  navigate = true
+  light = false
+  side-by-side = true
+
+[interactive]
+  diffFilter = delta --color-only

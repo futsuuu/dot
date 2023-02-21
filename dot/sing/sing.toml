@@ -1,0 +1,20 @@
+[default]
+dir = "~/dev/github.com/futsuuu/dot/dot"
+sync_type = "junction"
+
+[[dotfiles]]
+path = "sing"
+target = "~/.config/sing"
+
+[[dotfiles]]
+path = "glaze-wm"
+target = "~/.glaze-wm"
+
+[[dotfiles]]
+path = ".gitconfig"
+target = "~/.gitconfig"
+sync_type = "hardlink"
+
+[[dotfiles]]
+path = "bat"
+target = "~/AppData/Roaming/bat"
