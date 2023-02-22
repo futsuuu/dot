@@ -3,8 +3,8 @@ dir = "~/dev/github.com/futsuuu/dot/dot"
 sync_type = "junction"
 
 [[dotfiles]]
-path = "sing"
-target = "~/.config/sing"
+path = "sinc"
+target = "~/.config/sinc"
 
 [[dotfiles]]
 path = "glaze-wm"
@@ -18,3 +18,7 @@ sync_type = "hardlink"
 [[dotfiles]]
 path = "bat"
 target = "~/AppData/Roaming/bat"
+
+[[dotfiles]]
+path = "neofetch"
+target = "~/.config/neofetch"
