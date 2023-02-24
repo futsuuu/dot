@@ -20,6 +20,8 @@
   st = status --short --branch
   lg = log --oneline --graph --decorate
   rs = restore
+  sw = switch
+  mg = merge
 
 [filter "lfs"]
   clean = git-lfs clean -- %f

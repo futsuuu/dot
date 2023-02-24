@@ -1,6 +1,6 @@
 [default]
 dir = "~/dev/github.com/futsuuu/dot/dot"
-sync_type = "junction"
+sync_type."match(os)" = { default = "symlink", windows = "junction" }
 
 [[dotfiles]]
 path = "sinc"
@@ -8,16 +8,19 @@ target = "~/.config/sinc"
 
 [[dotfiles]]
 path = "glaze-wm"
+enable."match(os)" = { default = false, windows = true }
 target = "~/.glaze-wm"
 
 [[dotfiles]]
 path = ".gitconfig"
 target = "~/.gitconfig"
-sync_type = "hardlink"
+sync_type."match(os)".windows = "hardlink"
 
 [[dotfiles]]
 path = "bat"
-target = "~/AppData/Roaming/bat"
+  [dotfiles.target."match(os)"]
+  default = "~/.config/bat"
+  windows = "~/AppData/Roaming/bat"
 
 [[dotfiles]]
 path = "neofetch"
