@@ -1,0 +1,39 @@
+## General
+show=drun
+prompt=
+normal_window=false
+layer=top
+term=Alacritty
+
+## Geometry
+width=450px
+height=340px
+location=0
+orientation=vertical
+halign=fill
+line_wrap=off
+dynamic_lines=false
+
+## Images
+allow_markup=true
+allow_images=true
+image_size=24
+
+## Search
+exec_search=false
+hide_search=false
+parse_search=false
+insensitive=true
+
+## Other
+hide_scroll=true
+no_actions=true
+sort_order=default
+gtk_dark=true
+filter_rate=100
+
+## Keys
+key_expand=Tab
+key_exit=Escape
+
+# vim:ft=config

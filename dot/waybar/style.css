@@ -1,0 +1,79 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: 'JetBrainsMono Nerd Font';
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(0, 0, 0, 0.4);
+    color: @theme_bg_color;
+    border: 2px solid rgba(150, 200, 255, 0.5);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+}
+
+tooltip {
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+tooltip label {
+  color: white;
+}
+
+#battery,
+#memory,
+#clock,
+#network,
+#cpu {
+    padding: 0 5px 0 10px;
+}
+
+#custom-launcher,
+#custom-power {
+    font-size: 18px;
+    padding: 0 5px 0 10px;
+}
+
+#custom-launcher {
+    color: #7799ff;
+}
+
+#workspaces button {
+    padding: 0 5px 0 3px;
+    background: transparent;
+    color: white;
+    border-bottom: 3px solid transparent;
+}
+
+#workspaces button.focused {
+    border-bottom: 3px solid white;
+}
+
+#mode {
+    border-bottom: 3px solid white;
+}
+
+#battery {
+    color: white;
+}
+
+#battery.charging {
+    color: green;
+}
+
+@keyframes blink {
+    to {
+        color: black;
+    }
+}
+
+#battery.warning:not(.charging) {
+    color: red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
