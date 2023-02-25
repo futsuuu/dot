@@ -14,7 +14,7 @@ target = "~/.glaze-wm"
 [[dotfiles]]
 path = ".gitconfig"
 target = "~/.gitconfig"
-sync_type."match(os)".windows = "hardlink"
+sync_type."match(os)" = { default = "symlink", windows = "hardlink" }
 
 [[dotfiles]]
 path = "bat"
@@ -25,3 +25,23 @@ path = "bat"
 [[dotfiles]]
 path = "neofetch"
 target = "~/.config/neofetch"
+
+[[dotfiles]]
+path = "hyprland"
+target = "~/.config/hypr"
+enable."match(os)" = { default = false, "arch linux" = true }
+
+[[dotfiles]]
+path = "wofi"
+target = "~/.config/wofi"
+enable."match(os)" = { default = false, "arch linux" = true }
+
+[[dotfiles]]
+path = "waybar"
+target = "~/.config/waybar"
+enable."match(os)" = { default = false, "arch linux" = true }
+
+[[dotfiles]]
+path = "vivaldi.conf"
+target = "~/.config/vivaldi-stable.conf"
+enable."match(os)" = { default = false, "arch linux" = true }
