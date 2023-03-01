@@ -7,7 +7,7 @@ path = "sinc"
 target = "~/.config/sinc"
 
 [[dotfiles]]
-path = "glaze-wm"
+path = "glazeWM"
 enable."match(os)" = { default = false, windows = true }
 target = "~/.glaze-wm"
 
