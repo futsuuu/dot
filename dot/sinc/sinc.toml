@@ -12,6 +12,10 @@ enable."match(os)" = { default = false, windows = true }
 target = "~/.glaze-wm"
 
 [[dotfiles]]
+path = "tig"
+target = "~/.config/tig"
+
+[[dotfiles]]
 path = ".gitconfig"
 target = "~/.gitconfig"
 sync_type."match(os)" = { default = "symlink", windows = "hardlink" }

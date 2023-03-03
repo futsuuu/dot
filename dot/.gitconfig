@@ -39,7 +39,7 @@
   verbose = true
 
 [pull]
-  ff = false
+  ff = only
 
 [ghq]
   root = ~/dev

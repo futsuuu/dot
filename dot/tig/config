@@ -1,0 +1,16 @@
+bind generic E view-grep
+bind generic g move-first-line
+bind generic G move-last-line
+bind main    G move-last-line
+
+set horizontal-scroll     = 20%
+set line-graphics         = auto
+set tab-size              = 4
+set main-view-line-number = yes,interval=5 0
+set main-view-date        = custom
+set main-view-date-format = "%Y %m/%d"
+
+color cursor      black   blue  bold
+color line-number magenta black
+
+# vim:ft=conf
