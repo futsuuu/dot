@@ -1,6 +1,6 @@
 [default]
 dir = "~/dev/github.com/futsuuu/dot/dot"
-sync_type."match(os)" = { default = "symlink", windows = "junction" }
+sync_type."sys(os)" = { default = "symlink", windows = "junction" }
 
 [[dotfiles]]
 path = "sinc"
@@ -8,8 +8,18 @@ target = "~/.config/sinc"
 
 [[dotfiles]]
 path = "glazeWM"
-enable."match(os)" = { default = false, windows = true }
+enable."sys(os)" = { default = false, windows = true }
 target = "~/.glaze-wm"
+
+[[dotfiles]]
+path = "hyprland"
+target = "~/.config/hypr"
+enable."sys(os)" = { default = false, "arch linux" = true }
+
+[[dotfiles]]
+path = "waybar"
+target = "~/.config/waybar"
+enable."sys(os)" = { default = false, "arch linux" = true }
 
 [[dotfiles]]
 path = "tig"
@@ -18,11 +28,11 @@ target = "~/.config/tig"
 [[dotfiles]]
 path = ".gitconfig"
 target = "~/.gitconfig"
-sync_type."match(os)" = { default = "symlink", windows = "hardlink" }
+sync_type."sys(os)" = { default = "symlink", windows = "hardlink" }
 
 [[dotfiles]]
 path = "bat"
-  [dotfiles.target."match(os)"]
+  [dotfiles.target."sys(os)"]
   default = "~/.config/bat"
   windows = "~/AppData/Roaming/bat"
 
@@ -31,21 +41,11 @@ path = "neofetch"
 target = "~/.config/neofetch"
 
 [[dotfiles]]
-path = "hyprland"
-target = "~/.config/hypr"
-enable."match(os)" = { default = false, "arch linux" = true }
-
-[[dotfiles]]
 path = "wofi"
 target = "~/.config/wofi"
-enable."match(os)" = { default = false, "arch linux" = true }
-
-[[dotfiles]]
-path = "waybar"
-target = "~/.config/waybar"
-enable."match(os)" = { default = false, "arch linux" = true }
+enable."sys(os)" = { default = false, "arch linux" = true }
 
 [[dotfiles]]
 path = "vivaldi.conf"
 target = "~/.config/vivaldi-stable.conf"
-enable."match(os)" = { default = false, "arch linux" = true }
+enable."sys(os)" = { default = false, "arch linux" = true }
