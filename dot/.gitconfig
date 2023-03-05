@@ -22,6 +22,7 @@
   rs = restore
   sw = switch
   mg = merge
+  tg = tag
 
 [filter "lfs"]
   clean = git-lfs clean -- %f
@@ -39,7 +40,7 @@
   verbose = true
 
 [pull]
-  ff = false
+  ff = only
 
 [ghq]
   root = ~/dev
