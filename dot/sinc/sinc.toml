@@ -22,6 +22,12 @@ target = "~/.config/waybar"
 enable."sys(os)" = { default = false, "arch linux" = true }
 
 [[dotfiles]]
+path = "neovim"
+  [dotfiles.target."sys(os)"]
+  default = "~/.config/nvim"
+  windows = "~/AppData/Local/nvim"
+
+[[dotfiles]]
 path = "alacritty"
   [dotfiles.target."sys(os)"]
   default = "~/.config/alacritty"
