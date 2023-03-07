@@ -22,10 +22,15 @@ target = "~/.config/waybar"
 enable."sys(os)" = { default = false, "arch linux" = true }
 
 [[dotfiles]]
-path = "alacirtty"
+path = "alacritty"
   [dotfiles.target."sys(os)"]
   default = "~/.config/alacritty"
   windows = "~/AppData/Roaming/alacritty"
+
+[[dotfiles]]
+path = "tmux.conf"
+target = "~/.tmux.conf"
+enable."which(tmux)" = { default = true, "" = false }
 
 [[dotfiles]]
 path = "tig"
