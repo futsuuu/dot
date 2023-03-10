@@ -63,6 +63,11 @@ target = "~/.config/wofi"
 enable."sys(os)" = { default = false, "arch linux" = true }
 
 [[dotfiles]]
-path = "vivaldi.conf"
+path = "chromium-flags.conf"
+target = "~/.config/electron-flags.conf"
+enable."sys(os)" = { default = false, "arch linux" = true }
+
+[[dotfiles]]
+path = "chromium-flags.conf"
 target = "~/.config/vivaldi-stable.conf"
 enable."sys(os)" = { default = false, "arch linux" = true }
