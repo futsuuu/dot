@@ -7,7 +7,6 @@
 
 [core]
   editor = nvim
-  pager = delta
   autocrlf = input
 
 [alias]
@@ -47,11 +46,3 @@
 
 [color]
   ui = true
-
-[delta]
-  navigate = true
-  light = false
-  side-by-side = true
-
-[interactive]
-  diffFilter = delta --color-only
