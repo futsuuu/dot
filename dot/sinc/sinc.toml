@@ -43,6 +43,12 @@ path = "tig"
 target = "~/.config/tig"
 
 [[dotfiles]]
+path = "lazygit"
+  [dotfiles.target."sys(os)"]
+  default = "~/.config/lazygit"
+  windows = "~/AppData/Roaming/lazygit"
+
+[[dotfiles]]
 path = ".gitconfig"
 target = "~/.gitconfig"
 sync_type."sys(os)" = { default = "symlink", windows = "hardlink" }

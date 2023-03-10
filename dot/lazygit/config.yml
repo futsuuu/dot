@@ -1,0 +1,10 @@
+gui:
+  language: 'en'
+  showRandomTip: false
+  showIcons: true
+  theme:
+    activeBorderColor:
+      - blue
+      - bold
+    inactiveBorderColor:
+      - darkgray
