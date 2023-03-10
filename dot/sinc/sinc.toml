@@ -48,6 +48,11 @@ target = "~/.gitconfig"
 sync_type."sys(os)" = { default = "symlink", windows = "hardlink" }
 
 [[dotfiles]]
+path = "curlrc"
+target = "~/.curlrc"
+sync_type."sys(os)" = { default = "symlink", windows = "hardlink" }
+
+[[dotfiles]]
 path = "bat"
   [dotfiles.target."sys(os)"]
   default = "~/.config/bat"
