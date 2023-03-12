@@ -18,15 +18,22 @@ function Init.dressing()
 end
 
 function Init.notify()
-  ---@diagnostic disable-next-line: duplicate-set-field
-  vim.notify = function(...)
+  local function notify(...)
     Config.notify()
     return require 'notify'(...)
   end
+  vim.notify = notify
+  print = notify
 end
 
 function Init.neotree()
   map('n', '<Space>e', '<Cmd>Neotree toggle=true source=filesystem<CR>')
+end
+
+function Init.ccc()
+  map('n', '<Space>cp', '<Cmd>CccPick<CR>')
+  map('n', '<Space>cc', '<Cmd>CccConvert<CR>')
+  map('n', '<Space>ct', '<Cmd>CccHighlighterToggle<CR>')
 end
 
 function Init.telescope()
@@ -58,3 +65,5 @@ function Init.telescope()
 end
 
 require 'plugins.lazy'(Init, Config)
+
+vim.cmd.colorscheme 'tokyonight'

@@ -8,14 +8,7 @@ return function(init, config)
       config = config.devicons,
     },
     'MunifTanjim/nui.nvim',
-    {
-      'folke/tokyonight.nvim',
-      event = 'VeryLazy',
-      config = function()
-        vim.opt.termguicolors = true
-        vim.cmd.colorscheme 'tokyonight'
-      end,
-    },
+    'folke/tokyonight.nvim',
 
     -- edit
     {
@@ -54,7 +47,7 @@ return function(init, config)
     {
       'akinsho/bufferline.nvim',
       version = 'v3.*',
-      event = 'BufRead',
+      event = { 'BufRead', 'TermOpen' },
       config = config.bufferline,
     },
     {
@@ -67,6 +60,22 @@ return function(init, config)
       cmd = { 'Bdelete', 'Bwipeout' },
     },
 
+    {
+      'nvim-treesitter/nvim-treesitter',
+      module = false,
+      build = ':TSUpdate',
+      event = 'BufRead',
+      config = config.treesitter,
+      dependencies = {
+        'mrjones2014/nvim-ts-rainbow',
+      },
+    },
+    {
+      'luukvbaal/statuscol.nvim',
+      event = 'BufRead',
+      cond = vim.fn.has 'nvim-0.9' == 1,
+      config = config.statuscol,
+    },
     {
       'lukas-reineke/indent-blankline.nvim',
       event = 'CursorMoved',
@@ -158,6 +167,7 @@ return function(init, config)
     -- utils
     {
       'uga-rosa/ccc.nvim',
+      init = init.ccc,
       config = config.ccc,
       cmd = {
         'CccPick',
@@ -218,6 +228,8 @@ return function(init, config)
           'rplugin',
           'man',
           'netrwPlugin',
+          'editorconfig',
+          'nvim',
         },
       },
     },

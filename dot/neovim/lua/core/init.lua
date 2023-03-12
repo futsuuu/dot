@@ -17,6 +17,7 @@ autocmd('InsertEnter', {
 
 autocmd('WinNew', {
   pattern = '*',
+  once = true,
   callback = function()
     map('n', '<C-h>', '<C-w>h')
     map('n', '<C-j>', '<C-w>j')
@@ -40,6 +41,7 @@ autocmd('CursorMoved', {
 
 autocmd('BufRead', {
   pattern = '*',
+  once = true,
   callback = function()
     opt.backup = false
     opt.writebackup = false
@@ -65,6 +67,19 @@ autocmd('BufRead', {
 
     opt.number = true
     opt.signcolumn = 'yes'
+    map('n', 'a', function()
+      return string.match(vim.api.nvim_get_current_line(), '^%s*$') and 'S' or 'a'
+    end, { expr = true })
+  end,
+})
+
+autocmd('TermOpen', {
+  pattern = '*',
+  callback = function()
+    vim.cmd.startinsert()
+    map('t', '<Esc>', '<C-\\><C-n>')
+    vim.opt_local.number = false
+    vim.opt_local.signcolumn = 'no'
   end,
 })
 

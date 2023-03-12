@@ -10,6 +10,10 @@ map('n', '<Space>rn', function()
   vim.lsp.buf.rename()
 end)
 
+map('n', '<Space>ca', function()
+  vim.lsp.buf.code_action()
+end)
+
 map('n', ']d', function()
   vim.diagnostic.goto_next()
 end)
@@ -29,9 +33,7 @@ mason_lspconfig.setup_handlers {
         local server_cap = client.server_capabilities
         server_cap.documentFormattingProvider = false
       end,
-      capabilities = cmp_nvim_lsp.default_capabilities(
-        lsp.protocol.make_client_capabilities()
-      ),
+      capabilities = cmp_nvim_lsp.default_capabilities(lsp.protocol.make_client_capabilities()),
       settings = {
         Lua = {
           runtime = {
@@ -50,15 +52,18 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
-lsp.handlers['textDocument/publishDiagnostics'] =
-  lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    signs = false,
-    virtual_text = {
-      prefix = '',
-    },
-    update_in_insert = true,
-    severity_sort = true,
-  })
+lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  signs = false,
+  virtual_text = {
+    prefix = '',
+  },
+  update_in_insert = true,
+  severity_sort = true,
+})
 
-lsp.handlers['textDocument/hover'] =
-  lsp.with(vim.lsp.handlers.hover, { border = 'rounded' })
+lsp.handlers['textDocument/hover'] = lsp.with(vim.lsp.handlers.hover, { border = 'rounded' })
+
+vim.fn.sign_define('DiagnosticSignError', { text = ' ', texthl = 'DiagnosticSignError' })
+vim.fn.sign_define('DiagnosticSignWarn', { text = ' ', texthl = 'DiagnosticSignWarn' })
+vim.fn.sign_define('DiagnosticSignInfo', { text = ' ', texthl = 'DiagnosticSignInfo' })
+vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSignHint' })

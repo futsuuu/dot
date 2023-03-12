@@ -646,6 +646,7 @@ let-env config = {
 }
 
 alias c = clear
+alias ca = cargo
 alias q = exit
 alias v = nvim
 alias t = tmux
