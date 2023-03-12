@@ -1,3 +1,4 @@
+local ui = require 'core.ui'
 ---@class Plugins.Config
 local Config = {}
 
@@ -238,6 +239,11 @@ function Config.fidget()
     text = {
       spinner = 'arc',
     },
+    fmt = {
+      task = function(task_name, message, percentage)
+        return string.format('%s%s %s', message, ui.progressbar(percentage), task_name)
+      end,
+    },
   }
 end
 
@@ -252,7 +258,7 @@ function Config.mason_lspconfig()
 end
 
 function Config.mason()
-  local ui = require('core.ui').status
+  local status = ui.status
   require('mason').setup {
     providers = {
       'mason.providers.client',
@@ -260,9 +266,9 @@ function Config.mason()
     },
     ui = {
       icons = {
-        package_installed = ui.check,
-        package_pending = ui.dots,
-        package_uninstalled = ui.close,
+        package_installed = status.check,
+        package_pending = status.dots,
+        package_uninstalled = status.close,
       },
     },
   }
