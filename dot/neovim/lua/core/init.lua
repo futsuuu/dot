@@ -11,6 +11,7 @@ opt.laststatus = 0
 autocmd('InsertEnter', {
   pattern = '*',
   callback = function()
+    opt.showmode = false
     map('i', 'jj', '<Esc>')
   end,
 })
@@ -46,8 +47,8 @@ autocmd('BufRead', {
     opt.backup = false
     opt.writebackup = false
     opt.swapfile = false
-    vim.opt.termguicolors = true
-    vim.opt.syntax = 'on'
+    opt.termguicolors = true
+    opt.syntax = 'on'
 
     opt.encoding = 'utf-8'
     opt.fileencodings = 'utf-8'
@@ -57,7 +58,8 @@ autocmd('BufRead', {
 
     opt.autoread = true
     opt.list = true
-    opt.autochdir = true
+    opt.listchars = { trail = '╴', tab = '›─', extends = '' }
+    opt.autochdir = false
     opt.autoindent = true
     opt.smartindent = true
     opt.expandtab = true

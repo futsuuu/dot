@@ -8,7 +8,16 @@ return function(init, config)
       config = config.devicons,
     },
     'MunifTanjim/nui.nvim',
-    'folke/tokyonight.nvim',
+    {
+      'folke/tokyonight.nvim',
+      config = config.tokyonight,
+    },
+
+    {
+      'goolord/alpha-nvim',
+      config = config.alpha,
+      event = 'VimEnter',
+    },
 
     -- edit
     {
@@ -111,7 +120,7 @@ return function(init, config)
     },
     {
       'neovim/nvim-lspconfig',
-      event = { 'BufReadPost', 'CursorHold' },
+      event = { 'BufRead', 'CursorHold' },
       config = config.lspconfig,
       dependencies = {
         {
@@ -125,6 +134,11 @@ return function(init, config)
         {
           'j-hui/fidget.nvim',
           config = config.fidget,
+        },
+        {
+          'SmiteshP/nvim-navic',
+          config = config.navic,
+          event = 'BufReadPre',
         },
       },
     },
@@ -209,6 +223,9 @@ return function(init, config)
     concurrency = 10,
     ui = {
       icons = {
+        loaded = '',
+        not_loaded = '',
+        runtime = '',
         list = { ' ' },
       },
     },

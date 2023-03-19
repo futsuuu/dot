@@ -7,6 +7,7 @@ null_ls.setup {
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.prettier,
     null_ls.builtins.formatting.rustfmt,
+    null_ls.builtins.formatting.black,
   },
   default_timeout = 100000,
   on_attach = function(client, bufnr)

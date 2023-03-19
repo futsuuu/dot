@@ -39,29 +39,7 @@ end
 function Init.telescope()
   map('n', '<Space>fs', '<Cmd>Telescope find_files<CR>')
   map('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
-  map('n', '<Space>fh', function()
-    local pickers = require 'telescope.pickers'
-    local make_entry = require 'telescope.make_entry'
-    local finders = require 'telescope.finders'
-    local conf = require('telescope.config').values
-
-    local mru = function(opts)
-      opts = opts or {}
-      pickers
-        .new(opts, {
-          prompt_title = 'MRU',
-          finder = finders.new_table {
-            results = vim.fn['mr#mru#list'](),
-            entry_maker = opts.entry_maker or make_entry.gen_from_file(opts),
-          },
-          sorter = conf.file_sorter(opts),
-          previewer = conf.file_previewer(opts),
-        })
-        :find()
-    end
-
-    mru()
-  end)
+  map('n', '<Space>fh', '<Cmd>Telescope mr mru<CR>')
 end
 
 require 'plugins.lazy'(Init, Config)

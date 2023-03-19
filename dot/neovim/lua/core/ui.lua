@@ -5,14 +5,9 @@ function M.progressbar(percentage)
   if not percentage then
     return ''
   end
-  local max_length = 25
-  local length = math.floor(percentage / 4)
-  return string.format(
-    ' %s%% ▓%s▓%s',
-    percentage,
-    string.rep('█', length),
-    string.rep('▒', max_length - length)
-  )
+  local max_length = 30
+  local length = math.floor(percentage / (100 / max_length))
+  return string.format(' %s%% %s%s', percentage, string.rep('━', length), string.rep('┄', max_length - length))
 end
 
 M.status = {

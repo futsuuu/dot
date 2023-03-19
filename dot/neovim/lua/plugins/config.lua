@@ -4,7 +4,46 @@ local Config = {}
 
 local api = vim.api
 local map = vim.keymap.set
-local autocmd = vim.api.nvim_create_autocmd
+local hl = api.nvim_set_hl
+local autocmd = api.nvim_create_autocmd
+
+function Config.tokyonight()
+  require('tokyonight').setup {
+    sidebars = {},
+  }
+end
+
+function Config.alpha()
+  local alpha = require 'alpha'
+  local dashboard = require 'alpha.themes.dashboard'
+  dashboard.section.header.val = {
+    [[  _                        ]],
+    [[  \`*-.                    ]],
+    [[   )  _`-.                 ]],
+    [[  .  : `. .                ]],
+    [[  : _   '  \               ]],
+    [[  ; *` _.   `*-._          ]],
+    [[  `-.-'          `-.       ]],
+    [[    ;       `       `.     ]],
+    [[    :.       .        \    ]],
+    [[    . \  .   :   .-'   .   ]],
+    [[    '  `+.;  ;  '      :   ]],
+    [[    :  '  |    ;       ;-. ]],
+    [[    ; '   : :`-:     _.`* ;]],
+    [[ .*' /  .*' ; .*`- +'  `*' ]],
+    [[ `*-*   `*-*  `*-*'        ]],
+  }
+  dashboard.section.buttons.val = {
+    dashboard.button('f', '  · Find file', ':Telescope find_files<CR>'),
+    dashboard.button('h', '  · MRU', ':Telescope mr mru<CR>'),
+    dashboard.button('e', '  · File explorer', ':Neotree<CR>'),
+    dashboard.button('s', '  · Settings', ':e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>'),
+    dashboard.button('u', '  · Update plugins', ':Lazy update<CR>'),
+    dashboard.button('q', '  · Quit', ':qa<CR>'),
+  }
+  dashboard.section.footer.val = [[──────  N  e  o  v  i  m  ──────]]
+  alpha.setup(dashboard.opts)
+end
 
 function Config.insx()
   require('insx.preset.standard').setup()
@@ -136,10 +175,60 @@ function Config.luasnip()
 end
 
 function Config.bufferline()
-  require 'plugins.bufferline'
+  local hls = {
+    modified = {
+      fg = {
+        attribute = 'fg',
+        highlight = 'Function',
+      },
+    },
+  }
+  hls.modified_visible = hls.modified
+  hls.modified_selected = hls.modified
+
+  require('bufferline').setup {
+    options = {
+      mode = 'buffers',
+      separator_style = 'none',
+      indicator = { style = 'none' },
+      modified_icon = '',
+      left_trunc_marker = '',
+      right_trunc_marker = '',
+      show_buffer_icons = false,
+      show_buffer_close_icons = false,
+      always_show_bufferline = true,
+      max_name_length = 20,
+      tab_size = 22,
+      diagnostics = 'nvim_lsp',
+      diagnostics_update_in_insert = true,
+      ---@type fun(count, level, diagnostics_dict, context): string
+      diagnostics_indicator = function(count, _, _, _)
+        return ' ' .. count
+      end,
+      offsets = {
+        {
+          filetype = 'aerial',
+          text = '',
+          separator = true,
+        },
+        {
+          filetype = 'neo-tree',
+          text = '',
+          separator = false,
+        },
+      },
+    },
+    highlights = hls,
+  }
   map('n', '<Space>bh', '<Cmd>BufferLineCyclePrev<CR>')
   map('n', '<Space>bl', '<Cmd>BufferLineCycleNext<CR>')
-  map('n', '<Space>bd', '<Cmd>Bdelete<CR>')
+  map('n', '<Space>bd', function()
+    if vim.fn.expand('%s'):match '^term://.*' then
+      return '<Cmd>Bdelete<CR>i<CR>'
+    else
+      return '<Cmd>Bdelete<CR>'
+    end
+  end, { expr = true })
 end
 
 function Config.scope()
@@ -161,6 +250,9 @@ function Config.telescope()
           height = 0.9,
         },
       },
+      preview = {
+        treesitter = true,
+      },
       results_title = false,
       prompt_title = false,
       sorting_strategy = 'ascending',
@@ -169,7 +261,7 @@ function Config.telescope()
       borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
     },
   }
-  local hl = api.nvim_set_hl
+  telescope.load_extension 'mr'
   hl(0, 'TelescopePromptBorder', { link = 'CursorLine' })
   hl(0, 'TelescopePromptCounter', { link = 'CursorLineFold' })
   hl(0, 'TelescopeMatching', { link = 'Search' })
@@ -215,7 +307,10 @@ function Config.devicons()
 end
 
 function Config.satellite()
-  require('satellite').setup()
+  require('satellite').setup {
+    winblend = 30,
+  }
+  hl(0, 'ScrollView', { link = 'BufferCurrent' })
 end
 
 function Config.ccc()
@@ -239,12 +334,50 @@ function Config.fidget()
     text = {
       spinner = 'arc',
     },
+    window = {
+      relative = 'editor',
+      blend = 0,
+    },
     fmt = {
       task = function(task_name, message, percentage)
         return string.format('%s%s %s', message, ui.progressbar(percentage), task_name)
       end,
     },
   }
+  hl(0, 'FidgetTask', { link = 'CursorLineNr' })
+  hl(0, 'FidgetTitle', { link = 'Title' })
+end
+
+function Config.navic()
+  local kind = {}
+  for k, v in pairs(ui.kind) do
+    kind[k] = v .. ' '
+  end
+
+  local navic = require 'nvim-navic'
+
+  navic.setup {
+    icons = kind,
+    highlight = true,
+    separator = '  ',
+  }
+
+  hl(0, 'Winbar', { link = 'Conceal' })
+  hl(0, 'NavicText', { link = 'Winbar' })
+  hl(0, 'NavicSeparator', { link = 'NavicText' })
+
+  autocmd('BufRead', {
+    pattern = '*',
+    callback = function()
+      local rel_path = vim.fn
+        .expand('%s')
+        :gsub(vim.fn.getcwd(), '')
+        :gsub(vim.fn.expand '~', '~')
+        :gsub('[/\\]', '  ')
+        :gsub('^ + ', '') .. '  '
+      vim.opt_local.winbar = ' ' .. rel_path .. "%{%v:lua.require'nvim-navic'.get_location()%}"
+    end,
+  })
 end
 
 function Config.lspconfig()
