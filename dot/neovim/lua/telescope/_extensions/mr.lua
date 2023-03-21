@@ -4,11 +4,12 @@ local make_entry = require 'telescope.make_entry'
 local finders = require 'telescope.finders'
 local conf = require('telescope.config').values
 
+---@param kind string
 local function mr(opts, kind)
   opts = opts or {}
   pickers
     .new(opts, {
-      prompt_title = 'MRU',
+      prompt_title = 'MR' .. kind:upper(),
       finder = finders.new_table {
         results = vim.fn['mr#mr' .. kind .. '#list'](),
         entry_maker = opts.entry_maker or make_entry.gen_from_file(opts),

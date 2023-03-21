@@ -5,6 +5,11 @@ local mason_lspconfig = require 'mason-lspconfig'
 local cmp_nvim_lsp = require 'cmp_nvim_lsp'
 local navic = require 'nvim-navic'
 
+local function get_python_path()
+  local venv_path = os.getenv 'VIRTUAL_ENV'
+  return venv_path and venv_path .. '/bin/python' or 'python'
+end
+
 mason_lspconfig.setup_handlers {
   function(server_name)
     local opts = {
@@ -27,6 +32,9 @@ mason_lspconfig.setup_handlers {
           completion = {
             callSnippet = 'Replace',
           },
+        },
+        python = {
+          pythonPath = get_python_path(),
         },
       },
     }

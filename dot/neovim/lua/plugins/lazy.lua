@@ -81,7 +81,7 @@ return function(init, config)
     },
     {
       'luukvbaal/statuscol.nvim',
-      event = 'BufRead',
+      event = { 'BufRead', 'TabNew' },
       cond = vim.fn.has 'nvim-0.9' == 1,
       config = config.statuscol,
     },
@@ -90,10 +90,23 @@ return function(init, config)
       event = 'CursorMoved',
       config = config.blankline,
     },
+
+    -- git
     {
       'lewis6991/gitsigns.nvim',
       config = config.gitsigns,
       event = 'BufRead',
+    },
+    {
+      'TimUntersberger/neogit',
+      dependencies = {
+        {
+          'sindrets/diffview.nvim',
+          cmd = 'DiffviewOpen',
+        },
+      },
+      cmd = 'Neogit',
+      config = config.neogit,
     },
 
     -- ui

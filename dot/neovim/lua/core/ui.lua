@@ -16,6 +16,11 @@ M.status = {
   close = '',
 }
 
+M.chevron = {
+  right = '',
+  down = '',
+}
+
 M.kind = {
   Text = '',
   String = '',

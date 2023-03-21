@@ -1,6 +1,7 @@
 vim.g.neo_tree_remove_legacy_commands = 1
 
 local hl = vim.api.nvim_set_hl
+local ui = require 'core.ui'
 local neotree = require 'neo-tree'
 
 neotree.setup {
@@ -16,8 +17,8 @@ neotree.setup {
       indent_marker = ' ',
       last_indent_marker = ' ',
       with_expanders = true,
-      expander_collapsed = '',
-      expander_expanded = '',
+      expander_collapsed = ui.chevron.right,
+      expander_expanded = ui.chevron.down,
       expander_highlight = 'NeoTreeExpander',
     },
     icon = {
@@ -62,5 +63,5 @@ neotree.setup {
 }
 
 hl(0, 'NeoTreeGitIgnored', { link = 'CursorLineNr' })
-hl(0, 'NeoTreeModified', { link = 'Function' })
+hl(0, 'NeoTreeModified', { link = '@variable.builtin' })
 hl(0, 'NeoTreeDirectoryName', { link = 'NeoTreeFileName' })

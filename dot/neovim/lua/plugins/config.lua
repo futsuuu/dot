@@ -32,16 +32,18 @@ function Config.alpha()
     [[    ; '   : :`-:     _.`* ;]],
     [[ .*' /  .*' ; .*`- +'  `*' ]],
     [[ `*-*   `*-*  `*-*'        ]],
+    [[]],
+    [[    N  E  O  V  I  M       ]],
   }
   dashboard.section.buttons.val = {
     dashboard.button('f', '  · Find file', ':Telescope find_files<CR>'),
-    dashboard.button('h', '  · MRU', ':Telescope mr mru<CR>'),
+    dashboard.button('h', '  · MRW', ':Telescope mr mrw<CR>'),
+    dashboard.button('g', '  · Neogit', ':Neogit<CR>'),
     dashboard.button('e', '  · File explorer', ':Neotree<CR>'),
     dashboard.button('s', '  · Settings', ':e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>'),
     dashboard.button('u', '  · Update plugins', ':Lazy update<CR>'),
     dashboard.button('q', '  · Quit', ':qa<CR>'),
   }
-  dashboard.section.footer.val = [[──────  N  e  o  v  i  m  ──────]]
   alpha.setup(dashboard.opts)
 end
 
@@ -114,6 +116,21 @@ function Config.gitsigns()
   map('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
 end
 
+function Config.neogit()
+  require('neogit').setup {
+    integrations = {
+      diffview = true,
+    },
+    signs = {
+      section = { ui.chevron.right, ui.chevron.down },
+      item = { ui.chevron.right, ui.chevron.down },
+    },
+  }
+  hl(0, 'NeogitDiffContextHighlight', { link = 'CursorLine' })
+  hl(0, 'NeogitDiffAddHighlight', { link = 'DiffAdd' })
+  hl(0, 'NeogitDiffDeleteHighlight', { link = 'DiffDelete' })
+end
+
 function Config.blankline()
   require('indent_blankline').setup {
     show_current_context = false,
@@ -123,44 +140,23 @@ function Config.blankline()
 end
 
 function Config.statuscol()
-  require('statuscol').setup {
-    segments = {
-      {
-        text = {
-          ' ',
-          function()
-            if vim.v.virtnum < 0 then
-              return string.rep(' ', #tostring(vim.v.virtnum))
-            end
-            return string.format('%4d', vim.v.lnum)
-          end,
-          ' ',
-        },
-      },
-      {
-        text = { '%C' },
-        click = 'v:lua.ScFa',
-        condition = { true },
-      },
-      {
-        text = { '%s' },
-        click = 'v:lua.ScSa',
-      },
-    },
-  }
+  require('statuscol').setup { setopt = false }
   autocmd('TermEnter', {
     pattern = '*',
     callback = function()
-      local win = api.nvim_get_current_win()
-      api.nvim_win_set_option(win, 'statuscolumn', '')
+      vim.opt_local.statuscolumn = ''
     end,
   })
   autocmd('BufWinEnter', {
     pattern = '*',
     callback = function()
+      vim.opt.numberwidth = 6
+      vim.opt.statuscolumn = ' %=%l %s'
+      if vim.bo.filetype == 'NeogitStatus' then
+        vim.opt_local.statuscolumn = ' %s'
+      end
       if vim.bo.filetype == 'neo-tree' then
-        local win = api.nvim_get_current_win()
-        api.nvim_win_set_option(win, 'statuscolumn', '')
+        vim.opt_local.statuscolumn = ''
       end
     end,
   })
@@ -179,7 +175,7 @@ function Config.bufferline()
     modified = {
       fg = {
         attribute = 'fg',
-        highlight = 'Function',
+        highlight = '@variable.builtin',
       },
     },
   }
@@ -194,16 +190,16 @@ function Config.bufferline()
       modified_icon = '',
       left_trunc_marker = '',
       right_trunc_marker = '',
-      show_buffer_icons = false,
+      show_buffer_icons = true,
       show_buffer_close_icons = false,
       always_show_bufferline = true,
       max_name_length = 20,
       tab_size = 22,
       diagnostics = 'nvim_lsp',
       diagnostics_update_in_insert = true,
-      ---@type fun(count, level, diagnostics_dict, context): string
+      ---@type fun(count: integer, level, diagnostics_dict, context): string
       diagnostics_indicator = function(count, _, _, _)
-        return ' ' .. count
+        return tostring(count)
       end,
       offsets = {
         {

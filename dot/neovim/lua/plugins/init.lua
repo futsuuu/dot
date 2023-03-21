@@ -39,7 +39,7 @@ end
 function Init.telescope()
   map('n', '<Space>fs', '<Cmd>Telescope find_files<CR>')
   map('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
-  map('n', '<Space>fh', '<Cmd>Telescope mr mru<CR>')
+  map('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
 end
 
 require 'plugins.lazy'(Init, Config)
