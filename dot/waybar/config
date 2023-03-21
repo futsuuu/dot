@@ -3,8 +3,8 @@
   "layer": "top",
   "position": "top",
   "height": 27,
-  "margin-left": 6,
-  "margin-right": 6,
+  "margin-left": 10,
+  "margin-right": 10,
   "modules-left": ["custom/launcher", "wlr/workspaces"],
   "modules-right": ["cpu", "memory", "battery", "network", "clock", "custom/power"]
 }

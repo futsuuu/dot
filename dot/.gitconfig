@@ -20,6 +20,7 @@
   lg = log --oneline --graph --decorate
   rs = restore
   sw = switch
+  fc = fetch
   mg = merge
   tg = tag
 

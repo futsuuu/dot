@@ -1,13 +1,13 @@
 ## General
 show=drun
 prompt=
-normal_window=false
+normal_window=true
 layer=top
 term=Alacritty
 
 ## Geometry
 width=450px
-height=340px
+height=350px
 location=0
 orientation=vertical
 halign=fill

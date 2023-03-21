@@ -136,7 +136,7 @@ let dark_theme = {
     empty: blue
     # Closures can be used to choose colors for specific values.
     # The value (in this case, a bool) is piped into the closure.
-    bool: 'yellow'
+    bool: yellow
     int: white
     filesize: {|e|
       if $e == 0b {
@@ -170,87 +170,6 @@ let dark_theme = {
     binary: white
     cellpath: white
     row_index: dark_gray
-    record: white
-    list: white
-    block: white
-    hints: dark_gray
-
-    shape_and: purple_bold
-    shape_binary: purple_bold
-    shape_block: blue_bold
-    shape_bool: yellow
-    shape_custom: green
-    shape_datetime: cyan_bold
-    shape_directory: cyan
-    shape_external: cyan
-    shape_externalarg: green_bold
-    shape_filepath: cyan
-    shape_flag: blue_bold
-    shape_float: purple_bold
-    # shapes are used to change the cli syntax highlighting
-    shape_garbage: { fg: "#FFFFFF" bg: "#FF0000" attr: b}
-    shape_globpattern: cyan_bold
-    shape_int: purple_bold
-    shape_internalcall: cyan_bold
-    shape_list: cyan_bold
-    shape_literal: blue
-    shape_matching_brackets: { attr: u }
-    shape_nothing: light_cyan
-    shape_operator: yellow
-    shape_or: purple_bold
-    shape_pipe: purple_bold
-    shape_range: yellow_bold
-    shape_record: cyan_bold
-    shape_redirection: purple_bold
-    shape_signature: green_bold
-    shape_string: green
-    shape_string_interpolation: cyan_bold
-    shape_table: blue_bold
-    shape_variable: purple
-}
-
-let light_theme = {
-    # color for nushell primitives
-    separator: dark_gray
-    leading_trailing_space_bg: { attr: n } # no fg, no bg, attr none effectively turns this off
-    header: green_bold
-    empty: blue
-    # Closures can be used to choose colors for specific values.
-    # The value (in this case, a bool) is piped into the closure.
-    bool: yellow
-    int: dark_gray
-    filesize: {|e|
-      if $e == 0b {
-        'dark_gray'
-      } else if $e < 1mb {
-        'cyan_bold'
-      } else { 'blue_bold' }
-    }
-    duration: dark_gray
-  date: { (date now) - $in |
-    if $in < 1hr {
-      'red3b'
-    } else if $in < 6hr {
-      'orange3'
-    } else if $in < 1day {
-      'yellow3b'
-    } else if $in < 3day {
-      'chartreuse2b'
-    } else if $in < 1wk {
-      'green3b'
-    } else if $in < 6wk {
-      'darkturquoise'
-    } else if $in < 52wk {
-      'deepskyblue3b'
-    } else { 'dark_gray' }
-  }
-    range: dark_gray
-    float: dark_gray
-    string: dark_gray
-    nothing: dark_gray
-    binary: dark_gray
-    cellpath: dark_gray
-    row_index: green_bold
     record: white
     list: white
     block: white
@@ -384,7 +303,7 @@ let-env config = {
     case_sensitive: false # set to true to enable case-sensitive completions
     quick: true  # set this to false to prevent auto-selecting completions when only one remains
     partial: true  # set this to false to prevent partial filling of the prompt
-    algorithm: "prefix"  # prefix or fuzzy
+    algorithm: "fuzzy"  # prefix or fuzzy
     external: {
       enable: true # set to false to prevent nushell looking into $env.PATH to find more suggestions, `false` recommended for WSL users as this look up my be very slow
       max_results: 100 # setting it lower can improve completion performance at the cost of omitting some options
@@ -403,7 +322,7 @@ let-env config = {
   use_ansi_coloring: true
   edit_mode: emacs # emacs, vi
   shell_integration: true # enables terminal markers and a workaround to arrow keys stop working issue
-  show_banner: false # true or false to enable or disable the banner
+  show_banner: true # true or false to enable or disable the banner
   render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
 
   hooks: {
@@ -657,5 +576,3 @@ alias g = git
 alias gi = cd ($"(ghq root)/(ghq list | fzf)" | str replace "\n" "")
 alias b = cd ..
 alias bb = cd ../..
-alias ls = ls -a
-alias ll = ls -l
