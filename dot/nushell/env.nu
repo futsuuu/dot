@@ -1,5 +1,15 @@
 # Nushell Environment Config File
 
+let-env DENO_TLS_CA_STORE = "system"
+let-env LANG = "C"
+let-env EDITOR = "nvim"
+let-env FZF_DEFAULT_OPTS = "
+  --prompt=' ' --height 60% --border --margin=0,4 --reverse
+  --cycle --no-mouse
+  --color fg:gray,hl:blue,fg+:white,bg:black,bg+:black,hl+:blue
+  --color info:green,prompt:blue,spinner:yellow,pointer:red,marker:red,border:gray
+"
+
 source ~/dev/github.com/futsuuu/dot/dot/nushell/prompt/smpt.nu
 
 # Specifies how environment variables are:
