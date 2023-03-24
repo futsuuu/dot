@@ -6,7 +6,6 @@ use std::{
 };
 
 use git2::Repository;
-use home;
 
 static RESET: &str = "\x1b[m";
 static BOLD: &str = "\x1b[1m";
@@ -20,10 +19,7 @@ static CYAN: &str = "\x1b[38;5;14m";
 fn main() -> Result<(), Error> {
     let args: Vec<String> = args().collect();
     let exit_status = match args.get(1) {
-        Some(s) => match s.as_str() {
-            "0" => true,
-            _ => false,
-        },
+        Some(s) => matches!(s.as_str(), "0"),
         None => true,
     };
     let new_line = match args.get(2) {
@@ -34,7 +30,10 @@ fn main() -> Result<(), Error> {
     let (repo_path, git_status) = {
         match Repository::discover(".") {
             Ok(repo) => {
-                let repo_path = repo.workdir().unwrap_or(Path::new("")).to_path_buf();
+                let repo_path = repo
+                    .workdir()
+                    .unwrap_or_else(|| Path::new(""))
+                    .to_path_buf();
                 match repo.head() {
                     Ok(head) => {
                         let head_oid = head.target().unwrap();
@@ -60,7 +59,7 @@ fn main() -> Result<(), Error> {
                                     }
                                 )
                             })
-                            .unwrap_or(String::new());
+                            .unwrap_or_default();
                         (
                             repo_path,
                             format!(
@@ -89,13 +88,13 @@ fn main() -> Result<(), Error> {
             }
             .display()
             .to_string()
-            .replace("\\", "/")
+            .replace('\\', "/")
                 + "/";
             cwd.display()
                 .to_string()
-                .replace("\\", "/")
+                .replace('\\', "/")
                 .replace(
-                    &parent_path.as_str(),
+                    parent_path.as_str(),
                     format!("{parent_path}{BOLD}").as_str(),
                 )
                 .replacen(
@@ -103,7 +102,7 @@ fn main() -> Result<(), Error> {
                         .unwrap_or_default()
                         .display()
                         .to_string()
-                        .replace("\\", "/")
+                        .replace('\\', "/")
                         .as_str(),
                     "~",
                     1,
