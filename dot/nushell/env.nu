@@ -1,28 +1,16 @@
 # Nushell Environment Config File
 
-def create_left_prompt [] {
-    let path_segment = if (is-admin) {
-        $"(ansi red_bold)($env.PWD)\n"
-    } else {
-        $"(ansi green_bold)($env.PWD)\n"
-    }
+let-env DENO_TLS_CA_STORE = "system"
+let-env LANG = "C"
+let-env EDITOR = "nvim"
+let-env FZF_DEFAULT_OPTS = "
+  --prompt=' ' --height 60% --border --margin=0,4 --reverse
+  --cycle --no-mouse
+  --color fg:gray,hl:blue,fg+:white,bg:black,bg+:black,hl+:blue
+  --color info:green,prompt:blue,spinner:yellow,pointer:red,marker:red,border:gray
+"
 
-    $path_segment
-}
-
-def create_right_prompt [] {
-}
-
-# Use nushell functions to define your right and left prompt
-let-env PROMPT_COMMAND = { create_left_prompt }
-let-env PROMPT_COMMAND_RIGHT = { create_right_prompt }
-
-# The prompt indicators are environmental variables that represent
-# the state of the prompt
-let-env PROMPT_INDICATOR = { " " }
-let-env PROMPT_INDICATOR_VI_INSERT = { ": " }
-let-env PROMPT_INDICATOR_VI_NORMAL = { "〉" }
-let-env PROMPT_MULTILINE_INDICATOR = { "::: " }
+source ~/dev/github.com/futsuuu/dot/dot/nushell/prompt/smpt.nu
 
 # Specifies how environment variables are:
 # - converted from a string to a value on Nushell startup (from_string)

@@ -36,6 +36,11 @@ mason_lspconfig.setup_handlers {
         python = {
           pythonPath = get_python_path(),
         },
+        ['rust-analyzer'] = {
+          check = {
+            command = 'clippy',
+          },
+        },
       },
     }
     lspconfig[server_name].setup(opts)
