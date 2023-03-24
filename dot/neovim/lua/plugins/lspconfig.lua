@@ -24,7 +24,7 @@ mason_lspconfig.setup_handlers {
       settings = {
         Lua = {
           runtime = {
-            version = 'Lua 5.2',
+            version = _VERSION,
           },
           workspace = {
             checkThirdParty = false,
@@ -45,7 +45,7 @@ mason_lspconfig.setup_handlers {
 lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   signs = false,
   virtual_text = {
-    prefix = '',
+    prefix = '',
   },
   update_in_insert = true,
   severity_sort = true,

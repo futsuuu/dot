@@ -20,9 +20,7 @@ opts.completion = {
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0
-    and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s'
-      == nil
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
 end
 
 opts.mapping = cmp.mapping.preset.insert {
@@ -80,7 +78,8 @@ opts.window = {
 
 opts.formatting = {
   fields = { 'kind', 'abbr' },
-  format = function(entry, vim_item)
+  ---@type fun(entry, vim_item): any
+  format = function(_, vim_item)
     local label = vim_item.abbr
     local truncated_label = vim.fn.strcharpart(label, 0, max_label_width)
     if truncated_label ~= label then

@@ -36,11 +36,11 @@ function Config.alpha()
     [[    N  E  O  V  I  M       ]],
   }
   dashboard.section.buttons.val = {
-    dashboard.button('f', '  · Find file', ':Telescope find_files<CR>'),
     dashboard.button('h', '  · MRW', ':Telescope mr mrw<CR>'),
+    dashboard.button('f', '  · Find file', ':Telescope find_files<CR>'),
     dashboard.button('g', '  · Neogit', ':Neogit<CR>'),
     dashboard.button('e', '  · File explorer', ':Neotree<CR>'),
-    dashboard.button('s', '  · Settings', ':e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>'),
+    dashboard.button('t', '  · Terminal', ':terminal<CR>'),
     dashboard.button('u', '  · Update plugins', ':Lazy update<CR>'),
     dashboard.button('q', '  · Quit', ':qa<CR>'),
   }
@@ -102,12 +102,12 @@ end
 function Config.gitsigns()
   require('gitsigns').setup {
     signs = {
-      add = { text = '┃' },
-      change = { text = '┃' },
-      delete = { text = '' },
-      topdelete = { text = '' },
-      changedelete = { text = '┃' },
-      untracked = { text = '┃' },
+      add = { text = '▍' },
+      change = { text = '▍' },
+      delete = { text = '▖' },
+      topdelete = { text = '▘' },
+      changedelete = { text = '▍' },
+      untracked = { text = '▍' },
     },
   }
   map('n', '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
@@ -155,8 +155,13 @@ function Config.statuscol()
       if vim.bo.filetype == 'NeogitStatus' then
         vim.opt_local.statuscolumn = ' %s'
       end
-      if vim.bo.filetype == 'neo-tree' then
-        vim.opt_local.statuscolumn = ''
+      for _, v in ipairs {
+        'neo-tree',
+        'neo-tree-popup',
+      } do
+        if vim.bo.filetype == v then
+          vim.opt_local.statuscolumn = ''
+        end
       end
     end,
   })
@@ -254,14 +259,10 @@ function Config.telescope()
       sorting_strategy = 'ascending',
       prompt_prefix = '   ',
       selection_caret = ' ',
-      borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
     },
   }
   telescope.load_extension 'mr'
-  hl(0, 'TelescopePromptBorder', { link = 'CursorLine' })
-  hl(0, 'TelescopePromptCounter', { link = 'CursorLineFold' })
   hl(0, 'TelescopeMatching', { link = 'Search' })
-  hl(0, 'TelescopeTitle', { reverse = true })
 end
 
 function Config.neotree()
