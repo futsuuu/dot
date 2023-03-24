@@ -72,7 +72,7 @@ fn main() -> Result<(), Error> {
                             ),
                         )
                     }
-                    Err(_) => (repo_path, String::from("main")),
+                    Err(_) => (repo_path, format!("⠶ {YELLOW}main")),
                 }
             }
             Err(_) => (PathBuf::new(), String::new()),
