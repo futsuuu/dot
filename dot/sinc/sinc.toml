@@ -90,10 +90,9 @@ enable."sys(os)" = { default = false, "arch linux" = true }
 
 [[dotfiles]]
 path = "chromium-flags.conf"
-target = "~/.config/electron-flags.conf"
-enable."sys(os)" = { default = false, "arch linux" = true }
-
-[[dotfiles]]
-path = "chromium-flags.conf"
-target = "~/.config/vivaldi-stable.conf"
+target = [
+  "~/.config/electron-flags.conf",
+  "~/.config/code-flags.conf",
+  "~/.config/vivaldi-stable.conf",
+]
 enable."sys(os)" = { default = false, "arch linux" = true }
