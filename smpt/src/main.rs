@@ -37,7 +37,7 @@ fn main() {
                 match repo.head() {
                     Ok(head) => {
                         let head_oid = head.target().unwrap();
-                        let branch = head.shorthand().unwrap().to_string();
+                        let branch_name = head.shorthand().unwrap();
                         let ahead_behind = repo
                             .revparse_ext("@{u}")
                             .ok()
@@ -46,14 +46,15 @@ fn main() {
                             })
                             .map(|(ahead, behind)| {
                                 format!(
-                                    "{} {}",
+                                    "{}{}{}",
                                     if ahead > 0 {
-                                        format!("{RESET}{}{RED}⭫", little_number(ahead, "bottom"))
+                                        format!("{RESET}{}{RED}⭫", small_number(ahead, "bottom"))
                                     } else {
                                         String::new()
                                     },
+                                    if (ahead > 0) & (behind > 0) { " " } else { "" },
                                     if behind > 0 {
-                                        format!("{RED}⭭{RESET}{}", little_number(behind, "top"))
+                                        format!("{RED}⭭{RESET}{}", small_number(behind, "top"))
                                     } else {
                                         String::new()
                                     }
@@ -62,10 +63,10 @@ fn main() {
                             .unwrap_or_default();
                         (
                             repo_path,
-                            format!("⠶ {} {ahead_behind}", highlight_branch(branch.as_str())),
+                            format!("⠶ {} {ahead_behind}", highlight_branch(branch_name)),
                         )
                     }
-                    Err(_) => (repo_path, highlight_branch("main")),
+                    Err(_) => (repo_path, format!("⠶ {}", highlight_branch("main"))),
                 }
             }
             Err(_) => (PathBuf::new(), String::new()),
@@ -108,7 +109,7 @@ fn main() {
     );
 }
 
-fn little_number(number: usize, position: &str) -> String {
+fn small_number(number: usize, position: &str) -> String {
     let mut r = String::new();
     for i in number.to_string().chars() {
         r.push_str(
