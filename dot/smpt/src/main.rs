@@ -1,6 +1,5 @@
 use std::{
     env::{args, current_dir},
-    io::Error,
     path::Path,
     path::PathBuf,
 };
@@ -17,7 +16,7 @@ static BLUE: &str = "\x1b[38;5;12m";
 static MAGENTA: &str = "\x1b[38;5;13m";
 static CYAN: &str = "\x1b[38;5;14m";
 
-fn main() -> Result<(), Error> {
+fn main() {
     let args: Vec<String> = args().collect();
     let exit_status = match args.get(1) {
         Some(s) => matches!(s.as_str(), "0"),
@@ -75,7 +74,10 @@ fn main() -> Result<(), Error> {
     print!(
         "{RESET}{BLUE}{new_line}  {}{RESET} {git_status}{new_line} {}❱⟩{RESET} ",
         {
-            let cwd = current_dir()?;
+            let cwd = match current_dir() {
+                Ok(p) => p,
+                Err(_) => panic!("Error: Cannot get current directory."),
+            };
             let parent_path = match repo_path.parent() {
                 Some(p) => p,
                 None => cwd.parent().unwrap(),
@@ -104,7 +106,6 @@ fn main() -> Result<(), Error> {
         },
         if exit_status { GREEN } else { RED }
     );
-    Ok(())
 }
 
 fn little_number(number: usize, position: &str) -> String {
