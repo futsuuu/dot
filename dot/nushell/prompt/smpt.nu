@@ -1,5 +1,5 @@
 def create_left_prompt [] {
-    ~/dev/github.com/futsuuu/dot/dot/smpt/target/release/smpt $env.LAST_EXIT_CODE
+    ~/dev/github.com/futsuuu/dot/smpt/target/release/smpt $env.LAST_EXIT_CODE
 }
 
 def create_right_prompt [] {

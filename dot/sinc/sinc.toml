@@ -71,11 +71,11 @@ path = "nushell"
   windows = "~/AppData/Roaming/nushell"
   [dotfiles.hook_add."sys(os)"]
   default = """
-cd ~/dev/github.com/futsuuu/dot/dot/smpt
+cd ~/dev/github.com/futsuuu/dot/smpt
 cargo build --release
 """
   windows = """
-cd %USERPROFILE%/dev/github.com/futsuuu/dot/dot/smpt
+cd %USERPROFILE%/dev/github.com/futsuuu/dot/smpt
 cargo build --release
 """
 
