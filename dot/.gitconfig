@@ -13,6 +13,7 @@
   ad = add
   br = branch
   cm = commit
+  cma = commit --amend
   df = diff
   ps = push
   pl = pull
@@ -23,6 +24,8 @@
   fc = fetch
   mg = merge
   tg = tag
+  cf = config
+  sh = stash
 
 [filter "lfs"]
   clean = git-lfs clean -- %f
