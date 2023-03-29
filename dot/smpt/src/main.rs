@@ -6,6 +6,7 @@ use std::{
 };
 
 use git2::Repository;
+use regex::Regex;
 
 static RESET: &str = "\x1b[m";
 static BOLD: &str = "\x1b[1m";
@@ -62,17 +63,10 @@ fn main() -> Result<(), Error> {
                             .unwrap_or_default();
                         (
                             repo_path,
-                            format!(
-                                "⠶ {}{branch} {ahead_behind}",
-                                match branch.as_str() {
-                                    "main" => YELLOW,
-                                    "develop" => MAGENTA,
-                                    _ => CYAN,
-                                }
-                            ),
+                            format!("⠶ {} {ahead_behind}", highlight_branch(branch.as_str())),
                         )
                     }
-                    Err(_) => (repo_path, format!("⠶ {YELLOW}main")),
+                    Err(_) => (repo_path, highlight_branch("main")),
                 }
             }
             Err(_) => (PathBuf::new(), String::new()),
@@ -131,4 +125,19 @@ fn little_number(number: usize, position: &str) -> String {
         )
     }
     r
+}
+
+fn highlight_branch(branch: &str) -> String {
+    fn hl(branch: &str, re: &str, color: &str) -> Option<String> {
+        let re = Regex::new(format!("(?i){re}").as_str()).unwrap();
+        if re.is_match(branch) {
+            Some(format!("{color}{branch}"))
+        } else {
+            None
+        }
+    }
+    hl(branch, "^(main|master)$", YELLOW).unwrap_or(
+        hl(branch, "^dev(elop|)$", MAGENTA)
+            .unwrap_or(hl(branch, "^fix(/.*|)$", RED).unwrap_or(format!("{CYAN}{branch}"))),
+    )
 }
