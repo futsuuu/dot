@@ -27,6 +27,9 @@
   cf = config
   sh = stash
 
+[credential "helperselector"]
+  selected = manager
+
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
@@ -36,8 +39,9 @@
 [init]
   defaultBranch = main
 
-[credential "helperselector"]
-  selected = manager
+[diff]
+  algorithm = histogram
+  colorMoved = dimmed-zebra
 
 [commit]
   verbose = true
