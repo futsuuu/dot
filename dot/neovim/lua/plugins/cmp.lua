@@ -10,6 +10,7 @@ local opts = {}
 
 opts.sources = {
   { name = 'nvim_lsp' },
+  { name = 'nvim_lsp_signature_help' },
   { name = 'path' },
   { name = 'buffer' },
 }
@@ -61,7 +62,7 @@ opts.snippet = {
 opts.window = {
   completion = {
     border = 'rounded',
-    winhighlight = 'Normal:Pmenu,CursorLine:Visual,FloatBorder:LineNr,Search:None',
+    winhighlight = 'Normal:Pmenu,CursorLine:PmenuSel,FloatBorder:FloatBorder,Search:None',
     col_offset = -3,
     side_padding = 0,
     scrollbar = {
@@ -72,7 +73,7 @@ opts.window = {
   },
   documentation = {
     border = 'rounded',
-    winhighlight = 'Normal:Pmenu,FloatBorder:LineNr,Search:None',
+    winhighlight = 'Normal:Pmenu,FloatBorder:FloatBorder,Search:None',
   },
 }
 

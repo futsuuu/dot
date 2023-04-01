@@ -7,6 +7,7 @@ opt.syntax = 'off'
 
 opt.cmdheight = 0
 opt.laststatus = 0
+opt.termguicolors = true
 
 autocmd('InsertEnter', {
   pattern = '*',
@@ -47,7 +48,6 @@ autocmd('BufRead', {
     opt.backup = false
     opt.writebackup = false
     opt.swapfile = false
-    opt.termguicolors = true
     opt.syntax = 'on'
 
     opt.encoding = 'utf-8'
@@ -55,6 +55,11 @@ autocmd('BufRead', {
     opt.fileformats = 'unix'
 
     opt.clipboard = 'unnamedplus'
+
+    opt.hlsearch = true
+    opt.incsearch = true
+    opt.ignorecase = true
+    opt.smartcase = true
 
     opt.autoread = true
     opt.list = true

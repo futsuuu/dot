@@ -48,6 +48,7 @@ return function(init, config)
     },
     { 'hrsh7th/cmp-buffer', event = 'InsertEnter' },
     { 'hrsh7th/cmp-nvim-lsp', event = 'InsertEnter' },
+    { 'hrsh7th/cmp-nvim-lsp-signature-help', event = 'InsertEnter' },
     { 'saadparwaiz1/cmp_luasnip', event = 'InsertEnter' },
     { 'hrsh7th/cmp-path', event = { 'InsertEnter', 'CmdlineEnter' } },
     { 'hrsh7th/cmp-cmdline', event = 'CmdlineEnter' },
@@ -171,6 +172,7 @@ return function(init, config)
       dependencies = {
         {
           'lambdalisue/mr.vim',
+          config = config.mr,
           event = 'BufReadPre',
         },
       },

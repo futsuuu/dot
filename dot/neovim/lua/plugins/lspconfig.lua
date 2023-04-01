@@ -47,6 +47,8 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
+lspconfig.denols.setup {}
+
 lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   signs = false,
   virtual_text = {

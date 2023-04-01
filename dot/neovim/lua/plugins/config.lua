@@ -155,6 +155,9 @@ function Config.statuscol()
       if vim.bo.filetype == 'NeogitStatus' then
         vim.opt_local.statuscolumn = ' %s'
       end
+      if vim.bo.buftype == 'terminal' then
+        vim.opt_local.statuscolumn = ''
+      end
       for _, v in ipairs {
         'neo-tree',
         'neo-tree-popup',
@@ -356,10 +359,9 @@ function Config.navic()
   navic.setup {
     icons = kind,
     highlight = true,
-    separator = '  ',
+    separator = ' ❯ ',
   }
 
-  hl(0, 'Winbar', { link = 'Conceal' })
   hl(0, 'NavicText', { link = 'Winbar' })
   hl(0, 'NavicSeparator', { link = 'NavicText' })
 
@@ -370,8 +372,8 @@ function Config.navic()
         .expand('%s')
         :gsub(vim.fn.getcwd(), '')
         :gsub(vim.fn.expand '~', '~')
-        :gsub('[/\\]', '  ')
-        :gsub('^ + ', '') .. '  '
+        :gsub('[/\\]', ' ❯ ')
+        :gsub('^ +❯ ', '') .. ' ❯ '
       vim.opt_local.winbar = ' ' .. rel_path .. "%{%v:lua.require'nvim-navic'.get_location()%}"
     end,
   })
