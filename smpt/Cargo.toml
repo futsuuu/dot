@@ -7,3 +7,9 @@ edition = "2021"
 home = "0.5"
 regex = "1.7"
 git2 = "0.16"
+
+[profile.release]
+lto = true
+opt-level = 3
+panic = "abort"
+codegen-units = 1
