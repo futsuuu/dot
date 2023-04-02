@@ -1,0 +1,30 @@
+button.window-minimize,
+button.window-maximize,
+button.window-close
+{
+  color: transparent;
+  background-color: transparent !important;
+}
+
+/*
+#webpage-stack {
+  border-radius: 10px !important;
+}
+*/
+
+#modal-bg.slide > div {
+  border-radius: var(--radius) !important;
+}
+
+#tabs-tabbar-container.top {
+  padding-top: 4px !important;
+}
+
+button.vivaldi {
+  height: 0;
+  padding: 5px 0 0;
+}
+
+.UrlField>input[placeholder$="Search or enter an address"]::placeholder {
+  color: transparent !important;
+}
