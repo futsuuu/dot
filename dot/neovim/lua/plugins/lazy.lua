@@ -89,6 +89,14 @@ return function(init, config)
       config = config.statuscol,
     },
     {
+      'kevinhwang91/nvim-ufo',
+      event = { 'BufRead', 'TabNew' },
+      config = config.ufo,
+      dependencies = {
+        'kevinhwang91/promise-async',
+      },
+    },
+    {
       'lukas-reineke/indent-blankline.nvim',
       event = 'CursorMoved',
       config = config.blankline,
@@ -155,6 +163,10 @@ return function(init, config)
           'SmiteshP/nvim-navic',
           config = config.navic,
           event = 'BufReadPre',
+        },
+        {
+          'aznhe21/actions-preview.nvim',
+          config = config.actions_preview,
         },
       },
     },

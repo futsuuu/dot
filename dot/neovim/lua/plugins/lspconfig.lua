@@ -10,6 +10,12 @@ local function get_python_path()
   return venv_path and venv_path .. '/bin/python' or 'python'
 end
 
+local capabilities = lsp.protocol.make_client_capabilities()
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
+}
+
 mason_lspconfig.setup_handlers {
   function(server_name)
     local opts = {
@@ -20,7 +26,7 @@ mason_lspconfig.setup_handlers {
           navic.attach(client, bufnr)
         end
       end,
-      capabilities = cmp_nvim_lsp.default_capabilities(lsp.protocol.make_client_capabilities()),
+      capabilities = cmp_nvim_lsp.default_capabilities(capabilities),
       settings = {
         Lua = {
           runtime = {

@@ -94,12 +94,12 @@ end
 function Config.gitsigns()
   require('gitsigns').setup {
     signs = {
-      add = { text = '▍' },
-      change = { text = '▍' },
-      delete = { text = '▖' },
-      topdelete = { text = '▘' },
-      changedelete = { text = '▍' },
-      untracked = { text = '▍' },
+      add = { text = ' ▍' },
+      change = { text = ' ▍' },
+      delete = { text = ' ▖' },
+      topdelete = { text = ' ▘' },
+      changedelete = { text = ' ▍' },
+      untracked = { text = ' ▍' },
     },
   }
   map('n', '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
@@ -132,34 +132,72 @@ function Config.blankline()
 end
 
 function Config.statuscol()
-  require('statuscol').setup { setopt = false }
-  autocmd('TermEnter', {
-    pattern = '*',
-    callback = function()
-      vim.opt_local.statuscolumn = ''
+  vim.opt.numberwidth = 6
+  local builtin = require 'statuscol.builtin'
+  require('statuscol').setup {
+    relculright = true,
+    ft_ignore = { 'neo-tree', 'neo-tree-popup' },
+    bt_ignore = { 'terminal' },
+    segments = {
+      { text = { ' ', builtin.lnumfunc }, click = 'v:lua.ScLa' },
+      { text = { '%s' }, click = 'v:lua.ScSa' },
+      { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa' },
+    },
+  }
+end
+
+function Config.ufo()
+  local ufo = require 'ufo'
+  vim.o.foldenable = true
+  vim.o.foldcolumn = '1'
+  vim.o.foldlevel = 99
+  vim.o.foldlevelstart = 99
+  vim.opt.fillchars:append {
+    fold = ' ',
+    foldopen = ui.chevron.down,
+    foldsep = ' ',
+    foldclose = ui.chevron.right,
+  }
+  ufo.setup {
+    close_fold_kinds = { 'imports', 'comment' },
+    ---@type fun(bufnr, filetype, buftype): string[]
+    provider_selector = function(bufnr, _, _)
+      local status, parser = pcall(vim.treesitter.get_parser, bufnr)
+      if status and parser then
+        return { 'lsp', 'treesitter' }
+      end
+      return { 'lsp', 'indent' }
     end,
-  })
-  autocmd('BufWinEnter', {
-    pattern = '*',
-    callback = function()
-      vim.opt.numberwidth = 6
-      vim.opt.statuscolumn = ' %=%l %s'
-      if vim.bo.filetype == 'NeogitStatus' then
-        vim.opt_local.statuscolumn = ' %s'
-      end
-      if vim.bo.buftype == 'terminal' then
-        vim.opt_local.statuscolumn = ''
-      end
-      for _, v in ipairs {
-        'neo-tree',
-        'neo-tree-popup',
-      } do
-        if vim.bo.filetype == v then
-          vim.opt_local.statuscolumn = ''
+    fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+      local newVirtText = {}
+      local suffix = ('    %d lines '):format(endLnum - lnum)
+      local sufWidth = vim.fn.strdisplaywidth(suffix)
+      local targetWidth = width - sufWidth
+      local curWidth = 0
+      for _, chunk in ipairs(virtText) do
+        local chunkText = chunk[1]
+        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+        if targetWidth > curWidth + chunkWidth then
+          table.insert(newVirtText, chunk)
+        else
+          chunkText = truncate(chunkText, targetWidth - curWidth)
+          local hlGroup = chunk[2]
+          table.insert(newVirtText, { chunkText, hlGroup })
+          chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          -- str width returned from truncate() may less than 2nd argument, need padding
+          if curWidth + chunkWidth < targetWidth then
+            suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+          end
+          break
         end
+        curWidth = curWidth + chunkWidth
       end
+      table.insert(newVirtText, { suffix, 'UfoFoldedEllipsis' })
+      return newVirtText
     end,
-  })
+  }
+  vim.keymap.set('n', 'zr', ufo.openFoldsExceptKinds)
+  vim.keymap.set('n', 'zm', ufo.closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
 end
 
 function Config.lastplace()
