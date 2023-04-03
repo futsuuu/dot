@@ -17,8 +17,8 @@ M.status = {
 }
 
 M.chevron = {
-  right = '',
-  down = '',
+  right = '',
+  down = '',
 }
 
 M.kind = {

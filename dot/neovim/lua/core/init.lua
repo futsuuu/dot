@@ -32,6 +32,7 @@ autocmd('WinNew', {
 
 autocmd('CursorMoved', {
   pattern = '*',
+  once = true,
   callback = function()
     opt.cursorline = true
     opt.scrolloff = 10
@@ -77,7 +78,7 @@ autocmd('BufRead', {
     opt.number = true
     opt.signcolumn = 'yes'
     map('n', 'a', function()
-      return string.match(vim.api.nvim_get_current_line(), '^%s*$') and 'S' or 'a'
+      return vim.api.nvim_get_current_line():match '^%s*$' and 'S' or 'a'
     end, { expr = true })
   end,
 })

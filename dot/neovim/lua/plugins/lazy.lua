@@ -62,12 +62,14 @@ return function(init, config)
     },
     {
       'tiagovla/scope.nvim',
-      event = 'BufLeave',
+      event = 'TabNew',
       config = config.scope,
     },
     {
       'famiu/bufdelete.nvim',
       cmd = { 'Bdelete', 'Bwipeout' },
+      event = 'BufAdd',
+      config = config.bufdelete,
     },
 
     {

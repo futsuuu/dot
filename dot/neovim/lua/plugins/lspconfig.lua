@@ -49,7 +49,7 @@ mason_lspconfig.setup_handlers {
 
 lspconfig.denols.setup {}
 
-lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
   signs = false,
   virtual_text = {
     prefix = '',
@@ -58,7 +58,7 @@ lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(vim.lsp.diagnostic.on
   severity_sort = true,
 })
 
-lsp.handlers['textDocument/hover'] = lsp.with(vim.lsp.handlers.hover, { border = 'rounded' })
+lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover, { border = 'rounded' })
 
 vim.fn.sign_define('DiagnosticSignError', { text = ' ', texthl = 'DiagnosticSignError' })
 vim.fn.sign_define('DiagnosticSignWarn', { text = ' ', texthl = 'DiagnosticSignWarn' })

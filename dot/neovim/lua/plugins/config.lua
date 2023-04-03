@@ -218,9 +218,12 @@ function Config.bufferline()
   }
   map('n', '<Space>bh', '<Cmd>BufferLineCyclePrev<CR>')
   map('n', '<Space>bl', '<Cmd>BufferLineCycleNext<CR>')
+end
+
+function Config.bufdelete()
   map('n', '<Space>bd', function()
     if vim.fn.expand('%s'):match '^term://.*' then
-      return '<Cmd>Bdelete<CR>i<CR>'
+      return '<Cmd>Bdelete!<CR>'
     else
       return '<Cmd>Bdelete<CR>'
     end
