@@ -6,6 +6,7 @@
   "margin-left": 10,
   "margin-right": 10,
   "modules-left": ["custom/launcher", "wlr/workspaces"],
-  "modules-right": ["cpu", "memory", "battery", "network", "clock", "custom/power"]
+  "modules-center": ["hyprland/window"],
+  "modules-right": ["cpu", "memory", "battery", "network", "clock"]
 }
 // vim:ft=jsonc:expandtab:ts=2

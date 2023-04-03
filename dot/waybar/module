@@ -2,10 +2,7 @@
   "custom/launcher": {
     "format": " ",
     "on-click": "wofi --show drun",
-    "restart-interval": 1,
-  },
-  "custom/power": {
-    "format": "󰐥 "
+    "restart-interval": 1
   },
   "wlr/workspaces": {
     "format": "{icon}",
@@ -46,6 +43,7 @@
       "max-length": 50
   },
   "clock": {
+    "format": "{:%H:%M} ",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "interval": 29,
     "calendar": {
