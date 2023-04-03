@@ -3,6 +3,8 @@ local opt = vim.opt
 local autocmd = vim.api.nvim_create_autocmd
 local map = vim.keymap.set
 
+local colorscheme = 'robot'
+
 opt.syntax = 'off'
 
 opt.cmdheight = 0
@@ -91,3 +93,4 @@ autocmd('TermOpen', {
 })
 
 require 'plugins'
+vim.cmd.colorscheme(colorscheme)

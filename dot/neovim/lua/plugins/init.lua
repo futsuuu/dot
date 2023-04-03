@@ -40,8 +40,7 @@ function Init.telescope()
   map('n', '<Space>fs', '<Cmd>Telescope find_files<CR>')
   map('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
   map('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
+  map('n', '<Space>fl', '<Cmd>Telescope highlights<CR>')
 end
 
 require 'plugins.lazy'(Init, Config)
-
-vim.cmd.colorscheme 'tokyonight'
