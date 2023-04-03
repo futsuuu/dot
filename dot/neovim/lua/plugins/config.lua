@@ -349,29 +349,22 @@ function Config.navic()
     kind[k] = v .. ' '
   end
 
+  local _s = '❯'
+  local sep = ' ' .. _s .. ' '
+
   local navic = require 'nvim-navic'
 
   navic.setup {
     icons = kind,
     highlight = true,
-    separator = ' ❯ ',
+    separator = sep,
   }
 
   hl(0, 'NavicText', { link = 'Winbar' })
   hl(0, 'NavicSeparator', { link = 'NavicText' })
 
-  autocmd('BufRead', {
-    pattern = '*',
-    callback = function()
-      local rel_path = vim.fn
-        .expand('%s')
-        :gsub(vim.fn.getcwd(), '')
-        :gsub(vim.fn.expand '~', '~')
-        :gsub('[/\\]', ' ❯ ')
-        :gsub('^ +❯ ', '') .. ' ❯ '
-      vim.opt_local.winbar = ' ' .. rel_path .. "%{%v:lua.require'nvim-navic'.get_location()%}"
-    end,
-  })
+  require 'core.winbar'
+end
 end
 
 function Config.lspconfig()
