@@ -67,22 +67,8 @@ vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSig
 
 local map = vim.keymap.set
 
-map('n', '<Space>rn', function()
-  vim.lsp.buf.rename()
-end)
-
-map('n', '<Space>ca', function()
-  vim.lsp.buf.code_action()
-end)
-
-map('n', ']d', function()
-  vim.diagnostic.goto_next()
-end)
-
-map('n', '[d', function()
-  vim.diagnostic.goto_prev()
-end)
-
-map('n', 'K', function()
-  vim.lsp.buf.hover()
-end)
+map('n', '<Space>ca', require('actions-preview').code_actions)
+map('n', '<Space>rn', vim.lsp.buf.rename)
+map('n', ']d', vim.diagnostic.goto_next)
+map('n', '[d', vim.diagnostic.goto_prev)
+map('n', 'K', vim.lsp.buf.hover)

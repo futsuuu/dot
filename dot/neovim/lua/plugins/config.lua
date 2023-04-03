@@ -365,6 +365,15 @@ function Config.navic()
 
   require 'core.winbar'
 end
+
+function Config.actions_preview()
+  require('actions-preview').setup {
+    diff = {
+      ignore_whitespace = true,
+    },
+    backend = { 'telescope', 'nui' },
+    telescope = require('telescope.themes').get_dropdown(),
+  }
 end
 
 function Config.lspconfig()
