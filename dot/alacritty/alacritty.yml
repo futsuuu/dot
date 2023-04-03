@@ -21,7 +21,7 @@ schemes:
       blue: "#7aa2f7"
       magenta: "#ad8ee6"
       cyan: "#449dab"
-      white: "#9699a8"
+      white: "#829398"
 
     # Bright colors
     bright:
@@ -32,7 +32,7 @@ schemes:
       blue: "#7da6ff"
       magenta: "#bb9af7"
       cyan: "#0db9d7"
-      white: "#acb0d0"
+      white: "#b5c6da"
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
