@@ -16,34 +16,26 @@ end
 function Config.alpha()
   local alpha = require 'alpha'
   local dashboard = require 'alpha.themes.dashboard'
-  dashboard.section.header.val = {
-    [[  _                        ]],
-    [[  \`*-.                    ]],
-    [[   )  _`-.                 ]],
-    [[  .  : `. .                ]],
-    [[  : _   '  \               ]],
-    [[  ; *` _.   `*-._          ]],
-    [[  `-.-'          `-.       ]],
-    [[    ;       `       `.     ]],
-    [[    :.       .        \    ]],
-    [[    . \  .   :   .-'   .   ]],
-    [[    '  `+.;  ;  '      :   ]],
-    [[    :  '  |    ;       ;-. ]],
-    [[    ; '   : :`-:     _.`* ;]],
-    [[ .*' /  .*' ; .*`- +'  `*' ]],
-    [[ `*-*   `*-*  `*-*'        ]],
+  local section, button = dashboard.section, dashboard.button
+  section.header.val = {
     [[]],
-    [[    N  E  O  V  I  M       ]],
+    [[  ／l、     ]],
+    [[ (ﾟ､ ｡ ７   ]],
+    [[  l  ~ヽ    ]],
+    [[  じしf_,)ノ]],
+    [[]],
   }
-  dashboard.section.buttons.val = {
-    dashboard.button('h', '  · MRW', ':Telescope mr mrw<CR>'),
-    dashboard.button('f', '  · Find file', ':Telescope find_files<CR>'),
-    dashboard.button('g', '  · Neogit', ':Neogit<CR>'),
-    dashboard.button('e', '  · File explorer', ':Neotree<CR>'),
-    dashboard.button('t', '  · Terminal', ':terminal<CR>'),
-    dashboard.button('u', '  · Update plugins', ':Lazy update<CR>'),
-    dashboard.button('q', '  · Quit', ':qa<CR>'),
+  section.buttons.val = {
+    button('h', '  · MRW', '<Cmd>Telescope mr mrw<CR>'),
+    button('f', '  · Find file', '<Cmd>Telescope find_files<CR>'),
+    button('g', '  · Neogit', '<Cmd>Neogit<CR>'),
+    button('e', '  · File explorer', '<Cmd>Neotree<CR>'),
+    button('t', '  · Terminal', '<Cmd>terminal<CR>'),
+    button('u', '  · Update plugins', '<Cmd>Lazy update<CR>'),
+    button('q', '  · Quit', '<Cmd>qa<CR>'),
   }
+  local vim_ver = vim.version()
+  section.footer.val = 'Neovim v' .. vim_ver.major .. '.' .. vim_ver.minor .. '.' .. vim_ver.patch
   alpha.setup(dashboard.opts)
 end
 
