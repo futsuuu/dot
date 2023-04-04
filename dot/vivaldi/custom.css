@@ -41,7 +41,7 @@ button.vivaldi {
 
 .UrlField,
 .UrlBar-UrlField {
-  text-align: center;
+  text-align: start;
   justify-content: center;
   font-size: 1.06em;
   font-weight: 600;
