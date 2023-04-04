@@ -42,6 +42,7 @@
   "satellite.nvim": { "branch": "main", "commit": "da81fe4573ed3f203fa7aa8db6f125b6a5380390" },
   "scope.nvim": { "branch": "main", "commit": "2db6d31de8e3a98d2b41c0f0d1f5dc299ee76875" },
   "statuscol.nvim": { "branch": "main", "commit": "0cf1224e40a02759e1b826ac4b88ff96c5efae13" },
+  "telescope-zf-native.nvim": { "branch": "master", "commit": "beb34b6c48154ec117930180f257a5592606d48f" },
   "telescope.nvim": { "branch": "0.1.x", "commit": "766a45a972408f67e793a3b63e3c419ff5458753" },
   "tokyonight.nvim": { "branch": "main", "commit": "1b0c88094548a62641ece1e668fa9a234e1c539e" },
   "vim-startuptime": { "branch": "master", "commit": "6580cf539c33a212f4f5542068a3b4dd2b3ad834" }

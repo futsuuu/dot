@@ -57,7 +57,7 @@ return function(init, config)
     {
       'akinsho/bufferline.nvim',
       version = 'v3.*',
-      event = { 'BufRead', 'TermOpen' },
+      event = { 'BufRead', 'TermOpen', 'TabNew' },
       config = config.bufferline,
     },
     {
@@ -184,6 +184,9 @@ return function(init, config)
       init = init.telescope,
       config = config.telescope,
       dependencies = {
+        {
+          'natecraddock/telescope-zf-native.nvim',
+        },
         {
           'lambdalisue/mr.vim',
           config = config.mr,

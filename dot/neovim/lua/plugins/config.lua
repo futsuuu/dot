@@ -297,6 +297,7 @@ function Config.telescope()
       selection_caret = ' ',
     },
   }
+  telescope.load_extension 'zf-native'
   telescope.load_extension 'mr'
   hl(0, 'TelescopeMatching', { link = 'Search' })
 end
