@@ -130,11 +130,11 @@ function readData(cs: ColorScheme) {
 
 ////////////////////////////////////////////////////
 
-const isLight = false;
+const isLight = true;
 vimFile += isLight ? "set bg=light\n" : "set bg=dark\n";
 
 const bg = color(isLight ? "#fafbfd" : "#171b30");
-const fg = isLight ? color(bg).l(43) : color(bg).l(69).s(30);
+const fg = isLight ? color(bg).l(43) : color(bg).l(72).s(30);
 const red = color(fg).s(75).h(4);
 const yellow = color(red).h(53);
 const green = color(red).h(123);
@@ -355,6 +355,18 @@ const hlData: ColorScheme = {
     },
     CursorLine: [_, bg.mix(fg, 0.09)],
     WinSeparator: [bg, bg],
+  },
+  FoldLevel: {
+    1: [bg.mix(fg, 0.4), bg.mix(fg, 0.09), "bold"],
+    2: [bg.mix(fg, 0.4), bg.mix(fg, 0.16), "bold"],
+    3: [bg.mix(fg, 0.5), bg.mix(fg, 0.23), "bold"],
+    4: [bg.mix(fg, 0.5), bg.mix(fg, 0.3), "bold"],
+    5: [bg.mix(fg, 0.6), bg.mix(fg, 0.37), "bold"],
+    6: [bg.mix(fg, 0.6), bg.mix(fg, 0.44), "bold"],
+    7: [bg.mix(fg, 0.7), bg.mix(fg, 0.51), "bold"],
+    8: [bg.mix(fg, 0.8), bg.mix(fg, 0.58), "bold"],
+    9: [bg.mix(fg, 0.8), bg.mix(fg, 0.65), "bold"],
+    10: [bg.mix(fg, 0.9), bg.mix(fg, 0.72), "bold"],
   },
 };
 

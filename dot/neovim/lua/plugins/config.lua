@@ -91,23 +91,6 @@ function Config.treesitter()
   })
 end
 
-function Config.gitsigns()
-  require('gitsigns').setup {
-    signs = {
-      add = { text = ' ▍' },
-      change = { text = ' ▍' },
-      delete = { text = ' ▖' },
-      topdelete = { text = ' ▘' },
-      changedelete = { text = ' ▍' },
-      untracked = { text = ' ▍' },
-    },
-  }
-  map('n', '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
-  map('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
-  map('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
-  map('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
-end
-
 function Config.neogit()
   require('neogit').setup {
     integrations = {
@@ -131,17 +114,91 @@ function Config.blankline()
   }
 end
 
+function Config.gitsigns()
+  require('gitsigns').setup {
+    signs = {
+      add = { text = ' ▍' },
+      change = { text = ' ▍' },
+      delete = { text = ' ▖' },
+      topdelete = { text = ' ▘' },
+      changedelete = { text = ' ▍' },
+      untracked = { text = ' ▍' },
+    },
+  }
+  map('n', '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
+  map('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
+  map('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
+  map('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
+end
+
 function Config.statuscol()
   vim.opt.numberwidth = 6
+
+  -- https://github.com/luukvbaal/statuscol.nvim/blob/main/lua/statuscol/builtin.lua
+  local v = vim.v
+  local statuscol = require 'statuscol'
   local builtin = require 'statuscol.builtin'
-  require('statuscol').setup {
+  local ffi = require 'statuscol.ffidef'
+  local C = ffi.C
+
+  local foldfunc = function(args)
+    local width = C.compute_foldcolumn(args.wp, 0)
+    if width ~= 1 then
+      return builtin.foldfunc(args)
+    end
+
+    local foldinfo = C.fold_info(args.wp, v.lnum)
+    local level = foldinfo.level
+    local string = '%#FoldLevel' .. tostring(level) .. '#'
+
+    if level == 0 then
+      return ' %*'
+    end
+
+    local closed = foldinfo.lines > 0
+    local first_level = level - (closed and 1 or 0)
+    if first_level < 1 then
+      first_level = 1
+    end
+
+    if closed then
+      string = string .. ''
+    elseif foldinfo.start == v.lnum and first_level + 1 > foldinfo.llevel then
+      string = string .. '⁀'
+    else
+      local status, next_foldinfo = pcall(C.fold_info, args.wp, v.lnum + 1)
+      if not status then
+        string = string .. ' '
+      else
+        local next_level = next_foldinfo.level
+        if level > next_level then
+          string = string .. '‿'
+        elseif level == next_level then
+          if next_foldinfo.start == v.lnum + 1 then
+            string = string .. '‿'
+          else
+            string = string .. ' '
+          end
+        else
+          string = string .. ' '
+        end
+      end
+    end
+
+    return string .. '%*'
+  end
+
+  statuscol.setup {
     relculright = true,
     ft_ignore = { 'neo-tree', 'neo-tree-popup' },
     bt_ignore = { 'terminal' },
     segments = {
       { text = { ' ', builtin.lnumfunc }, click = 'v:lua.ScLa' },
       { text = { '%s' }, click = 'v:lua.ScSa' },
-      { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa' },
+      {
+        text = { '', foldfunc, ' ' },
+        click = 'v:lua.ScFa',
+      },
     },
   }
 end
@@ -159,7 +216,7 @@ function Config.ufo()
     foldclose = ui.chevron.right,
   }
   ufo.setup {
-    close_fold_kinds = { 'imports', 'comment' },
+    close_fold_kinds = {},
     ---@type fun(bufnr, filetype, buftype): string[]
     provider_selector = function(bufnr, _, _)
       local status, parser = pcall(vim.treesitter.get_parser, bufnr)
