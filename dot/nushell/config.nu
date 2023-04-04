@@ -1,4 +1,5 @@
 source ~/.cache/smpt/init.nu
+source ~/.cache/zoxide/init.nu
 
 let dark_theme = {
     # color for nushell primitives
