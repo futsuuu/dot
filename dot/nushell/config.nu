@@ -1,3 +1,5 @@
+source ~/.cache/smpt/init.nu
+
 let dark_theme = {
     # color for nushell primitives
     separator: dark_gray

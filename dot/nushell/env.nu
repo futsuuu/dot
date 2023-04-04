@@ -10,7 +10,8 @@ let-env FZF_DEFAULT_OPTS = "
   --color info:green,prompt:blue,spinner:yellow,pointer:red,marker:red,border:gray
 "
 
-source ~/dev/github.com/futsuuu/dot/dot/nushell/prompt/smpt.nu
+mkdir ~/.cache/smpt
+~/dev/github.com/futsuuu/dot/smpt/target/release/smpt init nu | save ~/.cache/smpt/init.nu --force
 
 # Specifies how environment variables are:
 # - converted from a string to a value on Nushell startup (from_string)
