@@ -41,6 +41,7 @@ autocmd('CursorMoved', {
     opt.virtualedit = 'onemore'
     opt.wrap = false
     map('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR><Esc>')
+    require 'core.cursorline'
   end,
 })
 
