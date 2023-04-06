@@ -12,7 +12,7 @@ let-env FZF_DEFAULT_OPTS = "
 
 mkdir ~/.cache/smpt ~/.cache/zoxide
 ~/dev/github.com/futsuuu/dot/smpt/target/release/smpt init nu | save -f ~/.cache/smpt/init.nu
-zoxide init nushell --cmd j | save -f ~/.cache/zoxide/init.nu
+zoxide init nushell --cmd j --hook pwd | save -f ~/.cache/zoxide/init.nu
 
 # Specifies how environment variables are:
 # - converted from a string to a value on Nushell startup (from_string)

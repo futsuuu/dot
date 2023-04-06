@@ -19,7 +19,7 @@ let dark_theme = {
       } else { 'blue' }
     }
     duration: white
-    date: { (date now) - $in |
+    date: { || (date now) - $in |
       if $in < 1hr {
         '#e61919'
       } else if $in < 6hr {
@@ -35,7 +35,7 @@ let dark_theme = {
       } else if $in < 52wk {
         '#197fe6'
       } else { 'light_gray' }
-    }
+  }
     range: white
     float: white
     string: white
@@ -198,22 +198,6 @@ let-env config = {
   show_banner: true # true or false to enable or disable the banner
   render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
 
-  hooks: {
-    pre_prompt: [{
-      null  # replace with source code to run before the prompt is shown
-    }]
-    pre_execution: [{
-      null  # replace with source code to run before the repl input is run
-    }]
-    env_change: {
-      PWD: [{|before, after|
-        null  # replace with source code to run if the PWD environment is different since the last repl input
-      }]
-    }
-    display_output: {
-      if (term size).columns >= 100 { table -e } else { table }
-    }
-  }
   menus: [
       # Configuration for default nushell menus
       # Note the lack of source parameter
