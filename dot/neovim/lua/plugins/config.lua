@@ -397,13 +397,6 @@ function Config.devicons()
   devicons.set_default_icon('', '#729cb1')
 end
 
-function Config.satellite()
-  require('satellite').setup {
-    winblend = 30,
-  }
-  hl(0, 'ScrollView', { link = 'BufferCurrent' })
-end
-
 function Config.ccc()
   require('ccc').setup()
 end

@@ -203,13 +203,6 @@ return function(init, config)
       config = config.neotree,
     },
 
-    -- scroll
-    {
-      'lewis6991/satellite.nvim',
-      event = 'WinScrolled',
-      config = config.satellite,
-    },
-
     -- utils
     {
       'uga-rosa/ccc.nvim',
