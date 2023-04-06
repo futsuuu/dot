@@ -1,9 +1,7 @@
-use std::{
-    env::current_dir,
-    path::{Path, PathBuf},
-};
+use std::{env::current_dir, path::PathBuf};
 
 use git2::Repository;
+use home::home_dir;
 use regex::Regex;
 
 static RESET: &str = "\x1b[m";
@@ -21,10 +19,7 @@ pub fn run(exit_status: &str, new_line: &str) {
     let (repo_path, git_status) = {
         match Repository::discover(".") {
             Ok(repo) => {
-                let repo_path = repo
-                    .workdir()
-                    .unwrap_or_else(|| Path::new(""))
-                    .to_path_buf();
+                let repo_path = repo.workdir().unwrap_or(repo.path()).to_path_buf();
                 match repo.head() {
                     Ok(head) => {
                         let head_oid = head.target().unwrap();
@@ -86,7 +81,7 @@ pub fn run(exit_status: &str, new_line: &str) {
                     format!("{parent_path}{BOLD}").as_str(),
                 )
                 .replacen(
-                    home::home_dir()
+                    home_dir()
                         .unwrap_or_default()
                         .display()
                         .to_string()
@@ -122,7 +117,7 @@ fn small_number(number: usize, position: &str) -> String {
 
 fn highlight_branch(branch: &str) -> String {
     fn hl(branch: &str, re: &str, color: &str) -> Option<String> {
-        let re = Regex::new(format!("(?i){re}").as_str()).unwrap();
+        let re = Regex::new(re).unwrap();
         if re.is_match(branch) {
             Some(format!("{color}{branch}"))
         } else {
