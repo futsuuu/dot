@@ -11,9 +11,9 @@ function M.progressbar(percentage)
 end
 
 M.status = {
-  check = '',
-  dots = '',
-  close = '',
+  check = '',
+  dots = '󱨇',
+  close = '',
 }
 
 M.chevron = {

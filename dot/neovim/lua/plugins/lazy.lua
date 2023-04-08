@@ -85,7 +85,6 @@ return function(init, config)
     {
       'luukvbaal/statuscol.nvim',
       event = { 'BufRead', 'TabNew' },
-      cond = vim.fn.has 'nvim-0.9' == 1,
       config = config.statuscol,
     },
     {
@@ -241,15 +240,17 @@ return function(init, config)
   end
   vim.opt.rtp:prepend(lazypath)
 
+  local ui = require 'core.ui'
   require('lazy').setup(plugins, {
     defaults = {
       lazy = true,
     },
     concurrency = 10,
     ui = {
+      border = 'rounded',
       icons = {
-        loaded = '',
-        not_loaded = '',
+        loaded = ui.status.check,
+        not_loaded = ui.status.close,
         runtime = '',
         list = { ' ' },
       },

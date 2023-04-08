@@ -35,7 +35,9 @@ function Config.alpha()
     button('q', '  · Quit', '<Cmd>qa<CR>'),
   }
   local vim_ver = vim.version()
-  section.footer.val = 'Neovim v' .. vim_ver.major .. '.' .. vim_ver.minor .. '.' .. vim_ver.patch
+  if vim_ver then
+    section.footer.val = 'Neovim v' .. vim_ver.major .. '.' .. vim_ver.minor .. '.' .. vim_ver.patch
+  end
   alpha.setup(dashboard.opts)
 end
 
@@ -398,7 +400,15 @@ function Config.devicons()
 end
 
 function Config.ccc()
-  require('ccc').setup()
+  require('ccc').setup {
+    highlighter = {
+      auto_enable = false,
+    },
+    preserve = true,
+    bar_char = '󰝤',
+    point_char = '⎕', -- not a garbled character
+    point_color = '#808080',
+  }
 end
 
 function Config.neodev()
@@ -466,7 +476,7 @@ function Config.actions_preview()
 end
 
 function Config.lspconfig()
-  require 'plugins.lspconfig'
+  require 'plugins.lsp'
 end
 
 function Config.mason_lspconfig()
@@ -483,6 +493,8 @@ function Config.mason()
       'mason.providers.registry-api',
     },
     ui = {
+      border = 'rounded',
+      height = 0.8,
       icons = {
         package_installed = status.check,
         package_pending = status.dots,
