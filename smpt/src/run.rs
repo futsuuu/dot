@@ -2,7 +2,6 @@ use std::{env::current_dir, path::PathBuf};
 
 use git2::Repository;
 use home::home_dir;
-use regex::Regex;
 
 static RESET: &str = "\x1b[m";
 static BOLD: &str = "\x1b[1m";
@@ -59,7 +58,7 @@ pub fn run(exit_status: &str, new_line: &str) {
         }
     };
     print!(
-        "{RESET}{BLUE}{new_line}  {}{RESET} {git_status}{new_line} {}❱⟩{RESET} ",
+        "{RESET}{BLUE}{new_line}   {}{RESET} {git_status}{new_line} {}❱⟩{RESET} ",
         {
             let cwd = match current_dir() {
                 Ok(p) => p,
@@ -116,16 +115,19 @@ fn small_number(number: usize, position: &str) -> String {
 }
 
 fn highlight_branch(branch: &str) -> String {
-    fn hl(branch: &str, re: &str, color: &str) -> Option<String> {
-        let re = Regex::new(re).unwrap();
-        if re.is_match(branch) {
-            Some(format!("{color}{branch}"))
-        } else {
-            None
+    match branch.splitn(2, '/').collect::<Vec<&str>>()[0] {
+        "main" | "master" => {
+            format!("{YELLOW}󰋜 {branch}")
         }
+        "dev" | "develop" => {
+            format!("{MAGENTA} {branch}")
+        }
+        "fix" => {
+            format!("{RED}󱁤 {branch}")
+        }
+        "release" => {
+            format!("{GREEN} {branch}")
+        }
+        _ => format!("{CYAN}󰘬 {branch}"),
     }
-    hl(branch, "^(main|master)$", YELLOW).unwrap_or(
-        hl(branch, "^dev(elop|)$", MAGENTA)
-            .unwrap_or(hl(branch, "^fix(/.*|)$", RED).unwrap_or(format!("{CYAN}{branch}"))),
-    )
 }
