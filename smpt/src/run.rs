@@ -122,11 +122,14 @@ fn highlight_branch(branch: &str) -> String {
         "dev" | "develop" => {
             format!("{MAGENTA} {branch}")
         }
+        "feat" => {
+            format!("{CYAN}󱁤 {branch}")
+        }
         "fix" => {
-            format!("{RED}󱁤 {branch}")
+            format!("{RED} {branch}")
         }
         "release" => {
-            format!("{GREEN} {branch}")
+            format!("{GREEN}󱓞 {branch}")
         }
         _ => format!("{CYAN}󰘬 {branch}"),
     }
