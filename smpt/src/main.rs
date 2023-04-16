@@ -4,13 +4,13 @@ use std::env;
 
 use crate::run::run;
 
-fn main() {
+fn main() -> Result<(), std::io::Error> {
     let command_args = env::args().collect::<Vec<String>>();
     match &**command_args.get(1).unwrap() {
         "run" => run(
             command_args.get(2).unwrap(),
             command_args.get(3).unwrap_or(&"\n".to_string()),
-        ),
+        )?,
         "init" => {
             let smpt_command = command_args.get(0).unwrap();
             let shell = command_args.get(2).unwrap();
@@ -24,4 +24,5 @@ fn main() {
         }
         _ => panic!("unknown command"),
     }
+    Ok(())
 }
