@@ -1,16 +1,24 @@
+local utils = require 'core.utils'
+local ui = require 'core.ui'
+
 local M = {}
 
 ---@param bufnr number
 ---@param file string
 function M.get_winbar(bufnr, file)
-  local _s = '❯'
-  local i_s = _s .. ' '
-  local sep = ' ' .. _s .. ' '
+  file = file:gsub(vim.fn.getcwd(), '')
+  file = file:gsub(vim.fn.expand '~', '~')
 
+  local path = utils.split(file, '/\\')
+
+  ---@type string
   local navic_info = require('nvim-navic').get_location(nil, bufnr)
 
-  local path = file:gsub(vim.fn.getcwd(), ''):gsub(vim.fn.expand '~', '~'):gsub('[/\\]', ' ❯ '):gsub('^ +' .. i_s, '')
-  return ' ' .. path .. ((navic_info ~= '') and (sep .. navic_info) or '')
+  if navic_info ~= '' then
+    table.insert(path, navic_info)
+  end
+
+  return ' ' .. utils.join(path, ui.winbar_sep)
 end
 
 vim.api.nvim_create_autocmd('BufRead', {

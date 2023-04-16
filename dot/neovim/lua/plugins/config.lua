@@ -448,15 +448,12 @@ function Config.navic()
     kind[k] = v .. ' '
   end
 
-  local _s = '❯'
-  local sep = ' ' .. _s .. ' '
-
   local navic = require 'nvim-navic'
 
   navic.setup {
     icons = kind,
     highlight = true,
-    separator = sep,
+    separator = ui.winbar_sep,
   }
 
   hl(0, 'NavicText', { link = 'Winbar' })

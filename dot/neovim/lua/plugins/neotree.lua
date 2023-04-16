@@ -11,8 +11,16 @@ neotree.setup {
     statusline = false,
     content_layout = 'center',
   },
-  enable_diagnostics = false,
+  enable_diagnostics = true,
   default_component_configs = {
+    diagnostics = {
+      symbols = {
+        hint = ui.bug,
+        info = ui.bug,
+        warn = ui.bug,
+        error = ui.bug,
+      },
+    },
     indent = {
       indent_marker = ' ',
       last_indent_marker = ' ',

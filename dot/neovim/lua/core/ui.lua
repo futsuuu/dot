@@ -1,4 +1,7 @@
-local M = {}
+local M = {
+  winbar_sep = ' ❯ ',
+  bug = ' ',
+}
 
 ---@param percentage integer
 function M.progressbar(percentage)
@@ -11,9 +14,9 @@ function M.progressbar(percentage)
 end
 
 M.status = {
-  check = '',
-  dots = '󱨇',
-  close = '',
+  check = '󰄲',
+  dots = '󱅶',
+  close = '󰄱',
 }
 
 M.chevron = {
