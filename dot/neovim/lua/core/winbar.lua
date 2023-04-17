@@ -1,3 +1,5 @@
+local devicons = require 'nvim-web-devicons'
+
 local utils = require 'core.utils'
 local ui = require 'core.ui'
 
@@ -10,6 +12,14 @@ function M.get_winbar(bufnr, file)
   file = file:gsub(vim.fn.expand '~', '~')
 
   local path = utils.split(file, '/\\')
+
+  local filetype = vim.fn.getbufvar(bufnr, '&filetype')
+  ---@type string, string
+  local icon, hl = devicons.get_icon_by_filetype(filetype, { default = true })
+  local highlighted_icon = '%#' .. hl .. '#' .. icon .. '%* '
+
+  local file_name = table.remove(path)
+  table.insert(path, highlighted_icon .. file_name)
 
   ---@type string
   local navic_info = require('nvim-navic').get_location(nil, bufnr)
