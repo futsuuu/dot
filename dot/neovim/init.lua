@@ -1,1 +1,2 @@
+require 'gui'
 require 'core'
