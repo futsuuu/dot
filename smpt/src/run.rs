@@ -23,7 +23,7 @@ pub fn run(exit_status: &str, new_line: &str) -> io::Result<()> {
     let (repo_path, git_status) = {
         match Repository::discover(".") {
             Ok(repo) => {
-                let repo_path = repo.workdir().unwrap_or(repo.path()).to_path_buf();
+                let repo_path = repo.workdir().unwrap_or_else(|| repo.path()).to_path_buf();
                 let head_ref = read_to_string(File::open(repo.path().join("HEAD"))?)?;
                 let branch_name = if head_ref.starts_with("ref: refs/heads/") {
                     head_ref.trim_start_matches("ref: refs/heads/")
