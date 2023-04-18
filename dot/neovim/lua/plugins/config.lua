@@ -14,8 +14,6 @@ local map = vim.keymap.set
 local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
 
-local utils = require 'core.utils'
-
 function Config.alpha()
   local header = [[
  ／l、     
@@ -26,7 +24,7 @@ function Config.alpha()
   local alpha = require 'alpha'
   local dashboard = require 'alpha.themes.dashboard'
   local section, button = dashboard.section, dashboard.button
-  section.header.val = utils.split(header, '\n')
+  section.header.val = header:split '\n'
   section.buttons.val = {
     button('h', '  · MRW', '<Cmd>Telescope mr mrw<CR>'),
     button('f', '  · Find file', '<Cmd>Telescope find_files<CR>'),

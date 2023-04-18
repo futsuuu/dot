@@ -1,6 +1,5 @@
 local devicons = require 'nvim-web-devicons'
 
-local utils = require 'core.utils'
 local ui = require 'core.ui'
 
 local M = {}
@@ -11,7 +10,7 @@ function M.get_winbar(bufnr, file)
   file = file:gsub(vim.fn.getcwd(), '')
   file = file:gsub(vim.fn.expand '~', '~')
 
-  local path = utils.split(file, '/\\')
+  local path = file:split '/\\'
 
   local filetype = vim.fn.getbufvar(bufnr, '&filetype')
   ---@type string, string
@@ -28,7 +27,7 @@ function M.get_winbar(bufnr, file)
     table.insert(path, navic_info)
   end
 
-  return ' ' .. utils.join(path, ui.winbar_sep)
+  return ' ' .. ui.winbar_sep:join(path)
 end
 
 vim.api.nvim_create_autocmd('BufRead', {

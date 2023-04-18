@@ -6,26 +6,6 @@ function M.path_sep()
   return package.config:sub(1, 1)
 end
 
----Split string
----@param str string
----@param with string
----@return string[]
-function M.split(str, with)
-  local substrings = {}
-  for substring in str:gmatch('[^' .. with .. ']+') do
-    table.insert(substrings, substring)
-  end
-  return substrings
-end
-
----Join strings
----@param str_list string[]
----@param with string
----@return string
-function M.join(str_list, with)
-  return table.concat(str_list, with)
-end
-
 ---List segments
 ---@param directory string
 ---@return string[]
@@ -62,7 +42,7 @@ function M.search_parent(items)
     items = { items }
   end
 
-  local path = M.split(vim.fn.expand '%:p', '/\\')
+  local path = vim.fn.expand('%:p'):split '/\\'
   if #path == 0 then
     return
   end
