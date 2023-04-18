@@ -1,30 +1,32 @@
 local ui = require 'core.ui'
 ---@class Plugins.Config
-local Config = {}
+local Config = setmetatable({}, {
+  ---@type fun(table: table, key: string): function
+  __index = function(_, key)
+    return function()
+      require('plugins.' .. key)
+    end
+  end,
+})
 
 local api = vim.api
 local map = vim.keymap.set
 local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
 
-function Config.tokyonight()
-  require('tokyonight').setup {
-    sidebars = {},
-  }
-end
+local utils = require 'core.utils'
 
 function Config.alpha()
+  local header = [[
+ ／l、     
+(ﾟ､ ｡ ７   
+ l  ~ヽ    
+ じしf_,)ノ
+]]
   local alpha = require 'alpha'
   local dashboard = require 'alpha.themes.dashboard'
   local section, button = dashboard.section, dashboard.button
-  section.header.val = {
-    [[]],
-    [[  ／l、     ]],
-    [[ (ﾟ､ ｡ ７   ]],
-    [[  l  ~ヽ    ]],
-    [[  じしf_,)ノ]],
-    [[]],
-  }
+  section.header.val = utils.split(header, '\n')
   section.buttons.val = {
     button('h', '  · MRW', '<Cmd>Telescope mr mrw<CR>'),
     button('f', '  · Find file', '<Cmd>Telescope find_files<CR>'),
@@ -43,10 +45,6 @@ end
 
 function Config.insx()
   require('insx.preset.standard').setup()
-end
-
-function Config.cmp()
-  require 'plugins.cmp'
 end
 
 function Config.dressing()
@@ -77,6 +75,7 @@ function Config.treesitter()
     },
     highlight = {
       enable = true,
+      additional_vim_regex_highlighting = false,
     },
     rainbow = {
       enable = true,
@@ -110,6 +109,7 @@ end
 
 function Config.blankline()
   require('indent_blankline').setup {
+    show_first_indent_level = true,
     show_current_context = false,
     show_current_context_start = false,
     char = '▏',
@@ -133,78 +133,6 @@ function Config.gitsigns()
   map('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
 end
 
-function Config.statuscol()
-  vim.opt.numberwidth = 6
-
-  -- https://github.com/luukvbaal/statuscol.nvim/blob/main/lua/statuscol/builtin.lua
-  local v = vim.v
-  local statuscol = require 'statuscol'
-  local builtin = require 'statuscol.builtin'
-  local ffi = require 'statuscol.ffidef'
-  local C = ffi.C
-
-  local foldfunc = function(args)
-    local width = C.compute_foldcolumn(args.wp, 0)
-    if width ~= 1 then
-      return builtin.foldfunc(args)
-    end
-
-    local foldinfo = C.fold_info(args.wp, v.lnum)
-    local level = foldinfo.level
-    local string = '%#FoldLevel' .. tostring(level) .. '#'
-
-    if level == 0 then
-      return ' %*'
-    end
-
-    local closed = foldinfo.lines > 0
-    local first_level = level - (closed and 1 or 0)
-    if first_level < 1 then
-      first_level = 1
-    end
-
-    if closed then
-      string = string .. ''
-    elseif foldinfo.start == v.lnum and first_level + 1 > foldinfo.llevel then
-      string = string .. '⁀'
-    else
-      local status, next_foldinfo = pcall(C.fold_info, args.wp, v.lnum + 1)
-      if not status then
-        string = string .. ' '
-      else
-        local next_level = next_foldinfo.level
-        if level > next_level then
-          string = string .. '‿'
-        elseif level == next_level then
-          if next_foldinfo.start == v.lnum + 1 then
-            string = string .. '‿'
-          else
-            string = string .. ' '
-          end
-        else
-          string = string .. ' '
-        end
-      end
-    end
-
-    return string .. '%*'
-  end
-
-  statuscol.setup {
-    relculright = true,
-    ft_ignore = { 'neo-tree', 'neo-tree-popup' },
-    bt_ignore = { 'terminal' },
-    segments = {
-      { text = { ' ', builtin.lnumfunc }, click = 'v:lua.ScLa' },
-      { text = { '%s' }, click = 'v:lua.ScSa' },
-      {
-        text = { '', foldfunc, ' ' },
-        click = 'v:lua.ScFa',
-      },
-    },
-  }
-end
-
 function Config.ufo()
   local ufo = require 'ufo'
   vim.o.foldenable = true
@@ -219,8 +147,18 @@ function Config.ufo()
   }
   ufo.setup {
     close_fold_kinds = {},
-    ---@type fun(bufnr, filetype, buftype): string[]
-    provider_selector = function(bufnr, _, _)
+    ---@type fun(bufnr, filetype, buftype): string[] | string
+    provider_selector = function(bufnr, filetype, buftype)
+      for _, v in ipairs { 'terminal' } do
+        if v == buftype then
+          return ''
+        end
+      end
+      for _, v in ipairs { 'neo-tree', 'neo-tree-popup' } do
+        if v == filetype then
+          return ''
+        end
+      end
       local status, parser = pcall(vim.treesitter.get_parser, bufnr)
       if status and parser then
         return { 'lsp', 'treesitter' }
@@ -361,10 +299,6 @@ function Config.telescope()
   hl(0, 'TelescopeMatching', { link = 'Search' })
 end
 
-function Config.neotree()
-  require 'plugins.neotree'
-end
-
 function Config.devicons()
   local devicons = require 'nvim-web-devicons'
   local tmux = {
@@ -401,10 +335,6 @@ end
 
 function Config.ccc()
   require('ccc').setup {
-    highlighter = {
-      auto_enable = false,
-    },
-    preserve = true,
     bar_char = '󰝤',
     point_char = '⎕', -- not a garbled character
     point_color = '#808080',
@@ -417,10 +347,6 @@ function Config.neodev()
       plugins = false,
     },
   }
-end
-
-function Config.null_ls()
-  require 'plugins.null-ls'
 end
 
 function Config.fidget()
@@ -470,10 +396,6 @@ function Config.actions_preview()
     backend = { 'telescope', 'nui' },
     telescope = require('telescope.themes').get_dropdown(),
   }
-end
-
-function Config.lspconfig()
-  require 'plugins.lsp'
 end
 
 function Config.mason_lspconfig()

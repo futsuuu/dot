@@ -23,7 +23,6 @@ function Init.notify()
     return require 'notify'(...)
   end
   vim.notify = notify
-  print = notify
 end
 
 function Init.neotree()

@@ -10,6 +10,9 @@ opt.syntax = 'off'
 opt.cmdheight = 0
 opt.laststatus = 0
 opt.termguicolors = true
+opt.fillchars:append {
+  eob = ' ',
+}
 
 autocmd('InsertEnter', {
   pattern = '*',
@@ -23,6 +26,11 @@ autocmd('WinNew', {
   pattern = '*',
   once = true,
   callback = function()
+    opt.statusline = "%{''}"
+    opt.fillchars:append {
+      stl = '─',
+      stlnc = '─',
+    }
     map('n', '<C-h>', '<C-w>h')
     map('n', '<C-j>', '<C-w>j')
     map('n', '<C-k>', '<C-w>k')

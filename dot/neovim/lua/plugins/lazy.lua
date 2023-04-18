@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-field
+
 ---@param init Plugins.Init
 ---@param config Plugins.Config
 return function(init, config)
@@ -8,10 +10,6 @@ return function(init, config)
       config = config.devicons,
     },
     'MunifTanjim/nui.nvim',
-    {
-      'folke/tokyonight.nvim',
-      config = config.tokyonight,
-    },
 
     {
       'goolord/alpha-nvim',
@@ -144,7 +142,7 @@ return function(init, config)
     {
       'neovim/nvim-lspconfig',
       event = { 'BufRead', 'CursorHold' },
-      config = config.lspconfig,
+      config = config.lsp,
       dependencies = {
         {
           'williamboman/mason-lspconfig.nvim',
@@ -163,11 +161,11 @@ return function(init, config)
           config = config.navic,
           event = 'BufReadPre',
         },
-        {
-          'aznhe21/actions-preview.nvim',
-          config = config.actions_preview,
-        },
       },
+    },
+    {
+      'aznhe21/actions-preview.nvim',
+      config = config.actions_preview,
     },
     {
       'jose-elias-alvarez/null-ls.nvim',
@@ -188,7 +186,6 @@ return function(init, config)
         },
         {
           'lambdalisue/mr.vim',
-          config = config.mr,
           event = 'BufReadPre',
         },
       },
