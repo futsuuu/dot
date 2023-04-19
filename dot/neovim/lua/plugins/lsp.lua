@@ -25,12 +25,13 @@ capabilities.textDocument.foldingRange = {
   dynamicRegistration = false,
   lineFoldingOnly = true,
 }
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 mason_lspconfig.setup_handlers {
   function(server_name)
     local opts = {
       on_attach = on_attach,
-      capabilities = cmp_nvim_lsp.default_capabilities(capabilities),
+      capabilities = capabilities,
       settings = {
         Lua = {
           runtime = {
@@ -58,6 +59,7 @@ mason_lspconfig.setup_handlers {
   ['vtsls'] = function()
     lspconfig.vtsls.setup {
       root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
+      single_file_support = false,
     }
   end,
 }
