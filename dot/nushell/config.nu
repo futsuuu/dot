@@ -1,6 +1,21 @@
 source ~/.cache/smpt/init.nu
 source ~/.cache/zoxide/init.nu
 
+alias c = clear
+alias ca = cargo
+alias q = exit
+alias v = nvim
+alias t = tmux -u
+alias s = sudo
+alias f = fzf
+alias lg = lazygit
+alias g = git
+alias gi = cd ($"(ghq root)/(ghq list | fzf)" | str replace "\n" "")
+alias b = cd ..
+alias bb = cd ../..
+alias ls = ls -a
+alias ll = ls -la
+
 let dark_theme = {
     # color for nushell primitives
     separator: dark_gray
@@ -420,16 +435,3 @@ let-env config = {
     }
   ]
 }
-
-alias c = clear
-alias ca = cargo
-alias q = exit
-alias v = nvim
-alias t = tmux
-alias s = sudo
-alias f = fzf
-alias lg = lazygit
-alias g = git
-alias gi = cd ($"(ghq root)/(ghq list | fzf)" | str replace "\n" "")
-alias b = cd ..
-alias bb = cd ../..

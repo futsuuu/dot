@@ -1,7 +1,7 @@
 # Nushell Environment Config File
 
 let-env DENO_TLS_CA_STORE = "system"
-let-env LANG = "C"
+let-env LANG = "en_US.utf-8"
 let-env EDITOR = "nvim"
 let-env FZF_DEFAULT_OPTS = "
   --prompt=' ' --height 60% --border --margin=0,4 --reverse
