@@ -3,25 +3,26 @@ if exists("syntax_on")
   syntax reset
 endif
 let g:colors_name = "robot"
-set bg=light
-hi Normal guifg=#4d678b guibg=#fafbfd
-hi Cursor guifg=#fafbfd guibg=#4d678b
+set bg=dark
+hi Normal guifg=#abafc9 guibg=#171b30
+hi Cursor guifg=#171b30 guibg=#abafc9
+hi CursorLine guibg=#262a3f
+hi! link CursorColumn CursorLine
 hi! link CursorIM CursorLine
-hi CursorLine guibg=#f3f5f8
-hi LineNr guifg=#d2d9e3
-hi! CursorLineNr guifg=#9baabe gui=NONE
-hi Folded guifg=#4d678b guibg=#d4ddec
-hi FoldColumn guifg=#a3b1c4 guibg=#fafbfd
-hi SignColumn guifg=#4d678b guibg=#fafbfd
-hi Constant guifg=#8b5a41
+hi LineNr guifg=#393d53
+hi! CursorLineNr guifg=#686c84 gui=NONE
+hi Folded guifg=#abafc9 guibg=#303956
+hi FoldColumn guifg=#61657c guibg=#171b30
+hi SignColumn guifg=#abafc9 guibg=#171b30
+hi Constant guifg=#e4a181
 hi! link Boolean Constant
 hi! link Number Constant
-hi String guifg=#3d722f
+hi String guifg=#6cc456
 hi! link Character String
-hi Function guifg=#3a66a8
+hi Function guifg=#94b0ec
 hi! link Float Number
-hi! Type guifg=#336f6d gui=NONE
-hi Keyword guifg=#953db8
+hi! Type guifg=#5cc0bc gui=NONE
+hi Keyword guifg=#d09dec
 hi! link Conditional Keyword
 hi! link Exception Keyword
 hi! link Repeat Keyword
@@ -30,46 +31,50 @@ hi! link Include Keyword
 hi! link Label Keyword
 hi! link Identifier Keyword
 hi! link Statement Keyword
-hi PreProc guifg=#953db8
-hi! Title guifg=#3a66a8 gui=bold
-hi Special guifg=#953db8
-hi NonText guifg=#fafbfd
-hi Conceal guifg=#8193ad guibg=NONE
-hi Delimiter guifg=#3a66a8
-hi! Comment guifg=#a3b1c4 gui=italic
-hi Visual guibg=#afceea
-hi Pmenu guibg=#f3f5f8
-hi PmenuSel guifg=#fafbfd guibg=#0066be
-hi DiffAdd guibg=#ceeac8
-hi DiffChange guibg=#d6e5f9
-hi! DiffDelete guifg=NONE guibg=#f7d9e2 gui=NONE
-hi DiffText guibg=#bed6f6
-hi FloatBorder guifg=#b5c0cf guibg=#f7f8fb
-hi VertSplit guifg=#b5c0cf
-hi! Underlined guifg=#4d678b gui=underline
+hi PreProc guifg=#d09dec
+hi! Title guifg=#94b0ec gui=bold
+hi Special guifg=#d09dec
+hi NonText guifg=#171b30
+hi Conceal guifg=#7f839b guibg=NONE
+hi Delimiter guifg=#94b0ec
+hi! Comment guifg=#61657c gui=italic
+hi Visual guibg=#39486e
+hi Pmenu guibg=#1d2136
+hi PmenuSel guifg=#171b30 guibg=#87b0ff
+hi PmenuThumb guibg=#61657c
+hi PmenuSbar guibg=#35394f
+hi DiffAdd guibg=#1d362f
+hi DiffChange guibg=#203157
+hi! DiffDelete guifg=NONE guibg=#472144 gui=NONE
+hi DiffText guibg=#264071
+hi FloatBorder guifg=#52566d guibg=#1a1e33
+hi VertSplit guifg=#52566d
+hi! Underlined guifg=#abafc9 gui=underline
 hi! Bold gui=bold
-hi! Todo guibg=#806030 gui=bold
-hi Directory guifg=#3a66a8
-hi! WinBar guifg=#7085a2 guibg=#fafbfd gui=NONE
-hi DiagnosticOk guifg=#4d678b
-hi DiagnosticHint guifg=#3d722f
-hi DiagnosticInfo guifg=#336f6d
-hi DiagnosticWarn guifg=#806030
-hi DiagnosticError guifg=#b93250
-hi DiagnosticSignOk guifg=#4d678b
-hi DiagnosticSignHint guifg=#3d722f
-hi DiagnosticSignInfo guifg=#336f6d
-hi DiagnosticSignWarn guifg=#806030
-hi DiagnosticSignError guifg=#b93250
-hi! DiagnosticUnderlineOk gui=underline guisp=#4d678b
-hi! DiagnosticUnderlineHint gui=undercurl guisp=#3d722f
-hi! DiagnosticUnderlineInfo gui=undercurl guisp=#336f6d
-hi! DiagnosticUnderlineWarn gui=undercurl guisp=#806030
-hi! DiagnosticUnderlineError gui=undercurl guisp=#b93250
+hi! Todo guibg=#dca757 gui=bold
+hi Directory guifg=#94b0ec
+hi! StatusLine guifg=#8d91aa guibg=#171b30 gui=NONE
+hi! link StatusLineNC StatusLine
+hi! WinBar guifg=#8d91aa guibg=#171b30 gui=NONE
+hi DiagnosticOk guifg=#abafc9
+hi DiagnosticHint guifg=#6cc456
+hi DiagnosticInfo guifg=#5cc0bc
+hi DiagnosticWarn guifg=#dca757
+hi DiagnosticError guifg=#ef98a4
+hi DiagnosticSignOk guifg=#abafc9
+hi DiagnosticSignHint guifg=#6cc456
+hi DiagnosticSignInfo guifg=#5cc0bc
+hi DiagnosticSignWarn guifg=#dca757
+hi DiagnosticSignError guifg=#ef98a4
+hi! DiagnosticUnderlineOk gui=underline guisp=#abafc9
+hi! DiagnosticUnderlineHint gui=undercurl guisp=#6cc456
+hi! DiagnosticUnderlineInfo gui=undercurl guisp=#5cc0bc
+hi! DiagnosticUnderlineWarn gui=undercurl guisp=#dca757
+hi! DiagnosticUnderlineError gui=undercurl guisp=#ef98a4
 hi! @none gui=NONE
-hi @variable guifg=#4d678b
-hi @variable.builtin guifg=#b93250
-hi @parameter guifg=#806030
+hi @variable guifg=#abafc9
+hi @variable.builtin guifg=#ef98a4
+hi @parameter guifg=#dca757
 hi! link @boolean Boolean
 hi! link @constant Constant
 hi! link @number Number
@@ -77,12 +82,12 @@ hi! link @float Float
 hi! link @string String
 hi! link @comment Comment
 hi! link @constructor Special
-hi! @property guifg=#4d678b gui=NONE
+hi! @property guifg=#abafc9 gui=NONE
 hi! link @label Label
 hi! link @exception Exception
 hi! link @field @property
 hi! link @repeat Repeat
-hi @punctuation.bracket guifg=#953db8
+hi @punctuation.bracket guifg=#d09dec
 hi! link @punctuation.delimiter Delimiter
 hi! link @keyword Keyword
 hi! link @keyword.return @keyword
@@ -95,22 +100,22 @@ hi! link @lsp.type.parameter @parameter
 hi! link @lsp.type.property @property
 hi! link @lsp.typemod.variable.defaultLibrary @variable.builtin
 hi! link @tagattribute @property
-hi rainbowcol1 guifg=#b93250
-hi rainbowcol2 guifg=#806030
-hi rainbowcol3 guifg=#3d722f
-hi rainbowcol4 guifg=#346c58
-hi rainbowcol5 guifg=#336f6d
-hi rainbowcol6 guifg=#3a66a8
-hi rainbowcol7 guifg=#953db8
+hi rainbowcol1 guifg=#ef98a4
+hi rainbowcol2 guifg=#dca757
+hi rainbowcol3 guifg=#6cc456
+hi rainbowcol4 guifg=#50a490
+hi rainbowcol5 guifg=#5cc0bc
+hi rainbowcol6 guifg=#94b0ec
+hi rainbowcol7 guifg=#d09dec
 hi! link TelescopeNormal Pmenu
 hi! link TelescopeBorder FloatBorder
-hi GitSignsAdd guifg=#69c34d
-hi GitSignsChange guifg=#82b1f0
-hi GitSignsDelete guifg=#f18aa4
-hi IndentBlanklineChar guifg=#d7dde6
+hi GitSignsAdd guifg=#2a742c
+hi GitSignsChange guifg=#3566b2
+hi GitSignsDelete guifg=#b52f74
+hi IndentBlanklineChar guifg=#35394f
 hi! link ScrollView Visual
-hi CmpItemAbbr guifg=#4d678b
-hi CmpItemMenu guifg=#4d678b
+hi CmpItemAbbr guifg=#abafc9
+hi CmpItemMenu guifg=#abafc9
 hi! link CmpItemKindEnum @lsp.type.enum
 hi! link CmpItemKindClass @lsp.type.class
 hi! link CmpItemKindFolder Directory
@@ -133,18 +138,24 @@ hi! link NavicIconsFunction Function
 hi! link NavicIconsOperator Operator
 hi! link NavicIconsEnumMember @lsp.type.enumMember
 hi! link NavicIconsConstructor @constructor
-hi NeoTreeNormal guibg=#f5f7fa
+hi NeoTreeNormal guibg=#1b1f35
 hi! link NeoTreeNormalNC NeoTreeNormal
-hi NeoTreeGitUntracked guifg=#56a23f
-hi NeoTreeCursorLine guibg=#eaeef3
-hi NeoTreeWinSeparator guifg=#fafbfd guibg=#fafbfd
-hi! FoldLevel1 guifg=#b5c0cf guibg=#eaeef3 gui=bold
-hi! FoldLevel2 guifg=#b5c0cf guibg=#dee3eb gui=bold
-hi! FoldLevel3 guifg=#a3b1c4 guibg=#d2d9e3 gui=bold
-hi! FoldLevel4 guifg=#a3b1c4 guibg=#c6cfdb gui=bold
-hi! FoldLevel5 guifg=#92a2b9 guibg=#bac4d3 gui=bold
-hi! FoldLevel6 guifg=#92a2b9 guibg=#aebacb gui=bold
-hi! FoldLevel7 guifg=#8193ad guibg=#a2b0c3 gui=bold
-hi! FoldLevel8 guifg=#7085a2 guibg=#96a5bb gui=bold
-hi! FoldLevel9 guifg=#7085a2 guibg=#8a9bb3 gui=bold
-hi! FoldLevel10 guifg=#5e7696 guibg=#7d90ab gui=bold
+hi NeoTreeDirectoryName guifg=#abafc9
+hi NeoTreeDirectoryIcon guifg=#9ca0ba
+hi NeoTreeFileIcon guifg=#94b0ec
+hi NeoTreeGitUntracked guifg=#3fa442
+hi NeoTreeCursorLine guibg=#24283e
+hi NeoTreeWinSeparator guifg=#171b30 guibg=#171b30
+hi NeoTreeDimText guifg=#43475e
+hi NeoTreeIndentMarker guifg=#3c4056
+hi FoldLevel1 guifg=#171b30 guibg=#24283e
+hi FoldLevel2 guifg=#24283e guibg=#32364c
+hi FoldLevel3 guifg=#32364c guibg=#3f4359
+hi FoldLevel4 guifg=#3f4359 guibg=#4c5067
+hi FoldLevel5 guifg=#4c5067 guibg=#5a5e75
+hi FoldLevel6 guifg=#5a5e75 guibg=#676b83
+hi FoldLevel7 guifg=#676b83 guibg=#747890
+hi FoldLevel8 guifg=#747890 guibg=#82869e
+hi FoldLevel9 guifg=#82869e guibg=#8f93ac
+hi FoldLevel10 guifg=#8f93ac guibg=#9ca0ba
+hi FoldLevel11 guifg=#9ca0ba guibg=#aaaec7

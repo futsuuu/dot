@@ -327,6 +327,7 @@ function Config.devicons()
       ['readme.md'] = doc,
       ['license'] = doc,
     },
+    default = true,
   }
   devicons.set_default_icon('', '#729cb1')
 end

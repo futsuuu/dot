@@ -20,8 +20,8 @@ M.status = {
 }
 
 M.chevron = {
-  right = '',
-  down = '',
+  right = '',
+  down = '',
 }
 
 M.kind = {
@@ -29,7 +29,6 @@ M.kind = {
   String = '',
   Number = '󰎠',
   Boolean = '',
-  Null = 'ﳠ',
   File = '',
   Folder = '',
   Method = '',

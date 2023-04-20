@@ -130,7 +130,7 @@ function readData(cs: ColorScheme) {
 
 ////////////////////////////////////////////////////
 
-const isLight = true;
+const isLight = false;
 vimFile += isLight ? "set bg=light\n" : "set bg=dark\n";
 
 const bg = color(isLight ? "#fafbfd" : "#171b30");
@@ -148,7 +148,7 @@ const diffDelete = red.mix(bg, 0.5).s(80);
 
 const select = color(blue).s(100).mix(bg, 0.7);
 
-const diagnostics: ColorScheme = {
+const diagnostics: FlatColorScheme = {
   Ok: [fg, _],
   Hint: [green, _],
   Info: [cyan, _],
@@ -194,9 +194,10 @@ const hlData: ColorScheme = {
   Normal: [fg, bg],
   Cursor: {
     "": [bg, fg],
+    Line: [_, bg.mix(fg, isLight ? 0.04 : 0.1)],
+    Column: "CursorLine",
     IM: "CursorLine",
   },
-  CursorLine: [_, bg.mix(fg, isLight ? 0.04 : 0.1)],
   "{}LineNr": {
     "": [bg.mix(fg, 0.23), _],
     Cursor: [bg.mix(fg, 0.55), _, "NONE"],
@@ -233,6 +234,8 @@ const hlData: ColorScheme = {
   Pmenu: {
     "": [_, bg.mix(fg, 0.04)],
     Sel: [bg, color(blue).s(100)],
+    Thumb: [_, bg.mix(fg, 0.5)],
+    Sbar: [_, bg.mix(fg, 0.2)],
   },
   Diff: diff,
   DiffText: [_, bg.mix(diffChange, 0.5)],
@@ -242,6 +245,10 @@ const hlData: ColorScheme = {
   Bold: [_, _, "bold"],
   Todo: [_, yellow, "bold"],
   Directory: [blue, _],
+  StatusLine: {
+    "": [bg.mix(fg, 0.8), bg, "NONE"],
+    NC: "StatusLine",
+  },
   WinBar: [bg.mix(fg, 0.8), bg, "NONE"],
   Diagnostic: {
     "": diagnostics,
@@ -350,24 +357,29 @@ const hlData: ColorScheme = {
       "": [_, bg.mix(fg, 0.03)],
       NC: "NeoTreeNormal",
     },
+    Directory: {
+      Name: [fg, _],
+      Icon: [bg.mix(fg, 0.9), _],
+    },
+    File: {
+      Icon: [blue, _],
+    },
     Git: {
       Untracked: [color(diffAdd).l(60), _],
     },
     CursorLine: [_, bg.mix(fg, 0.09)],
     WinSeparator: [bg, bg],
+    DimText: [bg.mix(fg, 0.3), _],
+    IndentMarker: [bg.mix(fg, 0.25), _],
   },
-  FoldLevel: {
-    1: [bg.mix(fg, 0.4), bg.mix(fg, 0.09), "bold"],
-    2: [bg.mix(fg, 0.4), bg.mix(fg, 0.16), "bold"],
-    3: [bg.mix(fg, 0.5), bg.mix(fg, 0.23), "bold"],
-    4: [bg.mix(fg, 0.5), bg.mix(fg, 0.3), "bold"],
-    5: [bg.mix(fg, 0.6), bg.mix(fg, 0.37), "bold"],
-    6: [bg.mix(fg, 0.6), bg.mix(fg, 0.44), "bold"],
-    7: [bg.mix(fg, 0.7), bg.mix(fg, 0.51), "bold"],
-    8: [bg.mix(fg, 0.8), bg.mix(fg, 0.58), "bold"],
-    9: [bg.mix(fg, 0.8), bg.mix(fg, 0.65), "bold"],
-    10: [bg.mix(fg, 0.9), bg.mix(fg, 0.72), "bold"],
-  },
+  FoldLevel: (() => {
+    const colors: { [index: string]: ColorSchemeVal } = {};
+    const step = 0.09;
+    for (let i = 1; i < 1 / step; i += 1) {
+      colors[i.toString()] = [bg.mix(fg, (i - 1) * step), bg.mix(fg, i * step)];
+    }
+    return colors;
+  })(),
 };
 
 readData(hlData);

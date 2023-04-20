@@ -14,7 +14,7 @@ function M.get_winbar(bufnr, file)
 
   local filetype = vim.fn.getbufvar(bufnr, '&filetype')
   ---@type string, string
-  local icon, hl = devicons.get_icon_by_filetype(filetype, { default = true })
+  local icon, hl = devicons.get_icon_by_filetype(filetype)
   local highlighted_icon = '%#' .. hl .. '#' .. icon .. '%* '
 
   local file_name = table.remove(path)

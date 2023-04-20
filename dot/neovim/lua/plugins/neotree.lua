@@ -22,17 +22,19 @@ neotree.setup {
       },
     },
     indent = {
-      indent_marker = ' ',
-      last_indent_marker = ' ',
-      with_expanders = true,
+      with_markers = true,
+      with_expanders = false,
+      indent_marker = '│',
+      last_indent_marker = '╵',
+      indent_size = 2,
       expander_collapsed = ui.chevron.right,
       expander_expanded = ui.chevron.down,
       expander_highlight = 'NeoTreeExpander',
     },
     icon = {
-      folder_closed = '󰉋',
-      folder_open = '󰝰',
-      folder_empty = '󰷏',
+      folder_closed = ui.chevron.right,
+      folder_open = ui.chevron.down,
+      folder_empty = ui.chevron.down,
       default = '',
     },
     modified = {
@@ -72,4 +74,3 @@ neotree.setup {
 
 hl(0, 'NeoTreeGitIgnored', { link = 'CursorLineNr' })
 hl(0, 'NeoTreeModified', { link = '@variable.builtin' })
-hl(0, 'NeoTreeDirectoryName', { link = 'NeoTreeFileName' })
