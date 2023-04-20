@@ -49,6 +49,9 @@
 [pull]
   ff = only
 
+[push]
+  default = current
+
 [ghq]
   root = ~/dev
 
