@@ -378,13 +378,11 @@ function Config.navic()
   navic.setup {
     icons = kind,
     highlight = true,
-    separator = ui.winbar_sep,
+    separator = ui.winbar_sep.context,
   }
 
   hl(0, 'NavicText', { link = 'Winbar' })
   hl(0, 'NavicSeparator', { link = 'NavicText' })
-
-  require 'core.winbar'
 end
 
 function Config.actions_preview()

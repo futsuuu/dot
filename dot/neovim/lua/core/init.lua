@@ -3,8 +3,6 @@ local opt = vim.opt
 local autocmd = vim.api.nvim_create_autocmd
 local map = vim.keymap.set
 
-local colorscheme = 'robot'
-
 opt.syntax = 'off'
 
 opt.cmdheight = 0
@@ -50,6 +48,13 @@ autocmd('CursorMoved', {
     opt.wrap = false
     map('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR><Esc>')
     require 'core.cursorline'
+  end,
+})
+
+autocmd('BufReadPre', {
+  pattern = '*',
+  callback = function()
+    require 'core.winbar'
   end,
 })
 
@@ -101,6 +106,3 @@ autocmd('TermOpen', {
     vim.opt_local.signcolumn = 'no'
   end,
 })
-
-require 'plugins'
-vim.cmd.colorscheme(colorscheme)

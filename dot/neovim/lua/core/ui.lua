@@ -1,5 +1,4 @@
 local M = {
-  winbar_sep = ' ❯ ',
   bug = ' ',
 }
 
@@ -17,6 +16,11 @@ M.status = {
   check = '󰄲',
   dots = '󱅶',
   close = '󰄱',
+}
+
+M.winbar_sep = {
+  path = ' / ',
+  context = ' ❯ ',
 }
 
 M.chevron = {
