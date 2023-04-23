@@ -22,6 +22,11 @@ target = "~/.config/waybar"
 enable."sys(os)" = { default = false, "arch linux" = true }
 
 [[dotfiles]]
+path = "dunst"
+target = "~/.config/dunst"
+enable."sys(os)" = { default = false, "arch linux" = true }
+
+[[dotfiles]]
 path = "neovim"
   [dotfiles.target."sys(os)"]
   default = "~/.config/nvim"
