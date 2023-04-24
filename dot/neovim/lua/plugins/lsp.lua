@@ -27,37 +27,45 @@ capabilities.textDocument.foldingRange = {
 }
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
+local settings = {
+  Lua = {
+    runtime = {
+      version = _VERSION,
+    },
+    workspace = {
+      checkThirdParty = false,
+    },
+    completion = {
+      callSnippet = 'Replace',
+    },
+  },
+  python = {
+    pythonPath = get_python_path(),
+  },
+  deno = {
+    enable = true,
+    unstable = true,
+  },
+  ['rust-analyzer'] = {
+    check = {
+      command = 'clippy',
+    },
+  },
+}
+
 mason_lspconfig.setup_handlers {
   function(server_name)
     local opts = {
       on_attach = on_attach,
       capabilities = capabilities,
-      settings = {
-        Lua = {
-          runtime = {
-            version = _VERSION,
-          },
-          workspace = {
-            checkThirdParty = false,
-          },
-          completion = {
-            callSnippet = 'Replace',
-          },
-        },
-        python = {
-          pythonPath = get_python_path(),
-        },
-        ['rust-analyzer'] = {
-          check = {
-            command = 'clippy',
-          },
-        },
-      },
+      settings = settings,
     }
     lspconfig[server_name].setup(opts)
   end,
-  ['vtsls'] = function()
+  vtsls = function()
     lspconfig.vtsls.setup {
+      on_attach = on_attach,
+      capabilities = capabilities,
       root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
       single_file_support = false,
     }
@@ -65,6 +73,9 @@ mason_lspconfig.setup_handlers {
 }
 
 lspconfig.denols.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = settings,
   root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock'),
 }
 
