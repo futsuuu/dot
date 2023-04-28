@@ -1,8 +1,10 @@
 <samp>
 
-- **dot/** \
+- **dot/**
+  \
   dotfiles
-- **smpt/** \
+- **smpt/**
+  \
   prompt
 
 </samp>
