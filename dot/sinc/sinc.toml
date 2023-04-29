@@ -7,6 +7,11 @@ path = "sinc"
 target = "~/.config/sinc"
 
 [[dotfiles]]
+path = "paru"
+target = "~/.config/paru"
+enable."sys(os)" = { default = false, "arch linux" = true }
+
+[[dotfiles]]
 path = "glazeWM"
 enable."sys(os)" = { default = false, windows = true }
 target = "~/.glaze-wm"
