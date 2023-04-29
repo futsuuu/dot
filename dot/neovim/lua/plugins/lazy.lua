@@ -107,6 +107,7 @@ return function(init, config)
       config = config.treesitter,
       dependencies = {
         'mrjones2014/nvim-ts-rainbow',
+        'windwp/nvim-ts-autotag',
       },
     },
   }
@@ -240,6 +241,14 @@ return function(init, config)
         'CccHighlighterDisable',
         'CccHighlighterEnalble',
       },
+    },
+    {
+      'lambdalisue/suda.vim',
+      cmd = {
+        'SudaRead',
+        'SudaWrite',
+      },
+      enabled = vim.fn.executable 'sudo' == 1,
     },
     {
       'ethanholz/nvim-lastplace',

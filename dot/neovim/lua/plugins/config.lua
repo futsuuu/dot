@@ -1,4 +1,10 @@
+local api = vim.api
+local map = vim.keymap.set
+local hl = api.nvim_set_hl
+local autocmd = api.nvim_create_autocmd
+
 local ui = require 'core.ui'
+
 ---@class Plugins.Config
 local Config = setmetatable({}, {
   ---@type fun(table: table, key: string): function
@@ -8,11 +14,6 @@ local Config = setmetatable({}, {
     end
   end,
 })
-
-local api = vim.api
-local map = vim.keymap.set
-local hl = api.nvim_set_hl
-local autocmd = api.nvim_create_autocmd
 
 function Config.alpha()
   local header = [[
@@ -76,6 +77,9 @@ function Config.treesitter()
       additional_vim_regex_highlighting = false,
     },
     rainbow = {
+      enable = true,
+    },
+    autotag = {
       enable = true,
     },
   }
