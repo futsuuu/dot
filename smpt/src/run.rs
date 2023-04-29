@@ -2,7 +2,7 @@ use std::{
     env::current_dir,
     fs::File,
     io::{self, read_to_string},
-    path::PathBuf,
+    path::{Path, PathBuf},
 };
 
 use git2::Repository;
@@ -17,64 +17,109 @@ static BLUE: &str = "\x1b[38;5;12m";
 static MAGENTA: &str = "\x1b[38;5;13m";
 static CYAN: &str = "\x1b[38;5;14m";
 
+#[derive(Default)]
+struct Git {
+    repo_path: PathBuf,
+    branch: String,
+    ahead: usize,
+    behind: usize,
+}
+
+impl Git {
+    fn show_info(&self) -> String {
+        let branch = if self.branch.is_empty() {
+            return String::new();
+        } else {
+            self.branch.as_str()
+        };
+
+        let branch_prefix = match branch.splitn(2, '/').collect::<Vec<&str>>()[0] {
+            "main" | "master" => {
+                format!("{YELLOW}󰋜 ")
+            }
+            "dev" | "develop" => {
+                format!("{MAGENTA} ")
+            }
+            "feat" => {
+                format!("{CYAN}󱁤 ")
+            }
+            "fix" => {
+                format!("{RED} ")
+            }
+            "release" => {
+                format!("{GREEN}󱓞 ")
+            }
+            _ => format!("{CYAN}󰘬 "),
+        };
+
+        let ahead = if self.ahead == 0 {
+            String::new()
+        } else {
+            format!(" {RESET}{}{RED}⭫", small_number(self.ahead, "bottom"))
+        };
+
+        let behind = if self.behind == 0 {
+            String::new()
+        } else {
+            format!(" {RED}⭭{RESET}{}", small_number(self.behind, "top"))
+        };
+
+        format!("⠶ {branch_prefix}{branch}{ahead}{behind}")
+    }
+}
+
 pub fn run(exit_status: &str, new_line: &str) -> io::Result<()> {
     let exit_status = matches!(exit_status, "0");
 
-    let (repo_path, git_status) = {
+    let git = {
         match Repository::discover(".") {
+            Err(_) => Git::default(),
             Ok(repo) => {
                 let repo_path = repo.workdir().unwrap_or_else(|| repo.path()).to_path_buf();
                 let head_ref = read_to_string(File::open(repo.path().join("HEAD"))?)?;
-                let branch_name = if head_ref.starts_with("ref: refs/heads/") {
+
+                let branch = if head_ref.starts_with("ref: refs/heads/") {
                     head_ref.trim_start_matches("ref: refs/heads/")
                 } else {
                     head_ref.get(..7).unwrap()
                 }
-                .trim();
+                .trim()
+                .to_string();
+
                 match repo.head() {
                     Ok(head) => {
                         let head_oid = head.target().unwrap();
-                        let ahead_behind = repo
-                            .revparse_ext("@{u}")
+                        let (ahead, behind) = repo
+                            .revparse_ext("@{upstream}")
                             .ok()
                             .and_then(|(upstream, _)| {
                                 repo.graph_ahead_behind(head_oid, upstream.id()).ok()
                             })
-                            .map(|(ahead, behind)| {
-                                format!(
-                                    "{}{}{}",
-                                    if ahead > 0 {
-                                        format!("{RESET}{}{RED}⭫", small_number(ahead, "bottom"))
-                                    } else {
-                                        String::new()
-                                    },
-                                    if (ahead > 0) & (behind > 0) { " " } else { "" },
-                                    if behind > 0 {
-                                        format!("{RED}⭭{RESET}{}", small_number(behind, "top"))
-                                    } else {
-                                        String::new()
-                                    }
-                                )
-                            })
                             .unwrap_or_default();
-                        (
+                        Git {
                             repo_path,
-                            format!("⠶ {} {ahead_behind}", highlight_branch(branch_name)),
-                        )
+                            branch,
+                            ahead,
+                            behind,
+                        }
                     }
-                    Err(_) => (repo_path, format!("⠶ {}", highlight_branch(branch_name))),
+                    Err(_) => Git {
+                        repo_path,
+                        ahead: 0,
+                        behind: 0,
+                        branch,
+                    },
                 }
             }
-            Err(_) => (PathBuf::new(), String::new()),
         }
     };
     print!(
-        "{RESET}{BLUE}{new_line}   {}{RESET} {git_status}{new_line} {}❱⟩{RESET} ",
+        "{RESET}{BLUE}{new_line}   {}{RESET} {}{new_line} {}❱⟩{RESET} ",
         {
             let cwd = current_dir()?;
-            let parent_path = match repo_path.parent() {
+            let parent_path = match git.repo_path.parent() {
                 Some(p) => p,
-                None => cwd.parent().unwrap(),
+                None => cwd.parent().unwrap_or(Path::new("/")),
             }
             .display()
             .to_string()
@@ -98,6 +143,7 @@ pub fn run(exit_status: &str, new_line: &str) -> io::Result<()> {
                     1,
                 )
         },
+        git.show_info(),
         if exit_status { GREEN } else { RED }
     );
     Ok(())
@@ -121,25 +167,4 @@ fn small_number(number: usize, position: &str) -> String {
         )
     }
     r
-}
-
-fn highlight_branch(branch: &str) -> String {
-    match branch.splitn(2, '/').collect::<Vec<&str>>()[0] {
-        "main" | "master" => {
-            format!("{YELLOW}󰋜 {branch}")
-        }
-        "dev" | "develop" => {
-            format!("{MAGENTA} {branch}")
-        }
-        "feat" => {
-            format!("{CYAN}󱁤 {branch}")
-        }
-        "fix" => {
-            format!("{RED} {branch}")
-        }
-        "release" => {
-            format!("{GREEN}󱓞 {branch}")
-        }
-        _ => format!("{CYAN}󰘬 {branch}"),
-    }
 }
