@@ -3,6 +3,7 @@ name: Release-smpt
 on: [push]
 
 env:
+  RUST_BACKTRACE: 1
   CARGO_TERM_COLOR: always
   PACKAGE_DIR: smpt
   PACKAGE_NAME: smpt
@@ -37,6 +38,11 @@ jobs:
             ~/.cargo/registry
             ./${{ env.PACKAGE_DIR }}/target
           key: ${{ runner.os }}-cargo-${{ hashFiles(format('{0}/Cargo.lock', env.PACKAGE_DIR)) }}
+
+      - name: Install musl tools
+        if: matrix.target == 'x86_64-unknown-linux-musl'
+        run: |
+          sudo apt install -qq -y musl-tools --no-install-recommends
 
       - name: Setup Rust toolchain
         run: |
