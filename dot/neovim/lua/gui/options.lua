@@ -1,3 +1,3 @@
 local o = vim.o
 
-o.guifont = 'Iosevka Custom:h11'
+o.guifont = 'IosevkaCustom Nerd Font:h11'

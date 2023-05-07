@@ -20,7 +20,7 @@ schemes:
       yellow: "#e0af68"
       blue: "#7aa2f7"
       magenta: "#ad8ee6"
-      cyan: "#449dab"
+      cyan: "#58acc7"
       white: "#829398"
 
     # Bright colors
@@ -31,7 +31,7 @@ schemes:
       yellow: "#ff9e64"
       blue: "#7da6ff"
       magenta: "#bb9af7"
-      cyan: "#0db9d7"
+      cyan: "#2ccee3"
       white: "#b5c6da"
 
 # Any items in the `env` entry below will be added as
@@ -142,7 +142,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Iosevka Custom
+    family: IosevkaCustom Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -153,7 +153,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Iosevka custom
+    family: IosevkaCustom Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -164,7 +164,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Iosevka custom
+    family: IosevkaCustom Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Italic
@@ -175,13 +175,13 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Iosevka custom
+    family: IosevkaCustom Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Bold Italic
 
   # Point size
-  size: 10.5
+  size: 10
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter

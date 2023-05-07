@@ -12,7 +12,7 @@ bar:
   opacity: 0.8
   background: '#000000'
   foreground: '#aaafb4'
-  font_family: 'Iosevka Custom'
+  font_family: 'IosevkaCustom Nerd Font'
   font_size: '15px'
   padding: '0'
   offset_x: '0'
