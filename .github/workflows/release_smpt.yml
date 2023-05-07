@@ -1,6 +1,9 @@
 name: Release-smpt
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'smpt/**'
 
 env:
   RUST_BACKTRACE: 1
