@@ -8,7 +8,7 @@
   background-color: --wofi-color0;
   color: --wofi-color2;
   border: 0px solid --wofi-color1;
-  border-radius: 0px;
+  border-radius: 12px;
 }
 
 #outer-box {
