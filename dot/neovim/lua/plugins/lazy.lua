@@ -160,7 +160,7 @@ return function(init, config)
     -- buffer
     {
       'akinsho/bufferline.nvim',
-      version = 'v3.*',
+      version = '*',
       event = { 'BufRead', 'TermOpen', 'TabNew' },
       config = config.bufferline,
     },

@@ -151,126 +151,12 @@ function Config.gitsigns()
   map('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
 end
 
-function Config.ufo()
-  local ufo = require 'ufo'
-  vim.o.foldenable = true
-  vim.o.foldcolumn = '1'
-  vim.o.foldlevel = 99
-  vim.o.foldlevelstart = 99
-  vim.opt.fillchars:append {
-    fold = ' ',
-    foldopen = ui.chevron.down,
-    foldsep = ' ',
-    foldclose = ui.chevron.right,
-  }
-  ufo.setup {
-    close_fold_kinds = {},
-    ---@type fun(bufnr, filetype, buftype): string[] | string
-    provider_selector = function(bufnr, filetype, buftype)
-      for _, v in ipairs { 'terminal' } do
-        if v == buftype then
-          return ''
-        end
-      end
-      for _, v in ipairs { 'neo-tree', 'neo-tree-popup' } do
-        if v == filetype then
-          return ''
-        end
-      end
-      local status, parser = pcall(vim.treesitter.get_parser, bufnr)
-      if status and parser then
-        return { 'lsp', 'treesitter' }
-      end
-      return { 'lsp', 'indent' }
-    end,
-    fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
-      local newVirtText = {}
-      local suffix = ('    %d lines '):format(endLnum - lnum)
-      local sufWidth = vim.fn.strdisplaywidth(suffix)
-      local targetWidth = width - sufWidth
-      local curWidth = 0
-      for _, chunk in ipairs(virtText) do
-        local chunkText = chunk[1]
-        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-        if targetWidth > curWidth + chunkWidth then
-          table.insert(newVirtText, chunk)
-        else
-          chunkText = truncate(chunkText, targetWidth - curWidth)
-          local hlGroup = chunk[2]
-          table.insert(newVirtText, { chunkText, hlGroup })
-          chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          -- str width returned from truncate() may less than 2nd argument, need padding
-          if curWidth + chunkWidth < targetWidth then
-            suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-          end
-          break
-        end
-        curWidth = curWidth + chunkWidth
-      end
-      table.insert(newVirtText, { suffix, 'UfoFoldedEllipsis' })
-      return newVirtText
-    end,
-  }
-  vim.keymap.set('n', 'zr', ufo.openFoldsExceptKinds)
-  vim.keymap.set('n', 'zm', ufo.closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
-end
-
 function Config.lastplace()
   require('nvim-lastplace').setup()
 end
 
 function Config.luasnip()
   require('luasnip.loaders.from_vscode').lazy_load()
-end
-
-function Config.bufferline()
-  local hls = {
-    modified = {
-      fg = {
-        attribute = 'fg',
-        highlight = '@variable.builtin',
-      },
-    },
-  }
-  hls.modified_visible = hls.modified
-  hls.modified_selected = hls.modified
-
-  require('bufferline').setup {
-    options = {
-      mode = 'buffers',
-      separator_style = 'none',
-      indicator = { style = 'none' },
-      modified_icon = '',
-      left_trunc_marker = '',
-      right_trunc_marker = '',
-      show_buffer_icons = true,
-      show_buffer_close_icons = false,
-      always_show_bufferline = true,
-      max_name_length = 20,
-      tab_size = 22,
-      diagnostics = 'nvim_lsp',
-      diagnostics_update_in_insert = true,
-      ---@type fun(count: integer, level, diagnostics_dict, context): string
-      diagnostics_indicator = function(count, _, _, _)
-        return tostring(count)
-      end,
-      offsets = {
-        {
-          filetype = 'aerial',
-          text = '',
-          separator = true,
-        },
-        {
-          filetype = 'neo-tree',
-          text = '',
-          separator = false,
-        },
-      },
-    },
-    highlights = hls,
-  }
-  map('n', '<Space>bh', '<Cmd>BufferLineCyclePrev<CR>')
-  map('n', '<Space>bl', '<Cmd>BufferLineCycleNext<CR>')
 end
 
 function Config.bufdelete()
@@ -315,41 +201,6 @@ function Config.telescope()
   telescope.load_extension 'zf-native'
   telescope.load_extension 'mr'
   hl(0, 'TelescopeMatching', { link = 'Search' })
-end
-
-function Config.devicons()
-  local devicons = require 'nvim-web-devicons'
-  local tmux = {
-    icon = '',
-    color = '#70d40d',
-    name = 'Tmux',
-  }
-  local doc = {
-    icon = '',
-    color = '#9dc0eb',
-    name = 'Document',
-  }
-  local git = {
-    icon = '',
-    color = '#d73e17',
-    name = 'Git',
-  }
-  devicons.setup {
-    override_by_filename = {
-      ['tmux.conf'] = tmux,
-      ['.tmux.conf'] = tmux,
-      ['.gitconfig'] = git,
-      ['.gitignore'] = git,
-      ['.gitkeep'] = git,
-      ['.gitmodules'] = git,
-      ['.gitattribules'] = git,
-      ['commit_editmsg'] = git,
-      ['readme.md'] = doc,
-      ['license'] = doc,
-    },
-    default = true,
-  }
-  devicons.set_default_icon('', '#729cb1')
 end
 
 function Config.ccc()
