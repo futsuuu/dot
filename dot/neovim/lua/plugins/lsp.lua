@@ -2,7 +2,6 @@ local lsp = vim.lsp
 
 local lspconfig = require 'lspconfig'
 local mason_lspconfig = require 'mason-lspconfig'
-local cmp_nvim_lsp = require 'cmp_nvim_lsp'
 local navic = require 'nvim-navic'
 
 local root_pattern = lspconfig.util.root_pattern
@@ -21,11 +20,22 @@ local function on_attach(client, bufnr)
 end
 
 local capabilities = lsp.protocol.make_client_capabilities()
-capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true,
+capabilities.textDocument = {
+  foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
+  },
+  completion = {
+    completionItem = {
+      snippetSupport = true,
+    },
+  },
 }
-capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+if _G.plugin_flags.cmp then
+  local cmp_nvim_lsp = require 'cmp_nvim_lsp'
+  capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+end
 
 local settings = {
   Lua = {
@@ -37,6 +47,13 @@ local settings = {
     },
     completion = {
       callSnippet = 'Replace',
+      postfix = ':',
+    },
+    diagnostics = {
+      globals = { 'describe', 'it', 'before_each' },
+    },
+    hover = {
+      expandAlias = false,
     },
   },
   python = {
@@ -44,7 +61,9 @@ local settings = {
   },
   deno = {
     enable = true,
+    lint = true,
     unstable = true,
+    importMap = './deno.jsonc',
   },
   ['rust-analyzer'] = {
     check = {
