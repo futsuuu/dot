@@ -2,7 +2,8 @@ local lsp = vim.lsp
 
 local lspconfig = require 'lspconfig'
 local mason_lspconfig = require 'mason-lspconfig'
-local navic = require 'nvim-navic'
+
+local utils = require 'utils'
 
 local root_pattern = lspconfig.util.root_pattern
 
@@ -11,13 +12,9 @@ local function get_python_path()
   return venv_path and venv_path .. '/bin/python' or 'python'
 end
 
-local function on_attach(client, bufnr)
-  local server_cap = client.server_capabilities
-  server_cap.documentFormattingProvider = false
-  if server_cap.documentSymbolProvider then
-    navic.attach(client, bufnr)
-  end
-end
+utils.on_attach(function(client, _)
+  client.server_capabilities.documentFormattingProvider = false
+end)
 
 local capabilities = lsp.protocol.make_client_capabilities()
 capabilities.textDocument = {
@@ -75,7 +72,6 @@ local settings = {
 mason_lspconfig.setup_handlers {
   function(server_name)
     local opts = {
-      on_attach = on_attach,
       capabilities = capabilities,
       settings = settings,
     }
@@ -83,7 +79,6 @@ mason_lspconfig.setup_handlers {
   end,
   vtsls = function()
     lspconfig.vtsls.setup {
-      on_attach = on_attach,
       capabilities = capabilities,
       root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
       single_file_support = false,
@@ -92,7 +87,6 @@ mason_lspconfig.setup_handlers {
 }
 
 lspconfig.denols.setup {
-  on_attach = on_attach,
   capabilities = capabilities,
   settings = settings,
   root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock'),

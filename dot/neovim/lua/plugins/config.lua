@@ -4,6 +4,7 @@ local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
 
 local ui = require 'core.ui'
+local utils = require 'utils'
 
 ---@class Plugins.Config
 local Config = setmetatable({}, {
@@ -251,6 +252,12 @@ function Config.navic()
     highlight = true,
     separator = ui.winbar_sep.context,
   }
+
+  utils.on_attach(function(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+      navic.attach(client, bufnr)
+    end
+  end)
 
   hl(0, 'NavicText', { link = 'Winbar' })
   hl(0, 'NavicSeparator', { link = 'NavicText' })
