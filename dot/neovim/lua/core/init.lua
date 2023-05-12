@@ -91,9 +91,24 @@ autocmd('BufRead', {
 
     opt.number = true
     opt.signcolumn = 'yes'
+
     map('n', 'a', function()
       return vim.api.nvim_get_current_line():match '^%s*$' and 'S' or 'a'
     end, { expr = true })
+    map('n', '<Space>ca', function()
+      require('actions-preview').code_actions()
+    end)
+    map('n', 'K', function()
+      local crates = require 'crates'
+      if crates.popup_available() then
+        crates.show_popup()
+      else
+        vim.lsp.buf.hover()
+      end
+    end)
+    map('n', '<Space>rn', vim.lsp.buf.rename)
+    map('n', ']d', vim.diagnostic.goto_next)
+    map('n', '[d', vim.diagnostic.goto_prev)
   end,
 })
 

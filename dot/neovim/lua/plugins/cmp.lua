@@ -13,6 +13,7 @@ opts.sources = {
   { name = 'nvim_lsp_signature_help' },
   { name = 'path' },
   { name = 'buffer' },
+  { name = 'crates' },
 }
 
 opts.completion = {

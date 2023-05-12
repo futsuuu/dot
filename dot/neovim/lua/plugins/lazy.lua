@@ -77,6 +77,14 @@ return function(init, config)
       'aznhe21/actions-preview.nvim',
       config = config.actions_preview,
     },
+
+  group 'rust' {
+    {
+      'saecki/crates.nvim',
+      version = '*',
+      event = 'BufReadPre Cargo.toml',
+      config = config.crates,
+    },
   }
 
   group 'telescope' {

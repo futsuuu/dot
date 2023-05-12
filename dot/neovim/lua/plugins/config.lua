@@ -94,6 +94,22 @@ function Config.treesitter()
   })
 end
 
+function Config.crates()
+  local crates = require 'crates'
+
+  crates.setup {
+    date_format = '%m/%d, %Y',
+    thousands_separator = ',',
+    popup = {
+      border = 'rounded',
+    },
+    null_ls = {
+      enabled = true,
+      name = 'crates',
+    },
+  }
+end
+
 function Config.neogit()
   require('neogit').setup {
     integrations = {
