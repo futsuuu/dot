@@ -77,8 +77,8 @@ function map(
   cs: ColorScheme | FlatColorScheme,
   func: (
     hlName: string,
-    csValue: ColorSchemeVal | ColorScheme
-  ) => ColorScheme | undefined
+    csValue: ColorSchemeVal | ColorScheme,
+  ) => ColorScheme | undefined,
 ): ColorScheme {
   const new_cs: ColorScheme = {};
   Object.entries(cs).forEach(([hlName, csValue]) => {
@@ -99,7 +99,7 @@ function readData(cs: ColorScheme) {
     bg?: Color,
     attr?: Attr,
     sp?: Color,
-    link?: string
+    link?: string,
   ) {
     if (link) {
       vimFile += "hi! link " + hlName + " " + link + "\n";
@@ -165,25 +165,25 @@ const diff: FlatColorScheme = {
 const kinds: FlatColorScheme = {
   Enum: "@lsp.type.enum",
   //File
-  //Text
+  Text: [fg.mix(bg, 0.25), _],
   //Unit
-  Class: "@lsp.type.class",
+  Class: [yellow, _],
   //Color
-  //Event
-  //Field
+  Event: [red, _],
+  Field: "@lsp.type.enum",
   //Value
   Folder: "Directory",
   Method: "@lsp.type.method",
   //Module
   Struct: "@lsp.type.struct",
   //Default
-  Keyword: "Keyword",
+  Keyword: [cyan, _],
   //Snippet
   Constant: "Constant",
   Function: "Function",
   Operator: "Operator",
-  //Property
-  //Variable
+  Property: "@lsp.type.enum",
+  Variable: "Keyword",
   //Interface
   //Reference
   EnumMember: "@lsp.type.enumMember",
@@ -202,9 +202,9 @@ const hlData: ColorScheme = {
     "": [bg.mix(fg, 0.23), _],
     Cursor: [bg.mix(fg, 0.55), _, "NONE"],
   },
+  MatchParen: [_, bg.mix(fg, 0.3), "bold"],
   Folded: [fg, bg.mix(blue, 0.2)],
   FoldColumn: [bg.mix(fg, 0.5), bg],
-  // CursorLineFold: [bg.mix(fg, 0.5), bg],
   SignColumn: [fg, bg],
   Constant: [color(red).s(57).h(33), _],
   Boolean: "Constant",
@@ -231,10 +231,12 @@ const hlData: ColorScheme = {
   Delimiter: [blue, _],
   Comment: [bg.mix(fg, 0.5), _, "italic"],
   Visual: [_, select],
+  Search: ["NONE", select.mix(blue, 0.2)],
+  IncSearch: "Search",
   Pmenu: {
     "": [_, bg.mix(fg, 0.04)],
-    Sel: [bg, color(blue).s(100)],
-    Thumb: [_, bg.mix(fg, 0.5)],
+    Sel: [_, bg.mix(blue, 0.2)],
+    Thumb: [bg.mix(blue, 0.5), bg],
     Sbar: [_, bg.mix(fg, 0.2)],
   },
   Diff: diff,
@@ -314,6 +316,8 @@ const hlData: ColorScheme = {
       "mod.": {
         "{}.defaultLibrary": {
           variable: "@variable.builtin",
+          enum: "@variable.builtin",
+          enumMember: "@variable.builtin",
         },
         "{}.injected": {},
       },
@@ -367,11 +371,24 @@ const hlData: ColorScheme = {
     Git: {
       Untracked: [color(diffAdd).l(60), _],
     },
-    CursorLine: [_, bg.mix(fg, 0.09)],
+    CursorLine: [_, bg.mix(blue, 0.1)],
     WinSeparator: [bg, bg],
     DimText: [bg.mix(fg, 0.3), _],
     IndentMarker: [bg.mix(fg, 0.25), _],
   },
+  BufferLine: (() => {
+    return {
+      Modified: {
+        "": [red, _],
+        Visible: "BufferLineModified",
+        Selected: "BufferLineModified",
+      },
+      Indicator: {
+        Visible: [red.mix(bg, 0.3), _],
+        Selected: "BufferlineIndicatorVisible",
+      },
+    };
+  })(),
   FoldLevel: (() => {
     const colors: { [index: string]: ColorSchemeVal } = {};
     const step = 0.09;

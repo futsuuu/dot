@@ -11,6 +11,7 @@ hi! link CursorColumn CursorLine
 hi! link CursorIM CursorLine
 hi LineNr guifg=#393d53
 hi! CursorLineNr guifg=#686c84 gui=NONE
+hi! MatchParen guibg=#43475e gui=bold
 hi Folded guifg=#abafc9 guibg=#303956
 hi FoldColumn guifg=#61657c guibg=#171b30
 hi SignColumn guifg=#abafc9 guibg=#171b30
@@ -39,9 +40,11 @@ hi Conceal guifg=#7f839b guibg=NONE
 hi Delimiter guifg=#94b0ec
 hi! Comment guifg=#61657c gui=italic
 hi Visual guibg=#39486e
+hi Search guifg=NONE guibg=#4b5d87
+hi! link IncSearch Search
 hi Pmenu guibg=#1d2136
-hi PmenuSel guifg=#171b30 guibg=#87b0ff
-hi PmenuThumb guibg=#61657c
+hi PmenuSel guibg=#303956
+hi PmenuThumb guifg=#55668e guibg=#171b30
 hi PmenuSbar guibg=#35394f
 hi DiffAdd guibg=#1d362f
 hi DiffChange guibg=#203157
@@ -99,6 +102,8 @@ hi! link @lsp.type.variable @variable
 hi! link @lsp.type.parameter @parameter
 hi! link @lsp.type.property @property
 hi! link @lsp.typemod.variable.defaultLibrary @variable.builtin
+hi! link @lsp.typemod.enum.defaultLibrary @variable.builtin
+hi! link @lsp.typemod.enumMember.defaultLibrary @variable.builtin
 hi! link @tagattribute @property
 hi rainbowcol1 guifg=#ef98a4
 hi rainbowcol2 guifg=#dca757
@@ -117,25 +122,35 @@ hi! link ScrollView Visual
 hi CmpItemAbbr guifg=#abafc9
 hi CmpItemMenu guifg=#abafc9
 hi! link CmpItemKindEnum @lsp.type.enum
-hi! link CmpItemKindClass @lsp.type.class
+hi CmpItemKindText guifg=#868aa3
+hi CmpItemKindClass guifg=#dca757
+hi CmpItemKindEvent guifg=#ef98a4
+hi! link CmpItemKindField @lsp.type.enum
 hi! link CmpItemKindFolder Directory
 hi! link CmpItemKindMethod @lsp.type.method
 hi! link CmpItemKindStruct @lsp.type.struct
-hi! link CmpItemKindKeyword Keyword
+hi CmpItemKindKeyword guifg=#5cc0bc
 hi! link CmpItemKindConstant Constant
 hi! link CmpItemKindFunction Function
 hi! link CmpItemKindOperator Operator
+hi! link CmpItemKindProperty @lsp.type.enum
+hi! link CmpItemKindVariable Keyword
 hi! link CmpItemKindEnumMember @lsp.type.enumMember
 hi! link CmpItemKindConstructor @constructor
 hi! link NavicIconsEnum @lsp.type.enum
-hi! link NavicIconsClass @lsp.type.class
+hi NavicIconsText guifg=#868aa3
+hi NavicIconsClass guifg=#dca757
+hi NavicIconsEvent guifg=#ef98a4
+hi! link NavicIconsField @lsp.type.enum
 hi! link NavicIconsFolder Directory
 hi! link NavicIconsMethod @lsp.type.method
 hi! link NavicIconsStruct @lsp.type.struct
-hi! link NavicIconsKeyword Keyword
+hi NavicIconsKeyword guifg=#5cc0bc
 hi! link NavicIconsConstant Constant
 hi! link NavicIconsFunction Function
 hi! link NavicIconsOperator Operator
+hi! link NavicIconsProperty @lsp.type.enum
+hi! link NavicIconsVariable Keyword
 hi! link NavicIconsEnumMember @lsp.type.enumMember
 hi! link NavicIconsConstructor @constructor
 hi NeoTreeNormal guibg=#1b1f35
@@ -144,10 +159,15 @@ hi NeoTreeDirectoryName guifg=#abafc9
 hi NeoTreeDirectoryIcon guifg=#9ca0ba
 hi NeoTreeFileIcon guifg=#94b0ec
 hi NeoTreeGitUntracked guifg=#3fa442
-hi NeoTreeCursorLine guibg=#24283e
+hi NeoTreeCursorLine guibg=#232a43
 hi NeoTreeWinSeparator guifg=#171b30 guibg=#171b30
 hi NeoTreeDimText guifg=#43475e
 hi NeoTreeIndentMarker guifg=#3c4056
+hi BufferLineModified guifg=#ef98a4
+hi! link BufferLineModifiedVisible BufferLineModified
+hi! link BufferLineModifiedSelected BufferLineModified
+hi BufferLineIndicatorVisible guifg=#ae7381
+hi! link BufferLineIndicatorSelected BufferlineIndicatorVisible
 hi FoldLevel1 guifg=#171b30 guibg=#24283e
 hi FoldLevel2 guifg=#24283e guibg=#32364c
 hi FoldLevel3 guifg=#32364c guibg=#3f4359
