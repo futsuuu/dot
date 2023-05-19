@@ -35,21 +35,21 @@ impl Git {
 
         let branch_prefix = match branch.splitn(2, '/').collect::<Vec<&str>>()[0] {
             "main" | "master" => {
-                format!("{YELLOW}󰋜 ")
+                format!("{YELLOW} ")
             }
             "dev" | "develop" => {
                 format!("{MAGENTA} ")
             }
             "feat" => {
-                format!("{CYAN}󱁤 ")
+                format!("{CYAN} ")
             }
             "fix" => {
-                format!("{RED} ")
+                format!("{RED} ")
             }
             "release" => {
-                format!("{GREEN}󱓞 ")
+                format!("{GREEN} ")
             }
-            _ => format!("{CYAN}󰘬 "),
+            _ => format!("{CYAN} "),
         };
 
         let ahead = if self.ahead == 0 {
@@ -114,7 +114,7 @@ pub fn run(exit_status: &str, new_line: &str) -> io::Result<()> {
         }
     };
     print!(
-        "{RESET}{BLUE}{new_line}   {}{RESET} {}{new_line} {}❱⟩{RESET} ",
+        "{RESET}{BLUE}{new_line}   {}{RESET} {}{new_line} {}❱⟩{RESET} ",
         {
             let cwd = current_dir()?;
             let parent_path = match git.repo_path.parent() {

@@ -51,7 +51,7 @@ neotree.setup {
         ignored = '',
         unstaged = '',
         staged = '',
-        conflict = '',
+        conflict = '',
       },
       align = 'right',
     },

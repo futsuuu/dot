@@ -103,6 +103,18 @@ function Config.crates()
     thousands_separator = ',',
     popup = {
       border = 'rounded',
+      text = {
+        title = ' %s',
+        created_label = ' created        ',
+        updated_label = ' updated        ',
+        downloads_label = ' downloads      ',
+        homepage_label = ' homepage       ',
+        repository_label = ' repository     ',
+        documentation_label = ' documentation  ',
+        crates_io_label = ' crates.io      ',
+        categories_label = ' categories     ',
+        keywords_label = ' keywords       ',
+      },
     },
     null_ls = {
       enabled = true,
@@ -195,7 +207,7 @@ function Config.telescope()
       results_title = false,
       prompt_title = false,
       sorting_strategy = 'ascending',
-      prompt_prefix = '   ',
+      prompt_prefix = '   ',
       selection_caret = ' ',
     },
   }
