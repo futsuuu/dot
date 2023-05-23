@@ -51,13 +51,13 @@ hi DiffChange guibg=#203157
 hi! DiffDelete guifg=NONE guibg=#472144 gui=NONE
 hi DiffText guibg=#264071
 hi FloatBorder guifg=#52566d guibg=#1a1e33
-hi VertSplit guifg=#52566d
+hi! VertSplit guifg=#61657c guibg=#171b30 gui=NONE
 hi! Underlined guifg=#abafc9 gui=underline
 hi! Bold gui=bold
 hi! Todo guibg=#dca757 gui=bold
 hi Directory guifg=#94b0ec
-hi! StatusLine guifg=#8d91aa guibg=#171b30 gui=NONE
-hi! link StatusLineNC StatusLine
+hi! StatusLine guifg=#61657c guibg=#171b30 gui=NONE
+hi! StatusLineNC guifg=#3c4056 guibg=#171b30 gui=NONE
 hi! WinBar guifg=#8d91aa guibg=#171b30 gui=NONE
 hi DiagnosticOk guifg=#abafc9
 hi DiagnosticHint guifg=#6cc456
@@ -160,9 +160,10 @@ hi NeoTreeDirectoryIcon guifg=#9ca0ba
 hi NeoTreeFileIcon guifg=#94b0ec
 hi NeoTreeGitUntracked guifg=#3fa442
 hi NeoTreeCursorLine guibg=#232a43
-hi NeoTreeWinSeparator guifg=#171b30 guibg=#171b30
+hi! link NeoTreeWinSeparator StatusLineNC
 hi NeoTreeDimText guifg=#43475e
 hi NeoTreeIndentMarker guifg=#3c4056
+hi! link BufferLineOffsetSeparator NeoTreeWinSeparator
 hi BufferLineModified guifg=#ef98a4
 hi! link BufferLineModifiedVisible BufferLineModified
 hi! link BufferLineModifiedSelected BufferLineModified

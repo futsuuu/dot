@@ -31,7 +31,7 @@ bufferline.setup {
       {
         filetype = 'neo-tree',
         text = '',
-        separator = false,
+        separator = true,
       },
     },
   },

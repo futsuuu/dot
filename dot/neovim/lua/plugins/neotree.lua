@@ -48,7 +48,7 @@ neotree.setup {
         renamed = '',
 
         untracked = '',
-        ignored = '',
+        ignored = '',
         unstaged = '',
         staged = '',
         conflict = '',

@@ -242,14 +242,14 @@ const hlData: ColorScheme = {
   Diff: diff,
   DiffText: [_, bg.mix(diffChange, 0.5)],
   FloatBorder: [bg.mix(fg, 0.4), bg.mix(fg, 0.02)],
-  VertSplit: [bg.mix(fg, 0.4), _],
+  VertSplit: [bg.mix(fg, 0.5), bg, "NONE"],
   Underlined: [fg, _, "underline"],
   Bold: [_, _, "bold"],
   Todo: [_, yellow, "bold"],
   Directory: [blue, _],
   StatusLine: {
-    "": [bg.mix(fg, 0.8), bg, "NONE"],
-    NC: "StatusLine",
+    "": [bg.mix(fg, 0.5), bg, "NONE"],
+    NC: [bg.mix(fg, 0.25), bg, "NONE"],
   },
   WinBar: [bg.mix(fg, 0.8), bg, "NONE"],
   Diagnostic: {
@@ -372,12 +372,13 @@ const hlData: ColorScheme = {
       Untracked: [color(diffAdd).l(60), _],
     },
     CursorLine: [_, bg.mix(blue, 0.1)],
-    WinSeparator: [bg, bg],
+    WinSeparator: "StatusLineNC",
     DimText: [bg.mix(fg, 0.3), _],
     IndentMarker: [bg.mix(fg, 0.25), _],
   },
   BufferLine: (() => {
     return {
+      OffsetSeparator: "NeoTreeWinSeparator",
       Modified: {
         "": [red, _],
         Visible: "BufferLineModified",
