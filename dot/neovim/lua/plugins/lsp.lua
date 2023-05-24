@@ -9,7 +9,14 @@ local root_pattern = lspconfig.util.root_pattern
 
 local function get_python_path()
   local venv_path = os.getenv 'VIRTUAL_ENV'
-  return venv_path and venv_path .. '/bin/python' or 'python'
+  if venv_path then
+    if package.config:sub(1, 1) == '\\' then
+      venv_path = venv_path .. '\\Scripts\\python.exe'
+    else
+      venv_path = venv_path .. '/bin/python'
+    end
+  end
+  return venv_path or 'python'
 end
 
 utils.on_attach(function(client, _)
