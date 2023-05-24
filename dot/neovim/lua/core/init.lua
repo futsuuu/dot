@@ -80,7 +80,7 @@ autocmd('BufRead', {
 
     opt.autoread = true
     opt.list = true
-    opt.listchars = { trail = '╴', tab = '›─', extends = '' }
+    opt.listchars = { trail = '╴', tab = '', extends = '' }
     opt.autochdir = false
     opt.autoindent = true
     opt.smartindent = true
@@ -95,20 +95,32 @@ autocmd('BufRead', {
     map('n', 'a', function()
       return vim.api.nvim_get_current_line():match '^%s*$' and 'S' or 'a'
     end, { expr = true })
-    map('n', '<Space>ca', function()
-      require('actions-preview').code_actions()
-    end)
+
+    map('n', '<Space>ca', require('actions-preview').code_actions)
+
     map('n', 'K', function()
-      local crates = require 'crates'
-      if crates.popup_available() then
-        crates.show_popup()
+      local filetype = vim.bo.filetype
+      if vim.tbl_contains({ 'vim', 'help' }, filetype) then
+        vim.cmd('h ' .. vim.fn.expand '<cword>')
+      elseif vim.tbl_contains({ 'man' }, filetype) then
+        vim.cmd('Man ' .. vim.fn.expand '<cword>')
+      elseif vim.fn.expand '%:t' == 'Cargo.toml' and require('crates').popup_available() then
+        require('crates').show_popup()
       else
         vim.lsp.buf.hover()
       end
     end)
+
     map('n', '<Space>rn', vim.lsp.buf.rename)
-    map('n', ']d', vim.diagnostic.goto_next)
-    map('n', '[d', vim.diagnostic.goto_prev)
+
+    local opts = { float = { border = 'rounded' } }
+
+    map('n', ']d', function()
+      vim.diagnostic.goto_next(opts)
+    end)
+    map('n', '[d', function()
+      vim.diagnostic.goto_prev(opts)
+    end)
   end,
 })
 

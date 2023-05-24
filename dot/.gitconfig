@@ -10,6 +10,7 @@
   autocrlf = input
 
 [alias]
+  i = init
   ad = add
   br = branch
   cm = commit
@@ -45,6 +46,9 @@
 
 [commit]
   verbose = true
+
+[merge]
+  ff = false
 
 [pull]
   ff = only

@@ -24,14 +24,10 @@ bufferline.setup {
     end,
     offsets = {
       {
-        filetype = 'aerial',
-        text = '',
-        separator = true,
-      },
-      {
         filetype = 'neo-tree',
-        text = '',
-        separator = true,
+        text = 'explorer',
+        highlight = 'BufferLineBackGround',
+        separator = false,
       },
     },
   },

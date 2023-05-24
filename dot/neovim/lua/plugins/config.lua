@@ -28,13 +28,12 @@ function Config.alpha()
   local section, button = dashboard.section, dashboard.button
   section.header.val = header:split '\n'
   section.buttons.val = {
-    button('h', '  · MRW', '<Cmd>Telescope mr mrw<CR>'),
-    button('f', '  · Find file', '<Cmd>Telescope find_files<CR>'),
-    button('g', '  · Neogit', '<Cmd>Neogit<CR>'),
-    button('e', '  · File explorer', '<Cmd>Neotree<CR>'),
+    button('h', '  · MRW', '<Cmd>Telescope mr mrw<CR>'),
+    button('f', '  · Find file', '<Cmd>Telescope find_files<CR>'),
+    button('e', '  · File explorer', '<Cmd>Neotree<CR>'),
     button('t', '  · Terminal', '<Cmd>terminal<CR>'),
-    button('u', '  · Update plugins', '<Cmd>Lazy update<CR>'),
-    button('q', '  · Quit', '<Cmd>qa<CR>'),
+    button('u', '  · Update plugins', '<Cmd>Lazy update<CR>'),
+    button('x', '  · Exit', '<Cmd>qa<CR>'),
   }
   local vim_ver = vim.version()
   if vim_ver then
@@ -93,6 +92,14 @@ function Config.treesitter()
       ]]
     end,
   })
+end
+
+function Config.neodim()
+  require('neodim').setup {
+    update_in_insert = {
+      enable = false,
+    },
+  }
 end
 
 function Config.crates()

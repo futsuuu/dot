@@ -158,6 +158,10 @@ hi! link NeoTreeNormalNC NeoTreeNormal
 hi NeoTreeDirectoryName guifg=#abafc9
 hi NeoTreeDirectoryIcon guifg=#9ca0ba
 hi NeoTreeFileIcon guifg=#94b0ec
+hi NeoTreeTabActive guifg=#94b0ec
+hi NeoTreeTabInactive guifg=#49577b
+hi NeoTreeTabSeparatorActive guifg=#171b30
+hi NeoTreeTabSeparatorInactive guifg=#171b30
 hi NeoTreeGitUntracked guifg=#3fa442
 hi NeoTreeCursorLine guibg=#232a43
 hi! link NeoTreeWinSeparator StatusLineNC

@@ -1,6 +1,5 @@
 ---@class Utils.Path
 ---@field table string[]
----@field private return_copy boolean
 local Path = {}
 
 Path.sep = package.config:sub(1, 1)

@@ -60,20 +60,19 @@ opts.snippet = {
   end,
 }
 
+local border = 'rounded'
+
 opts.window = {
   completion = {
-    border = 'rounded',
+    border = border,
     winhighlight = 'Normal:Pmenu,CursorLine:PmenuSel,FloatBorder:FloatBorder,Search:None',
     col_offset = -3,
     side_padding = 0,
-    scrollbar = {
-      thumb_char = '▐',
-      position = 'inside',
-    },
+    scrollbar = '▌',
     scrolloff = 8,
   },
   documentation = {
-    border = 'rounded',
+    border = border,
     winhighlight = 'Normal:Pmenu,FloatBorder:FloatBorder,Search:None',
   },
 }

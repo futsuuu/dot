@@ -8,8 +8,23 @@ neotree.setup {
   close_if_last_window = true,
   popup_border_style = 'rounded',
   source_selector = {
+    winbar = true,
     statusline = false,
     content_layout = 'center',
+    sources = {
+      {
+        source = 'filesystem',
+        display_name = ' ',
+      },
+      {
+        source = 'buffers',
+        display_name = ' ',
+      },
+      {
+        source = 'git_status',
+        display_name = '󰊢',
+      },
+    },
   },
   enable_diagnostics = true,
   default_component_configs = {
@@ -19,6 +34,12 @@ neotree.setup {
         info = ui.bug,
         warn = ui.bug,
         error = ui.bug,
+      },
+      highlights = {
+        hint = 'DiagnosticSignHint',
+        info = 'DiagnosticSignInfo',
+        warn = 'DiagnosticSignWarn',
+        error = 'DiagnosticSignError',
       },
     },
     indent = {

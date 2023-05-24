@@ -1,5 +1,5 @@
 local M = {
-  bug = ' ',
+  bug = ' ',
 }
 
 ---@param percentage integer
@@ -24,8 +24,8 @@ M.winbar_sep = {
 }
 
 M.chevron = {
-  right = '',
-  down = '',
+  right = '',
+  down = '',
 }
 
 M.kind = {

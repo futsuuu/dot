@@ -368,6 +368,14 @@ const hlData: ColorScheme = {
     File: {
       Icon: [blue, _],
     },
+    Tab: {
+      Active: [blue, _],
+      Inactive: [bg.mix(blue, 0.4), _],
+      Separator: {
+        Active: [bg, _],
+        Inactive: [bg, _],
+      },
+    },
     Git: {
       Untracked: [color(diffAdd).l(60), _],
     },

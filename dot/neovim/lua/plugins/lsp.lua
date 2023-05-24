@@ -1,9 +1,8 @@
 local lsp = vim.lsp
 
 local lspconfig = require 'lspconfig'
+local lsp_win = require 'lspconfig.ui.windows'
 local mason_lspconfig = require 'mason-lspconfig'
-
-local utils = require 'utils'
 
 local root_pattern = lspconfig.util.root_pattern
 
@@ -19,9 +18,9 @@ local function get_python_path()
   return venv_path or 'python'
 end
 
-utils.on_attach(function(client, _)
+local function on_attach(client, _)
   client.server_capabilities.documentFormattingProvider = false
-end)
+end
 
 local capabilities = lsp.protocol.make_client_capabilities()
 capabilities.textDocument = {
@@ -79,6 +78,7 @@ local settings = {
 mason_lspconfig.setup_handlers {
   function(server_name)
     local opts = {
+      on_attach = on_attach,
       capabilities = capabilities,
       settings = settings,
     }
@@ -86,6 +86,7 @@ mason_lspconfig.setup_handlers {
   end,
   vtsls = function()
     lspconfig.vtsls.setup {
+      on_attach = on_attach,
       capabilities = capabilities,
       root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
       single_file_support = false,
@@ -94,12 +95,13 @@ mason_lspconfig.setup_handlers {
 }
 
 lspconfig.denols.setup {
+  on_attach = on_attach,
   capabilities = capabilities,
   settings = settings,
   root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock'),
 }
 
-lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
+vim.diagnostic.config {
   signs = false,
   virtual_text = {
     prefix = '',
@@ -109,11 +111,7 @@ lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(lsp.diagnostic.on_pub
   },
   update_in_insert = true,
   severity_sort = true,
-})
+}
 
+lsp_win.default_options.border = 'rounded'
 lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover, { border = 'rounded' })
-
-vim.fn.sign_define('DiagnosticSignError', { text = ' ', texthl = 'DiagnosticSignError' })
-vim.fn.sign_define('DiagnosticSignWarn', { text = ' ', texthl = 'DiagnosticSignWarn' })
-vim.fn.sign_define('DiagnosticSignInfo', { text = ' ', texthl = 'DiagnosticSignInfo' })
-vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSignHint' })

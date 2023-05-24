@@ -77,6 +77,12 @@ return function(init, config)
       'aznhe21/actions-preview.nvim',
       config = config.actions_preview,
     },
+    {
+      'zbirenbaum/neodim',
+      event = 'LspAttach',
+      config = config.neodim,
+    },
+  }
 
   group 'rust' {
     {
@@ -303,7 +309,7 @@ return function(init, config)
         disabled_plugins = {
           'gzip',
           'matchit',
-          'matchparen',
+          -- 'matchparen',
           'tarPlugin',
           'tohtml',
           'tutor',
@@ -312,7 +318,7 @@ return function(init, config)
           'shada',
           'spellfile',
           'rplugin',
-          'man',
+          -- 'man',
           'netrwPlugin',
           'editorconfig',
           'nvim',
