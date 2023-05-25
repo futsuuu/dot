@@ -38,6 +38,11 @@ path = "neovim"
   windows = "~/AppData/Local/nvim"
 
 [[dotfiles]]
+path = "goneovim"
+target = "~/.config/goneovim"
+enable."which(goneovim)" = { default = true, "" = false }
+
+[[dotfiles]]
 path = "alacritty"
   [dotfiles.target."sys(os)"]
   default = "~/.config/alacritty"
