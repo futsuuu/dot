@@ -26,7 +26,7 @@ bufferline.setup {
       {
         filetype = 'neo-tree',
         text = 'explorer',
-        highlight = 'BufferLineBackGround',
+        highlight = 'BufferLineFill',
         separator = false,
       },
     },

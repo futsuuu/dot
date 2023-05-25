@@ -356,34 +356,37 @@ const hlData: ColorScheme = {
   Navic: {
     Icons: kinds,
   },
-  NeoTree: {
-    Normal: {
-      "": [_, bg.mix(fg, 0.03)],
-      NC: "NeoTreeNormal",
-    },
-    Directory: {
-      Name: [fg, _],
-      Icon: [bg.mix(fg, 0.9), _],
-    },
-    File: {
-      Icon: [blue, _],
-    },
-    Tab: {
-      Active: [blue, _],
-      Inactive: [bg.mix(blue, 0.4), _],
-      Separator: {
-        Active: [bg, _],
-        Inactive: [bg, _],
+  NeoTree: (() => {
+    const background = bg.mix(fg, 0.03);
+    return {
+      Normal: {
+        "": [_, background],
+        NC: "NeoTreeNormal",
       },
-    },
-    Git: {
-      Untracked: [color(diffAdd).l(60), _],
-    },
-    CursorLine: [_, bg.mix(blue, 0.1)],
-    WinSeparator: "StatusLineNC",
-    DimText: [bg.mix(fg, 0.3), _],
-    IndentMarker: [bg.mix(fg, 0.25), _],
-  },
+      Directory: {
+        Name: [fg, _],
+        Icon: [bg.mix(fg, 0.9), _],
+      },
+      File: {
+        Icon: [blue, _],
+      },
+      Tab: {
+        Active: [blue, background],
+        Inactive: [bg.mix(blue, 0.4), background],
+        Separator: {
+          Active: [background, _],
+          Inactive: [background, _],
+        },
+      },
+      Git: {
+        Untracked: [color(diffAdd).l(60), _],
+      },
+      CursorLine: [_, bg.mix(blue, 0.1)],
+      WinSeparator: "StatusLineNC",
+      DimText: [bg.mix(fg, 0.3), _],
+      IndentMarker: [bg.mix(fg, 0.25), _],
+    };
+  })(),
   BufferLine: (() => {
     return {
       OffsetSeparator: "NeoTreeWinSeparator",
