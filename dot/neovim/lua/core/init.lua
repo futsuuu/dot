@@ -68,8 +68,8 @@ autocmd('BufRead', {
     opt.syntax = 'on'
 
     opt.encoding = 'utf-8'
-    opt.fileencodings = 'utf-8'
-    opt.fileformats = 'unix'
+    opt.fileencodings = { 'ucs-bom', 'utf-8', 'iso-2022-jp', 'euc-jp', 'cp932', 'default', 'latin' }
+    opt.fileformats = { 'unix', 'dos', 'mac' }
 
     opt.clipboard = 'unnamedplus'
 
