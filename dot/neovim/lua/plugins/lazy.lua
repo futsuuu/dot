@@ -8,7 +8,8 @@ return function(init, config)
   local function group(flag_name)
     return function(plugin_list)
       for _, plugin in ipairs(plugin_list) do
-        plugin.cond = _G.plugin_flags[flag_name]
+        local flags = _G.plugin_flags[flag_name]
+        plugin.cond = type(flags) == 'nil' and false or flags
         table.insert(plugins, plugin)
       end
     end
@@ -112,6 +113,24 @@ return function(init, config)
     },
   }
 
+  group 'ddu' {
+    {
+      'Shougo/ddu.vim',
+      dependencies = {
+        'Shougo/ddu-ui-ff',
+        'Shougo/ddu-source-file_rec',
+        'yuki-yano/ddu-filter-fzf',
+        'Shougo/ddu-kind-file',
+        'Shougo/ddu-commands.vim',
+      },
+      cmd = 'Ddu',
+      config = function()
+        require('denops-lazy').load 'ddu.vim'
+        config.ddu()
+      end,
+    },
+  }
+
   group 'treesitter' {
     {
       'nvim-treesitter/nvim-treesitter',
@@ -140,6 +159,25 @@ return function(init, config)
         'kevinhwang91/promise-async',
       },
     },
+  }
+
+  group 'skkeleton' {
+    {
+      'vim-skk/skkeleton',
+      keys = { { '<C-j>', '<Plug>(skkeleton-enable)', mode = { 'i', 'c' } } },
+      config = function()
+        require('denops-lazy').load 'skkeleton'
+        config.skkeleton()
+      end,
+    },
+  }
+
+  group 'denops' {
+    {
+      'vim-denops/denops.vim',
+      event = 'VeryLazy',
+    },
+    { 'yuki-yano/denops-lazy.nvim' },
   }
 
   group 'main' {

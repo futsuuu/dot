@@ -54,6 +54,37 @@ function M.search_parent(items)
   end
 end
 
+---@param module_name string
+---@return table
+function M.call(module_name)
+  local metatable = {
+    func = module_name,
+    children = {},
+  }
+
+  function metatable.__index(self, key)
+    local meta = getmetatable(self)
+    local child = M.call(meta.func .. '#' .. key)
+    meta.children[key] = child
+    setmetatable(self, meta)
+    return child
+  end
+
+  function metatable.__call(self, ...)
+    local func_name = getmetatable(self).func ---@type string
+    if func_name:match '.+#_fn$' then
+      local args = { ... }
+      return function()
+        return vim.fn[func_name:gsub('#_fn$', '', 1)](unpack(args))
+      end
+    else
+      return vim.fn[func_name](...)
+    end
+  end
+
+  return setmetatable({}, metatable)
+end
+
 ---@param on_attach fun(client, buffer)
 function M.on_attach(on_attach)
   vim.api.nvim_create_autocmd('LspAttach', {

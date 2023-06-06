@@ -3,6 +3,9 @@ vim.cmd.colorscheme 'robot'
 _G.plugin_flags = {
   main = true,
   nvim_lsp = true,
+  denops = true,
+  skkeleton = true,
+  ddu = true,
   cmp = true,
   alpha = true,
   telescope = true,

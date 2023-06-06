@@ -6,6 +6,8 @@ local autocmd = api.nvim_create_autocmd
 local ui = require 'core.ui'
 local utils = require 'utils'
 
+local call = utils.call
+
 ---@class Plugins.Config
 local Config = setmetatable({}, {
   ---@type fun(table: table, key: string): function
@@ -173,6 +175,19 @@ end
 
 function Config.lastplace()
   require('nvim-lastplace').setup()
+end
+
+function Config.skkeleton()
+  local skkeleton = call 'skkeleton'
+
+  skkeleton.config {
+    markerHenkan = '▽ ',
+    markerHenkanSelect = '▼ ',
+    keepState = true,
+    eggLikeNewline = true,
+  }
+  --
+  skkeleton.register_keymap('input', ';', 'henkanPoint')
 end
 
 function Config.luasnip()

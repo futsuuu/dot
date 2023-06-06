@@ -1,6 +1,9 @@
+local autocmd = vim.api.nvim_create_autocmd
+
 local cmp = require 'cmp'
-local ui = require 'core.ui'
 local luasnip = require 'luasnip'
+
+local ui = require 'core.ui'
 
 local ellipsis_char = ''
 local max_label_width = 50
@@ -110,4 +113,13 @@ cmp.setup.cmdline({ '/', '?' }, {
   sources = {
     { name = 'buffer' },
   },
+})
+
+autocmd('FileType', {
+  pattern = { 'ddu-ff-filter' },
+  callback = function()
+    cmp.setup.buffer {
+      completion = { autocomplete = false },
+    }
+  end,
 })
