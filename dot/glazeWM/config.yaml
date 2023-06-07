@@ -37,17 +37,17 @@ bar:
     - type: 'binding mode'
       padding: '0 8px'
     - type: 'battery'
-      label_draining: ' {battery_level}% '
-      label_power_saver: '  {battery_level}% '
-      label_charging: '  {battery_level}% '
+      label_draining: '  {battery_level}% '
+      label_power_saver: '  {battery_level}% '
+      label_charging: '  {battery_level}% '
       foreground: '#000000'
       background: '#aaafb4'
     - type: 'clock'
-      time_formatting: '  ddd MMM d '
+      time_formatting: '  ddd MMM d '
       foreground: '#aaafb4'
       background: '#2e334c'
     - type: 'clock'
-      time_formatting: '  hh:mm tt'
+      time_formatting: '  hh:mm tt'
       foreground: '#2e334c'
       background: '#61AFEF'
 
@@ -79,11 +79,7 @@ window_rules:
 
   # Launches system dialogs as floating by default (eg. File Explorer save/open dialog).
   - command: 'set floating'
-    match_class_name: '#32770'
-
-  # Some applications (eg. Steam) have borders that extend past the normal border size.
-  - command: 'resize borders 0px -7px -7px -7px'
-    match_process_name: 'steam'
+    match_process_name: '7zFM'
 
 binding_modes:
   - name: 'resize'
@@ -169,7 +165,7 @@ keybindings:
   - command: 'reload config'
     binding: 'Alt+Shift+R'
 
-  - command: 'exec %HOMEDRIVE%/%HOMEPATH%/scoop/apps/wezterm/current/wezterm-gui.exe'
+  - command: 'exec %HOMEDRIVE%/%HOMEPATH%/scoop/apps/alacritty/current/alacritty.exe'
     binding: 'Alt+Enter'
 
   - command: 'exec Vivaldi'
@@ -204,16 +200,6 @@ keybindings:
     binding: 'Alt+8'
   - command: 'focus workspace 9'
     binding: 'Alt+9'
-
-  # Move focused workspace to a monitor in a given direction.
-  - command: 'move workspace left'
-    binding: 'Alt+A'
-  - command: 'move workspace right'
-    binding: 'Alt+F'
-  - command: 'move workspace up'
-    binding: 'Alt+D'
-  - command: 'move workspace down'
-    binding: 'Alt+S'
 
   # Move focused window to a workspace defined in `workspaces` config.
   - commands: ['move to workspace 1', 'focus workspace 1']
