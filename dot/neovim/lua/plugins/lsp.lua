@@ -6,18 +6,6 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 local root_pattern = lspconfig.util.root_pattern
 
-local function get_python_path()
-  local venv_path = os.getenv 'VIRTUAL_ENV'
-  if venv_path then
-    if package.config:sub(1, 1) == '\\' then
-      venv_path = venv_path .. '\\Scripts\\python.exe'
-    else
-      venv_path = venv_path .. '/bin/python'
-    end
-  end
-  return venv_path or 'python'
-end
-
 local function on_attach(client, _)
   client.server_capabilities.documentFormattingProvider = false
 end
@@ -60,7 +48,17 @@ local settings = {
     },
   },
   python = {
-    pythonPath = get_python_path(),
+    pythonPath = (function()
+      local venv_path = os.getenv 'VIRTUAL_ENV'
+      if venv_path then
+        if package.config:sub(1, 1) == '\\' then
+          venv_path = venv_path .. '\\Scripts\\python.exe'
+        else
+          venv_path = venv_path .. '/bin/python'
+        end
+      end
+      return venv_path or 'python'
+    end)(),
   },
   deno = {
     enable = true,
