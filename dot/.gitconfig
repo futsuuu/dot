@@ -11,12 +11,13 @@
 
 [alias]
   i = init
-  ad = add
+  a = add
   br = branch
   cm = commit
   cma = commit --amend
   df = diff
   ps = push
+  pst = push --tags
   pl = pull
   st = status --short --branch
   lg = log --oneline --graph --decorate
@@ -26,6 +27,7 @@
   mg = merge
   tg = tag
   cf = config
+  cfl = config --local
   sh = stash
 
 [credential "helperselector"]
