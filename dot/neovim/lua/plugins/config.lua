@@ -109,6 +109,7 @@ function Config.crates()
 
   crates.setup {
     date_format = '%m/%d, %Y',
+    curl_args = { package.config:sub(1, 1) == '/' and '-sL' or '-skL', '--retry', '1' },
     thousands_separator = ',',
     popup = {
       border = 'rounded',

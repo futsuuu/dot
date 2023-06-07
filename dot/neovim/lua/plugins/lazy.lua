@@ -88,7 +88,6 @@ return function(init, config)
   group 'rust' {
     {
       'saecki/crates.nvim',
-      version = '*',
       event = 'BufReadPre Cargo.toml',
       config = config.crates,
     },
