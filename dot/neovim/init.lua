@@ -1,6 +1,5 @@
-vim.cmd.colorscheme 'robot'
-
 _G.plugin_flags = {
+  colorscheme = 'robot',
   main = true,
   nvim_lsp = true,
   denops = true,

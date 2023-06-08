@@ -1,5 +1,4 @@
 local api = vim.api
-local map = vim.keymap.set
 local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
 
@@ -168,10 +167,6 @@ function Config.gitsigns()
       untracked = { text = ' ▍' },
     },
   }
-  map('n', '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
-  map('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
-  map('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
-  map('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
 end
 
 function Config.lastplace()
@@ -181,28 +176,23 @@ end
 function Config.skkeleton()
   local skkeleton = call 'skkeleton'
 
-  skkeleton.config {
-    markerHenkan = '▽ ',
-    markerHenkanSelect = '▼ ',
-    keepState = true,
-    eggLikeNewline = true,
-  }
-  --
-  skkeleton.register_keymap('input', ';', 'henkanPoint')
+  autocmd('User skkeleton-initialize-pre', {
+    callback = function()
+      skkeleton.config {
+        markerHenkan = '▽ ',
+        markerHenkanSelect = '▼ ',
+        keepState = true,
+        eggLikeNewline = true,
+        setUndoPoint = false,
+      }
+
+      skkeleton.register_keymap('input', ';', 'henkanPoint')
+    end,
+  })
 end
 
 function Config.luasnip()
   require('luasnip.loaders.from_vscode').lazy_load()
-end
-
-function Config.bufdelete()
-  map('n', '<Space>bd', function()
-    if vim.fn.expand('%s'):match '^term://.*' then
-      return '<Cmd>Bdelete!<CR>'
-    else
-      return '<Cmd>Bdelete<CR>'
-    end
-  end, { expr = true })
 end
 
 function Config.scope()
@@ -330,6 +320,13 @@ function Config.mason()
         package_uninstalled = status.close,
       },
     },
+  }
+end
+
+function Config.visual_eof()
+  require('visual-eof').setup {
+    text_EOL = '',
+    text_NOEOL = '󰂭 󱞦',
   }
 end
 

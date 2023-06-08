@@ -2,7 +2,7 @@
 local Init = {}
 local Config = require 'plugins.config'
 
-local map = vim.keymap.set
+local m = vim.keymap.set
 
 function Init.dressing()
   ---@diagnostic disable-next-line: duplicate-set-field
@@ -26,20 +26,39 @@ function Init.notify()
 end
 
 function Init.neotree()
-  map('n', '<Space>e', '<Cmd>Neotree toggle=true source=filesystem<CR>')
+  m('n', '<Space>e', '<Cmd>Neotree toggle=true source=filesystem<CR>')
+end
+
+function Init.gitsigns()
+  m({ 'n', 'v' }, '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
+  m('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
+  m('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
+  m('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
+end
+
+function Init.bufdelete()
+  m('n', '<Space>bd', function()
+    if vim.fn.expand('%s'):match '^term://.*' then
+      return '<Cmd>Bdelete!<CR>'
+    else
+      return '<Cmd>Bdelete<CR>'
+    end
+  end, { expr = true })
 end
 
 function Init.ccc()
-  map('n', '<Space>cp', '<Cmd>CccPick<CR>')
-  map('n', '<Space>cc', '<Cmd>CccConvert<CR>')
-  map('n', '<Space>ct', '<Cmd>CccHighlighterToggle<CR>')
+  m('n', '<Space>cp', '<Cmd>CccPick<CR>')
+  m('n', '<Space>cc', '<Cmd>CccConvert<CR>')
+  m('n', '<Space>ct', '<Cmd>CccHighlighterToggle<CR>')
 end
 
 function Init.telescope()
-  map('n', '<Space>fs', '<Cmd>Telescope find_files<CR>')
-  map('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
-  map('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
-  map('n', '<Space>fl', '<Cmd>Telescope highlights<CR>')
+  m('n', '<Space>fs', '<Cmd>Telescope find_files<CR>')
+  m('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
+  m('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
+  m('n', '<Space>fl', '<Cmd>Telescope highlights<CR>')
 end
 
 require 'plugins.lazy'(Init, Config)
+
+vim.cmd.colorscheme(_G.plugin_flags.colorscheme)

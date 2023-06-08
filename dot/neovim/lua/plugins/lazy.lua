@@ -1,5 +1,7 @@
 ---@diagnostic disable: undefined-field
 
+local flags = _G.plugin_flags
+
 ---@param init Plugins.Init
 ---@param config Plugins.Config
 return function(init, config)
@@ -8,8 +10,8 @@ return function(init, config)
   local function group(flag_name)
     return function(plugin_list)
       for _, plugin in ipairs(plugin_list) do
-        local flags = _G.plugin_flags[flag_name]
-        plugin.cond = type(flags) == 'nil' and false or flags
+        local flag = flags[flag_name]
+        plugin.cond = type(flag) == 'nil' and false or flag
         table.insert(plugins, plugin)
       end
     end
@@ -215,8 +217,7 @@ return function(init, config)
     {
       'famiu/bufdelete.nvim',
       cmd = { 'Bdelete', 'Bwipeout' },
-      event = 'BufAdd',
-      config = config.bufdelete,
+      init = init.bufdelete,
     },
 
     {
@@ -229,6 +230,8 @@ return function(init, config)
     {
       'lewis6991/gitsigns.nvim',
       config = config.gitsigns,
+      init = init.gitsigns,
+      cmd = 'Gitsigns',
       event = 'BufRead',
     },
     {
@@ -302,6 +305,11 @@ return function(init, config)
       enabled = vim.fn.executable 'sudo' == 1,
     },
     {
+      'LumaKernel/nvim-visual-eof.lua',
+      config = config.visual_eof,
+      event = 'BufRead',
+    },
+    {
       'ethanholz/nvim-lastplace',
       event = 'BufReadPre',
       config = config.lastplace,
@@ -332,12 +340,27 @@ return function(init, config)
       lazy = true,
     },
     concurrency = 10,
+    install = {
+      colorscheme = { flags.colorscheme, 'habamax' },
+    },
     ui = {
       border = 'rounded',
       icons = {
         loaded = ui.status.check,
         not_loaded = ui.status.close,
         runtime = '',
+        cmd = '',
+        event = '',
+        ft = '',
+        init = '',
+        config = '',
+        import = '',
+        keys = '',
+        lazy = '󰒲 ',
+        plugin = '',
+        source = '',
+        start = '',
+        task = '',
         list = { ' ' },
       },
     },
