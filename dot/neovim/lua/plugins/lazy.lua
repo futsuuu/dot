@@ -282,6 +282,17 @@ return function(init, config)
       init = init.neotree,
       config = config.neotree,
     },
+    {
+      'stevearc/overseer.nvim',
+      cmd = {
+        'OverseerInfo',
+        'OverseerOpen',
+        'OverseerToggle',
+        'OverseerRun',
+      },
+      init = init.overseer,
+      config = config.overseer,
+    },
 
     -- utils
     {

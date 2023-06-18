@@ -29,6 +29,12 @@ bufferline.setup {
         highlight = 'BufferLineFill',
         separator = false,
       },
+      {
+        filetype = 'OverseerList',
+        text = '',
+        highlight = 'WinSeparator',
+        separator = true,
+      },
     },
   },
 }
