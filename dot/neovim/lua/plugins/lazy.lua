@@ -357,8 +357,8 @@ return function(init, config)
     ui = {
       border = 'rounded',
       icons = {
-        loaded = ui.status.check,
-        not_loaded = ui.status.close,
+        loaded = ui.checkbox.check,
+        not_loaded = ui.checkbox.close,
         runtime = '',
         cmd = '',
         event = '',

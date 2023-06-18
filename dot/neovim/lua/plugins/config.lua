@@ -327,7 +327,7 @@ function Config.mason_lspconfig()
 end
 
 function Config.mason()
-  local status = ui.status
+  local cb = ui.checkbox
   require('mason').setup {
     providers = {
       'mason.providers.client',
@@ -337,9 +337,9 @@ function Config.mason()
       border = 'rounded',
       height = 0.8,
       icons = {
-        package_installed = status.check,
-        package_pending = status.dots,
-        package_uninstalled = status.close,
+        package_installed = cb.check,
+        package_pending = cb.dots,
+        package_uninstalled = cb.close,
       },
     },
   }

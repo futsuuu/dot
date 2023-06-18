@@ -12,10 +12,17 @@ function M.progressbar(percentage)
   return string.format(' %s%% %s%s', percentage, string.rep('━', length), string.rep('┄', max_length - length))
 end
 
-M.status = {
+M.checkbox = {
   check = '󰄲',
   dots = '󱅶',
   close = '󰄱',
+}
+
+M.status = {
+  success = '',
+  failure = '',
+  running = '',
+  canceled = '',
 }
 
 M.winbar_sep = {
