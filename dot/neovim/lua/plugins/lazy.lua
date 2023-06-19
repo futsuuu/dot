@@ -67,6 +67,7 @@ return function(init, config)
         },
         {
           'j-hui/fidget.nvim',
+          tag = 'legacy',
           config = config.fidget,
         },
         {
