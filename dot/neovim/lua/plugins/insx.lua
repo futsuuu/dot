@@ -12,7 +12,9 @@ local fast_wrap = recipe 'fast_wrap'
 
 local auto_pair_ext = recipe 'auto_pair_ext'
 
-local with, add, esc = insx.with, insx.add, insx.helper.regex.esc
+local helper = insx.helper
+local regex = helper.regex
+local with, add, esc, Tag = insx.with, insx.add, regex.esc, helper.search.Tag
 
 require('insx.preset.standard').setup_cmdline_mode {
   cmdline = {
@@ -43,6 +45,7 @@ for _, quote in ipairs { '"', "'", '`' } do
       with.nomatch [[\h\w*<.*\%#]],
     })
   end
+  -- "| ==> "|"
   add(
     quote,
     with(
@@ -53,6 +56,7 @@ for _, quote in ipairs { '"', "'", '`' } do
       pair_with
     )
   )
+  -- ""| ==> """|"""
   add(
     quote,
     with(
@@ -64,6 +68,20 @@ for _, quote in ipairs { '"', "'", '`' } do
         with.match(re),
       }
     )
+  )
+
+  -- ```|```    ```
+  --         => |
+  --            ```
+  add(
+    '<CR>',
+    with({
+      action = function(ctx)
+        local row, col = ctx.row(), ctx.col()
+        ctx.send '<CR><CR>'
+        ctx.move(row + 1, col)
+      end,
+    }, { with.match(quote:rep(3) .. [[.*\%#]] .. quote:rep(3)) })
   )
 
   -- delete_pair
@@ -159,19 +177,84 @@ end
 add(
   '<CR>',
   fast_break {
-    open_pat = insx.helper.search.Tag.Open,
-    close_pat = insx.helper.search.Tag.Close,
+    open_pat = Tag.Open,
+    close_pat = Tag.Close,
   }
 )
 
-add('>', jump_next { jump_pat = [[\%#>\zs]] })
 add('<BS>', delete_pair { open_pat = '<', close_pat = '>' })
 
-local tag_ft = with.filetype { 'html', 'typescriptreact', 'javascriptreact', 'markdown' }
+local tag_ft = with.filetype {
+  'astro',
+  'html',
+  'xml',
+  'typescriptreact',
+  'javascriptreact',
+  'markdown',
+}
+
+-- <foo| ==> <foo>|</foo>
+add(
+  '>',
+  with({
+    action = function(ctx)
+      local name = ctx.before():match '<(%w+)'
+      local row, col = ctx.row(), ctx.col()
+      ctx.move(row, col + 1)
+      ctx.send(('></' .. name .. '>'))
+      ctx.move(row, col + 1)
+    end,
+    enabled = function(ctx)
+      return regex.match(ctx.before(), Tag.Open:gsub('>$', '')) ~= nil and regex.match(ctx.after(), Tag.Close) == nil
+    end,
+  }, { tag_ft })
+)
+
+-- <foo| ==> <foo />
 add(
   '/',
-  with(auto_pair_ext { open = ' />', close = '' }, {
-    tag_ft,
-    with.match [[<.*[^>]\%#]],
-  })
+  with({
+    action = function(ctx)
+      local row, col = ctx.row(), ctx.col()
+      if ctx.before():match '%s+$' then
+        ctx.send '/>'
+        ctx.move(row, col + 2)
+      else
+        ctx.send ' />'
+        ctx.move(row, col + 3)
+      end
+    end,
+    enabled = function(ctx)
+      return regex.match(ctx.before(), Tag.Open:gsub('>$', '')) ~= nil and regex.match(ctx.after(), [[\s*/>]]) == nil
+    end,
+  }, { tag_ft })
+)
+
+-- <foo>|</foo> ==> <foo|
+add(
+  '<BS>',
+  with({
+    action = function(ctx)
+      local close_tag_len = ctx.after():match('^</.*>'):len()
+      ctx.send('<BS>' .. ('<Del>'):rep(close_tag_len))
+    end,
+    enabled = function(ctx)
+      return regex.match(ctx.before(), Tag.Open .. [[\%$]]) ~= nil
+        and regex.match(ctx.after(), [[\%^]] .. Tag.Close) ~= nil
+    end,
+  }, { tag_ft })
+)
+
+-- <foo />| ==> <foo|
+add(
+  '<BS>',
+  with({
+    action = function(ctx)
+      local space_len = ctx.before():match('(%s+)/>$'):len()
+      ctx.send(('<BS>'):rep(space_len + 2))
+    end,
+    enabled = function(ctx)
+      return regex.match(ctx.before(), Tag.Open:gsub('>$', '/>') .. [[\%$]]) ~= nil
+    end,
+  }, { tag_ft })
 )
