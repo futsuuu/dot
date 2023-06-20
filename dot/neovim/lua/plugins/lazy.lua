@@ -79,6 +79,7 @@ return function(init, config)
     },
     {
       'aznhe21/actions-preview.nvim',
+      init = init.actions_preview,
       config = config.actions_preview,
     },
     {

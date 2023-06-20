@@ -1,7 +1,7 @@
 local opt = vim.opt
 
-local autocmd = vim.api.nvim_create_autocmd
-local map = vim.keymap.set
+local au = vim.api.nvim_create_autocmd
+local m = vim.keymap.set
 
 opt.syntax = 'off'
 
@@ -11,16 +11,18 @@ opt.termguicolors = true
 opt.fillchars:append {
   eob = ' ',
 }
+opt.shell = 'nu'
 
-autocmd('InsertEnter', {
+au('InsertEnter', {
   pattern = '*',
+  once = true,
   callback = function()
     opt.showmode = false
-    map('i', 'jj', '<Esc>')
+    m('i', 'jj', '<Esc>')
   end,
 })
 
-autocmd('WinNew', {
+au('WinNew', {
   pattern = '*',
   once = true,
   callback = function()
@@ -29,14 +31,14 @@ autocmd('WinNew', {
       stl = '─',
       stlnc = '─',
     }
-    map('n', '<C-h>', '<C-w>h')
-    map('n', '<C-j>', '<C-w>j')
-    map('n', '<C-k>', '<C-w>k')
-    map('n', '<C-l>', '<C-w>l')
+    m('n', '<C-h>', '<C-w>h')
+    m('n', '<C-j>', '<C-w>j')
+    m('n', '<C-k>', '<C-w>k')
+    m('n', '<C-l>', '<C-w>l')
   end,
 })
 
-autocmd('CursorMoved', {
+au('CursorMoved', {
   pattern = '*',
   once = true,
   callback = function()
@@ -46,19 +48,20 @@ autocmd('CursorMoved', {
     opt.sidescrolloff = 16
     opt.virtualedit = 'onemore'
     opt.wrap = false
-    map('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR><Esc>')
+    m('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR><Esc>')
     require 'core.cursorline'
   end,
 })
 
-autocmd('BufReadPre', {
+au('BufReadPre', {
   pattern = '*',
+  once = true,
   callback = function()
     require 'core.winbar'
   end,
 })
 
-autocmd('BufRead', {
+au('BufRead', {
   pattern = '*',
   once = true,
   callback = function()
@@ -92,13 +95,11 @@ autocmd('BufRead', {
     opt.number = true
     opt.signcolumn = 'yes'
 
-    map('n', 'a', function()
+    m('n', 'a', function()
       return vim.api.nvim_get_current_line():match '^%s*$' and 'S' or 'a'
     end, { expr = true })
 
-    map('n', '<Space>ca', require('actions-preview').code_actions)
-
-    map('n', 'K', function()
+    m('n', 'K', function()
       local filetype = vim.bo.filetype
       if vim.tbl_contains({ 'vim', 'help' }, filetype) then
         vim.cmd('h ' .. vim.fn.expand '<cword>')
@@ -111,24 +112,24 @@ autocmd('BufRead', {
       end
     end)
 
-    map('n', '<Space>rn', vim.lsp.buf.rename)
+    m('n', '<Space>rn', vim.lsp.buf.rename)
 
     local opts = { float = { border = 'rounded' } }
 
-    map('n', ']d', function()
+    m('n', ']d', function()
       vim.diagnostic.goto_next(opts)
     end)
-    map('n', '[d', function()
+    m('n', '[d', function()
       vim.diagnostic.goto_prev(opts)
     end)
   end,
 })
 
-autocmd('TermOpen', {
+au('TermOpen', {
   pattern = '*',
   callback = function()
     vim.cmd.startinsert()
-    map('t', '<Esc>', '<C-\\><C-n>')
+    m('t', '<Esc>', '<C-\\><C-n>')
     vim.opt_local.number = false
     vim.opt_local.signcolumn = 'no'
   end,

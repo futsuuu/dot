@@ -53,8 +53,12 @@ function Init.ccc()
 end
 
 function Init.overseer()
-  m('n', '<Space>or', '<Cmd>OverseerRun<CR>')
-  m('n', '<Space>ot', '<Cmd>OverseerToggle<CR>')
+  m('n', '<Space>qr', '<Cmd>OverseerRun<CR>')
+  m('n', '<Space>qt', '<Cmd>OverseerToggle<CR>')
+end
+
+function Init.action_preview()
+  m('n', '<Space>ca', require('actions-preview').code_actions)
 end
 
 function Init.telescope()
