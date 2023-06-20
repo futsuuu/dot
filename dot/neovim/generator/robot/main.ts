@@ -225,8 +225,11 @@ const hlData: ColorScheme = {
   Statement: "Keyword",
   PreProc: [magenta, _],
   Title: [blue, _, "bold"],
-  Special: [magenta, _],
-  NonText: [bg, _],
+  Special: {
+    "": [magenta, _],
+    Key: "Special",
+  },
+  NonText: [bg.mix(fg, 0.2), _],
   Conceal: [bg.mix(fg, 0.7), "NONE"],
   Delimiter: [blue, _],
   Comment: [bg.mix(fg, 0.5), _, "italic"],
@@ -338,6 +341,8 @@ const hlData: ColorScheme = {
   Telescope: {
     Normal: "Pmenu",
     Border: "FloatBorder",
+    Matching: "Search",
+    PromptCounter: "TelescopeBorder",
   },
   GitSigns: {
     Add: [diffAdd, _],

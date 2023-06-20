@@ -49,6 +49,7 @@ return function(init, config)
         },
       },
     },
+    { 'uga-rosa/cmp-skkeleton', event = 'User skkeleton-enable-pre' },
   }
 
   group 'nvim_lsp' {
@@ -81,6 +82,12 @@ return function(init, config)
       'aznhe21/actions-preview.nvim',
       init = init.actions_preview,
       config = config.actions_preview,
+    },
+    {
+      'stevearc/aerial.nvim',
+      cmd = 'AerialToggle',
+      init = init.aerial,
+      config = config.aerial,
     },
     {
       'zbirenbaum/neodim',
@@ -251,6 +258,7 @@ return function(init, config)
     },
     {
       'rcarriga/nvim-notify',
+      cmd = 'Notifications',
       init = init.notify,
     },
 
@@ -310,6 +318,7 @@ return function(init, config)
         'SudaRead',
         'SudaWrite',
       },
+      init = init.suda,
       enabled = vim.fn.executable 'sudo' == 1,
     },
     {
@@ -346,6 +355,11 @@ return function(init, config)
   require('lazy').setup(plugins, {
     defaults = {
       lazy = true,
+    },
+    dev = {
+      path = '~/dev/github.com/futsuuu',
+      patterns = { 'futsuuu' },
+      fallback = true,
     },
     concurrency = 10,
     install = {

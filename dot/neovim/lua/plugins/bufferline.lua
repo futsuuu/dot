@@ -55,6 +55,12 @@ bufferline.setup {
         separator = false,
       },
       {
+        filetype = 'aerial',
+        text = 'outline',
+        highlight = 'WinSeparator',
+        separator = true,
+      },
+      {
         filetype = 'OverseerList',
         text = '',
         highlight = 'WinSeparator',
