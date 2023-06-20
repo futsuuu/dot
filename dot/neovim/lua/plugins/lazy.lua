@@ -67,6 +67,7 @@ return function(init, config)
         },
         {
           'j-hui/fidget.nvim',
+          tag = 'legacy',
           config = config.fidget,
         },
         {
@@ -78,6 +79,7 @@ return function(init, config)
     },
     {
       'aznhe21/actions-preview.nvim',
+      init = init.actions_preview,
       config = config.actions_preview,
     },
     {
@@ -189,10 +191,9 @@ return function(init, config)
     },
     { 'MunifTanjim/nui.nvim' },
 
-    -- edit
     {
       'hrsh7th/nvim-insx',
-      event = 'InsertEnter',
+      event = { 'InsertEnter', 'CmdlineEnter' },
       config = config.insx,
     },
     {
@@ -202,7 +203,6 @@ return function(init, config)
       config = config.nvim_surround,
     },
 
-    -- buffer
     {
       'akinsho/bufferline.nvim',
       version = '*',
@@ -226,7 +226,6 @@ return function(init, config)
       config = config.blankline,
     },
 
-    -- git
     {
       'lewis6991/gitsigns.nvim',
       config = config.gitsigns,
@@ -246,7 +245,6 @@ return function(init, config)
       config = config.neogit,
     },
 
-    -- ui
     {
       'stevearc/dressing.nvim',
       init = init.dressing,
@@ -282,8 +280,18 @@ return function(init, config)
       init = init.neotree,
       config = config.neotree,
     },
+    {
+      'stevearc/overseer.nvim',
+      cmd = {
+        'OverseerInfo',
+        'OverseerOpen',
+        'OverseerToggle',
+        'OverseerRun',
+      },
+      init = init.overseer,
+      config = config.overseer,
+    },
 
-    -- utils
     {
       'uga-rosa/ccc.nvim',
       init = init.ccc,
@@ -346,8 +354,8 @@ return function(init, config)
     ui = {
       border = 'rounded',
       icons = {
-        loaded = ui.status.check,
-        not_loaded = ui.status.close,
+        loaded = ui.checkbox.check,
+        not_loaded = ui.checkbox.close,
         runtime = '',
         cmd = '',
         event = '',

@@ -43,10 +43,6 @@ function Config.alpha()
   alpha.setup(dashboard.opts)
 end
 
-function Config.insx()
-  require('insx.preset.standard').setup()
-end
-
 function Config.dressing()
   require('dressing').setup {
     input = {
@@ -62,8 +58,7 @@ function Config.notify()
   require('notify').setup {
     timeout = 7000,
     on_open = function(win)
-      local buf = api.nvim_win_get_buf(win)
-      api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+      api.nvim_set_option_value('filetype', 'markdown', { win = win })
     end,
   }
 end
@@ -153,6 +148,14 @@ function Config.blankline()
     show_current_context = false,
     show_current_context_start = false,
     char = '▏',
+    filetype_exclude = {
+      'lspinfo',
+      'checkhealth',
+      'help',
+      'man',
+      'OverseerForm',
+      '',
+    },
   }
 end
 
@@ -227,6 +230,21 @@ function Config.telescope()
   telescope.load_extension 'zf-native'
   telescope.load_extension 'mr'
   hl(0, 'TelescopeMatching', { link = 'Search' })
+end
+
+function Config.overseer()
+  require('overseer').setup {
+    templates = { 'builtin', 'user.python' },
+    component_aliases = {
+      default = {
+        { 'display_duration', detail_level = 2 },
+        'on_output_summarize',
+        'on_exit_set_status',
+        { 'on_complete_notify', statuses = { 'FAILURE' } },
+        'on_complete_dispose',
+      },
+    },
+  }
 end
 
 function Config.ccc()
@@ -305,7 +323,7 @@ function Config.mason_lspconfig()
 end
 
 function Config.mason()
-  local status = ui.status
+  local cb = ui.checkbox
   require('mason').setup {
     providers = {
       'mason.providers.client',
@@ -315,9 +333,9 @@ function Config.mason()
       border = 'rounded',
       height = 0.8,
       icons = {
-        package_installed = status.check,
-        package_pending = status.dots,
-        package_uninstalled = status.close,
+        package_installed = cb.check,
+        package_pending = cb.dots,
+        package_uninstalled = cb.close,
       },
     },
   }
