@@ -35,7 +35,8 @@ hi! link Statement Keyword
 hi PreProc guifg=#d09dec
 hi! Title guifg=#94b0ec gui=bold
 hi Special guifg=#d09dec
-hi NonText guifg=#171b30
+hi! link SpecialKey Special
+hi NonText guifg=#35394f
 hi Conceal guifg=#7f839b guibg=NONE
 hi Delimiter guifg=#94b0ec
 hi! Comment guifg=#61657c gui=italic
@@ -114,6 +115,8 @@ hi rainbowcol6 guifg=#94b0ec
 hi rainbowcol7 guifg=#d09dec
 hi! link TelescopeNormal Pmenu
 hi! link TelescopeBorder FloatBorder
+hi! link TelescopeMatching Search
+hi! link TelescopePromptCounter TelescopeBorder
 hi GitSignsAdd guifg=#2a742c
 hi GitSignsChange guifg=#3566b2
 hi GitSignsDelete guifg=#b52f74
