@@ -200,7 +200,6 @@ add(
     action = function(ctx)
       local name = ctx.before():match '<(%w+)'
       local row, col = ctx.row(), ctx.col()
-      ctx.move(row, col + 1)
       ctx.send(('></' .. name .. '>'))
       ctx.move(row, col + 1)
     end,
