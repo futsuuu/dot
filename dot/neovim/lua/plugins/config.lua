@@ -43,10 +43,6 @@ function Config.alpha()
   alpha.setup(dashboard.opts)
 end
 
-function Config.insx()
-  require('insx.preset.standard').setup()
-end
-
 function Config.dressing()
   require('dressing').setup {
     input = {

@@ -190,10 +190,9 @@ return function(init, config)
     },
     { 'MunifTanjim/nui.nvim' },
 
-    -- edit
     {
       'hrsh7th/nvim-insx',
-      event = 'InsertEnter',
+      event = { 'InsertEnter', 'CmdlineEnter' },
       config = config.insx,
     },
     {
@@ -203,7 +202,6 @@ return function(init, config)
       config = config.nvim_surround,
     },
 
-    -- buffer
     {
       'akinsho/bufferline.nvim',
       version = '*',
@@ -227,7 +225,6 @@ return function(init, config)
       config = config.blankline,
     },
 
-    -- git
     {
       'lewis6991/gitsigns.nvim',
       config = config.gitsigns,
@@ -247,7 +244,6 @@ return function(init, config)
       config = config.neogit,
     },
 
-    -- ui
     {
       'stevearc/dressing.nvim',
       init = init.dressing,
@@ -295,7 +291,6 @@ return function(init, config)
       config = config.overseer,
     },
 
-    -- utils
     {
       'uga-rosa/ccc.nvim',
       init = init.ccc,
