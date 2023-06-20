@@ -25,6 +25,14 @@ function Init.notify()
   vim.notify = notify
 end
 
+function Init.aerial()
+  m('n', '<Space>a', '<Cmd>AerialToggle<CR>')
+end
+
+function Init.suda()
+  vim.api.nvim_create_user_command('S', 'SudaWrite', {})
+end
+
 function Init.neotree()
   m('n', '<Space>e', '<Cmd>Neotree toggle=true source=filesystem<CR>')
 end

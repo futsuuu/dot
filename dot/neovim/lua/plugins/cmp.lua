@@ -17,6 +17,7 @@ opts.sources = {
   { name = 'path' },
   { name = 'buffer' },
   { name = 'crates' },
+  { name = 'skkeleton' },
 }
 
 opts.completion = {
@@ -28,8 +29,10 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
 end
 
-opts.mapping = cmp.mapping.preset.insert {
-  ['<Tab>'] = cmp.mapping(function(fallback)
+local mapping = cmp.mapping
+
+opts.mapping = mapping.preset.insert {
+  ['<Tab>'] = mapping(function(fallback)
     if cmp.visible() then
       cmp.select_next_item()
     elseif luasnip.expand_or_jumpable() then
@@ -40,7 +43,7 @@ opts.mapping = cmp.mapping.preset.insert {
       fallback()
     end
   end, { 'i', 'c', 's' }),
-  ['<S-Tab>'] = cmp.mapping(function(fallback)
+  ['<S-Tab>'] = mapping(function(fallback)
     if cmp.visible() then
       cmp.select_prev_item()
     elseif luasnip.jumpable(-1) then
@@ -49,12 +52,12 @@ opts.mapping = cmp.mapping.preset.insert {
       fallback()
     end
   end, { 'i', 'c', 's' }),
-  ['<CR>'] = cmp.mapping.confirm {
+  ['<CR>'] = mapping.confirm {
     select = true,
   },
-  ['<C-e>'] = cmp.mapping.abort(),
-  ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-  ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  ['<C-e>'] = mapping.abort(),
+  ['<C-d>'] = mapping.scroll_docs(-4),
+  ['<C-f>'] = mapping.scroll_docs(4),
 }
 
 opts.snippet = {

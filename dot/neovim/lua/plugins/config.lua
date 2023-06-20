@@ -56,7 +56,7 @@ end
 
 function Config.notify()
   require('notify').setup {
-    timeout = 7000,
+    timeout = 3000,
     on_open = function(win)
       api.nvim_set_option_value('filetype', 'markdown', { win = win })
     end,
@@ -94,6 +94,25 @@ function Config.neodim()
   require('neodim').setup {
     update_in_insert = {
       enable = false,
+    },
+  }
+end
+
+function Config.aerial()
+  require('aerial').setup {
+    backends = { 'lsp', 'treesitter', 'markdown', 'man' },
+    layout = {
+      default_direction = 'right',
+      min_width = { 20, 0.2 },
+    },
+    close_on_select = true,
+    icons = ui.kind,
+    show_guides = true,
+    guides = {
+      mid_item = '│ ',
+      last_item = '│ ',
+      nested_top = '│ ',
+      whitespace = '  ',
     },
   }
 end
@@ -187,6 +206,7 @@ function Config.skkeleton()
         keepState = true,
         eggLikeNewline = true,
         setUndoPoint = false,
+        userJisyo = vim.fn.stdpath 'data' .. 'SKK-JISYO.user',
       }
 
       skkeleton.register_keymap('input', ';', 'henkanPoint')
@@ -230,6 +250,12 @@ function Config.telescope()
   telescope.load_extension 'zf-native'
   telescope.load_extension 'mr'
   hl(0, 'TelescopeMatching', { link = 'Search' })
+  autocmd('FileType', {
+    pattern = 'TelescopePrompt',
+    callback = function()
+      vim.opt_local.cursorline = false
+    end,
+  })
 end
 
 function Config.overseer()
