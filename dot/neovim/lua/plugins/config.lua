@@ -300,15 +300,21 @@ end
 function Config.fidget()
   require('fidget').setup {
     text = {
-      spinner = 'arc',
+      spinner = 'dots',
+      done = ui.status.success,
+      commenced = ui.status.running,
+      completed = ui.status.success,
     },
     window = {
       relative = 'editor',
       blend = 0,
     },
     fmt = {
+      fidget = function(fidget_name, spinner)
+        return ('%s %s '):format(spinner, fidget_name)
+      end,
       task = function(task_name, message, percentage)
-        return string.format('%s%s %s', message, ui.progressbar(percentage), task_name)
+        return ('%s%s %s '):format(message, ui.progressbar(percentage), task_name)
       end,
     },
   }
