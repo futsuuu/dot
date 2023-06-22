@@ -68,26 +68,15 @@ function Config.treesitter()
     ensure_installed = {
       'lua',
     },
+    indent = {
+      enable = true,
+    },
     highlight = {
       enable = true,
+      disable = { 'tsx' },
       additional_vim_regex_highlighting = false,
     },
-    rainbow = {
-      enable = true,
-    },
-    autotag = {
-      enable = true,
-    },
   }
-  autocmd('CursorHold', {
-    pattern = '*',
-    callback = function()
-      vim.cmd [[
-      TSBufDisable rainbow
-      TSBufEnable rainbow
-      ]]
-    end,
-  })
 end
 
 function Config.neodim()
