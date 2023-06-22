@@ -1,6 +1,7 @@
 local api = vim.api
 local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
+local keymap = vim.keymap.set
 
 local ui = require 'core.ui'
 local utils = require 'utils'
@@ -259,7 +260,25 @@ function Config.overseer()
         'on_complete_dispose',
       },
     },
+    task_list = {
+      direction = 'right',
+      bindings = {
+        h = 'DecreaseDetail',
+        l = 'IncreaseDetail',
+      },
+    },
+    form = { winblend = vim.o.winblend },
+    confirm = { winblend = vim.o.winblend },
+    task_win = { winblend = vim.o.winblend },
   }
+  autocmd('FileType', {
+    pattern = 'OverseerList',
+    callback = function()
+      keymap('n', '<C-h>', '<C-w>h')
+      keymap('n', '<C-l>', '<C-w>l')
+      keymap('n', 'q', '<Cmd>close<CR>')
+    end,
+  })
 end
 
 function Config.ccc()

@@ -4,32 +4,34 @@ local bufferline = require 'bufferline'
 
 local ui = require 'core.ui'
 
+local function overseer_info()
+  local result = {}
+  if not package.loaded.overseer then
+    return result
+  end
+
+  local tasks = require('overseer.task_list').list_tasks { unique = true }
+  local tasks_by_status = require('overseer.util').tbl_group_by(tasks, 'status')
+
+  for status, symbol in pairs(ui.status) do
+    status = status:upper()
+    local task = tasks_by_status[status]
+    if task then
+      local text = '%#' .. 'Overseer' .. status .. '#' .. symbol .. ' ' .. #task .. ' '
+      table.insert(result, { text = text })
+    end
+  end
+
+  return result
+end
+
 bufferline.setup {
   options = {
     custom_areas = {
-      right = function()
-        local result = {}
-        if not package.loaded.overseer then
-          return result
-        end
-
-        local tasks = require('overseer.task_list').list_tasks { unique = true }
-        local tasks_by_status = require('overseer.util').tbl_group_by(tasks, 'status')
-
-        for status, symbol in pairs(ui.status) do
-          status = status:upper()
-          local task = tasks_by_status[status]
-          if task then
-            local text = '%#' .. 'Overseer' .. status .. '#' .. symbol .. ' ' .. #task .. ' '
-            table.insert(result, { text = text })
-          end
-        end
-
-        return result
-      end,
+      right = overseer_info,
     },
     mode = 'buffers',
-    separator_style = 'slant',
+    separator_style = 'thick',
     style_preset = bufferline.style_preset.no_italic,
     themable = true,
     indicator = { style = 'icon', icon = '▎' },
