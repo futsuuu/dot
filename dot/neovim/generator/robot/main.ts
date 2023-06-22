@@ -248,7 +248,7 @@ const hlData: ColorScheme = {
   VertSplit: [bg.mix(fg, 0.5), bg, "NONE"],
   Underlined: [fg, _, "underline"],
   Bold: [_, _, "bold"],
-  Todo: [_, yellow, "bold"],
+  Todo: [bg, yellow, "bold"],
   Directory: [blue, _],
   StatusLine: {
     "": [bg.mix(fg, 0.5), bg, "NONE"],
@@ -271,6 +271,10 @@ const hlData: ColorScheme = {
       return r;
     }),
     VirtualText: {},
+  },
+  Error: {
+    "": "DiagnosticError",
+    Msg: "Error",
   },
   "@": {
     none: [_, _, "NONE"],
@@ -327,6 +331,12 @@ const hlData: ColorScheme = {
     },
     tag: {
       attribute: "@property",
+    },
+  },
+  Lsp: {
+    InlayHint: [fg.mix(bg, 0.45), bg.mix(fg, 0.04)],
+    Info: {
+      Border: "FloatBorder",
     },
   },
   rainbowcol: {

@@ -6,8 +6,11 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 local root_pattern = lspconfig.util.root_pattern
 
-local function on_attach(client, _)
+local function on_attach(client, bufnr)
   client.server_capabilities.documentFormattingProvider = false
+  if client.supports_method 'textDocument/inlayHint' then
+    pcall(vim.lsp.buf.inlay_hint, bufnr)
+  end
 end
 
 local capabilities = lsp.protocol.make_client_capabilities()
@@ -28,6 +31,29 @@ if _G.plugin_flags.cmp then
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
+local js_ts_inlayhint = {
+  enumMemberValues = {
+    enabled = true,
+  },
+  functionLikeReturnTypes = {
+    enabled = true,
+  },
+  parameterNames = {
+    enabled = 'all',
+    suppressWhenArgumentMatchesName = true,
+  },
+  parameterTypes = {
+    enabled = true,
+  },
+  propertyDeclarationTypes = {
+    enabled = true,
+  },
+  variableTypes = {
+    enabled = true,
+    suppressWhenTypeMatchesName = true,
+  },
+}
+
 local settings = {
   Lua = {
     runtime = {
@@ -46,17 +72,27 @@ local settings = {
     hover = {
       expandAlias = false,
     },
+    hint = {
+      enable = true,
+    },
   },
   deno = {
     enable = true,
     lint = true,
     unstable = true,
     importMap = './deno.jsonc',
+    inlayHints = js_ts_inlayhint,
   },
   ['rust-analyzer'] = {
     check = {
       command = 'clippy',
     },
+  },
+  typescript = {
+    inlayHints = js_ts_inlayhint,
+  },
+  javascript = {
+    inlayHints = js_ts_inlayhint,
   },
 }
 
@@ -73,6 +109,7 @@ mason_lspconfig.setup_handlers {
     lspconfig.vtsls.setup {
       on_attach = on_attach,
       capabilities = capabilities,
+      settings = settings,
       root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
       single_file_support = false,
     }
