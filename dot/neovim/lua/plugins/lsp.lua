@@ -6,12 +6,11 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 local root_pattern = lspconfig.util.root_pattern
 
-local function on_attach(client, bufnr)
-  client.server_capabilities.documentFormattingProvider = false
+require('utils').on_attach(function(client, bufnr)
   if client.supports_method 'textDocument/inlayHint' then
     pcall(vim.lsp.buf.inlay_hint, bufnr)
   end
-end
+end)
 
 local capabilities = lsp.protocol.make_client_capabilities()
 capabilities.textDocument = {
@@ -99,7 +98,6 @@ local settings = {
 mason_lspconfig.setup_handlers {
   function(server_name)
     local opts = {
-      on_attach = on_attach,
       capabilities = capabilities,
       settings = settings,
     }
@@ -107,7 +105,6 @@ mason_lspconfig.setup_handlers {
   end,
   vtsls = function()
     lspconfig.vtsls.setup {
-      on_attach = on_attach,
       capabilities = capabilities,
       settings = settings,
       root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
@@ -116,12 +113,13 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
-lspconfig.denols.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = settings,
-  root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock'),
-}
+if vim.fn.executable 'deno' then
+  lspconfig.denols.setup {
+    capabilities = capabilities,
+    settings = settings,
+    root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock'),
+  }
+end
 
 vim.diagnostic.config {
   signs = false,

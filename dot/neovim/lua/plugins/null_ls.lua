@@ -3,6 +3,12 @@ local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 local null_ls = require 'null-ls'
 local builtins = null_ls.builtins
 
+require('utils').on_attach(function(client, _)
+  if client.name ~= 'null-ls' then
+    client.server_capabilities.documentFormattingProvider = false
+  end
+end)
+
 null_ls.setup {
   sources = {
     builtins.formatting.stylua,
