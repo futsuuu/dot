@@ -28,4 +28,5 @@ else
 end
 
 env.VIRTUAL_ENV = virtual_env
+env.VIRTUAL_ENV_PROMPT = vim.fs.basename(venv[1])
 env.PATH = virtual_env .. path_sep .. env.PATH
