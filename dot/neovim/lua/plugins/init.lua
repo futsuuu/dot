@@ -65,8 +65,10 @@ function Init.overseer()
   m('n', '<Space>qt', '<Cmd>OverseerToggle<CR>')
 end
 
-function Init.action_preview()
-  m('n', '<Space>ca', require('actions-preview').code_actions)
+function Init.actions_preview()
+  m('n', '<Space>ca', function()
+    require('actions-preview').code_actions()
+  end)
 end
 
 function Init.telescope()
