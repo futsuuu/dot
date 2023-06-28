@@ -193,20 +193,46 @@ local tag_ft = with.filetype {
   'markdown',
 }
 
+local arrowfunc_ft = with.filetype {
+  'astro',
+  'typescript',
+  'javascript',
+  'typescriptreact',
+  'javascriptreact',
+}
+
 -- <foo| ==> <foo>|</foo>
 add(
   '>',
   with({
     action = function(ctx)
-      local name = ctx.before():match '<(%w+)'
+      local before = ctx.before():split '<' ---@type string[]
+      local name = before[#before]:match '%g+'
       local row, col = ctx.row(), ctx.col()
       ctx.send(('></' .. name .. '>'))
       ctx.move(row, col + 1)
     end,
     enabled = function(ctx)
-      return regex.match(ctx.before(), Tag.Open:gsub('>$', '')) ~= nil and regex.match(ctx.after(), Tag.Close) == nil
+      return regex.match(ctx.before(), Tag.Open:gsub('>$', '')) ~= nil
+        and regex.match(ctx.after(), Tag.Close) == nil
+        and ctx.before():match 'function' == nil
+        and ctx.before():match '|' == nil
+        and ctx.after():match '^[%(%)]' == nil
     end,
   }, { tag_ft })
+)
+
+-- (hello|) ==> (hello) => {|}
+add(
+  '>',
+  with({
+    action = function(ctx)
+      ctx.send '<Del>) => {}<Left>'
+    end,
+    enabled = function(ctx)
+      return ctx.before():match '%([%w, ]*' and ctx.after():match '^%)'
+    end,
+  }, { arrowfunc_ft })
 )
 
 -- <foo| ==> <foo />
