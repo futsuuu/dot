@@ -207,9 +207,9 @@ add(
   with({
     action = function(ctx)
       local before = ctx.before():split '<' ---@type string[]
-      local name = before[#before]:match '%g+'
+      local name = before[#before]:match '%a[%w%.]*'
       local row, col = ctx.row(), ctx.col()
-      ctx.send(('></' .. name .. '>'))
+      ctx.send(('></' .. (name or '') .. '>'))
       ctx.move(row, col + 1)
     end,
     enabled = function(ctx)
@@ -260,7 +260,7 @@ add(
   '<BS>',
   with({
     action = function(ctx)
-      local close_tag_len = ctx.after():match('^</.*>'):len()
+      local close_tag_len = ctx.after():match('^</[^>]*>'):len()
       ctx.send('<BS>' .. ('<Del>'):rep(close_tag_len))
     end,
     enabled = function(ctx)
@@ -275,7 +275,7 @@ add(
   '<BS>',
   with({
     action = function(ctx)
-      local space_len = ctx.before():match('(%s+)/>$'):len()
+      local space_len = ctx.before():match('(%s*)/>$'):len()
       ctx.send(('<BS>'):rep(space_len + 2))
     end,
     enabled = function(ctx)
