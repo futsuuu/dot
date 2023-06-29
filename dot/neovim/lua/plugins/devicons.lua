@@ -12,6 +12,18 @@ local readme = {
   name = 'Readme',
 }
 
+local changelog = {
+  icon = '',
+  color = '#bcae3d',
+  name = 'ChangeLog',
+}
+
+local todo = {
+  icon = '',
+  color = '#33ce89',
+  name = 'Todo',
+}
+
 local license = {
   icon = '',
   color = '#999966',
@@ -26,7 +38,7 @@ local git = {
 
 local lua = {
   icon = '󰢱',
-  color = '#1a5edb',
+  color = '#277ded',
   name = 'Lua',
 }
 
@@ -42,6 +54,18 @@ local typescript = {
   name = 'Ts',
 }
 
+local package_json = {
+  icon = '󰎙',
+  color = '#1ec157',
+  name = 'PackageJson',
+}
+
+local react = {
+  icon = '󰜈',
+  color = '#2599e6',
+  name = 'React',
+}
+
 devicons.setup {
   override_by_filename = {
     ['tmux.conf'] = tmux,
@@ -53,12 +77,17 @@ devicons.setup {
     ['.gitattribules'] = git,
     ['commit_editmsg'] = git,
     ['readme.md'] = readme,
+    ['todo.md'] = todo,
+    ['changelog.md'] = changelog,
     ['license'] = license,
+    ['package.json'] = package_json,
+    ['package-lock.json'] = package_json,
   },
   override_by_extension = {
     lua = lua,
     rs = rust,
     ts = typescript,
+    tsx = react,
   },
   default = true,
 }
