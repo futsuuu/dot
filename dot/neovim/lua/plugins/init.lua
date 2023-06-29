@@ -41,6 +41,9 @@ function Init.gitsigns()
   m({ 'n', 'v' }, '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
   m('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
   m('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
+  m('n', 'vih', '<Cmd>Gitsigns select_hunk<CR>')
+  m('n', '<Space>ga', '<Cmd>Gitsigns stage_hunk<CR>')
+  m('n', '<Space>gu', '<Cmd>Gitsigns undo_stage_hunk<CR>')
   m('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
 end
 
