@@ -7,8 +7,10 @@ local mason_lspconfig = require 'mason-lspconfig'
 local root_pattern = lspconfig.util.root_pattern
 
 require('utils').on_attach(function(client, bufnr)
-  if client.supports_method 'textDocument/inlayHint' then
-    pcall(vim.lsp.buf.inlay_hint, bufnr)
+  if client.supports_method 'textDocument/inlayHint' and vim.lsp.buf.inlay_hint then
+    vim.api.nvim_buf_create_user_command(bufnr, 'InlayHintToggle', function()
+      vim.lsp.buf.inlay_hint(bufnr)
+    end, {})
   end
 end)
 
