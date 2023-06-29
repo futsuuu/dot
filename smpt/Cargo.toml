@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 home = "0.5"
-git2 = "0.16"
+git2 = "0.17"
 
 [profile.release]
 lto = true

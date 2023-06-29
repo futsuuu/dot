@@ -1,6 +1,7 @@
 local api = vim.api
 local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
+local keymap = vim.keymap.set
 
 local ui = require 'core.ui'
 local utils = require 'utils'
@@ -68,26 +69,15 @@ function Config.treesitter()
     ensure_installed = {
       'lua',
     },
+    indent = {
+      enable = true,
+    },
     highlight = {
       enable = true,
+      disable = { 'tsx' },
       additional_vim_regex_highlighting = false,
     },
-    rainbow = {
-      enable = true,
-    },
-    autotag = {
-      enable = true,
-    },
   }
-  autocmd('CursorHold', {
-    pattern = '*',
-    callback = function()
-      vim.cmd [[
-      TSBufDisable rainbow
-      TSBufEnable rainbow
-      ]]
-    end,
-  })
 end
 
 function Config.neodim()
@@ -270,7 +260,25 @@ function Config.overseer()
         'on_complete_dispose',
       },
     },
+    task_list = {
+      direction = 'right',
+      bindings = {
+        h = 'DecreaseDetail',
+        l = 'IncreaseDetail',
+      },
+    },
+    form = { winblend = vim.o.winblend },
+    confirm = { winblend = vim.o.winblend },
+    task_win = { winblend = vim.o.winblend },
   }
+  autocmd('FileType', {
+    pattern = 'OverseerList',
+    callback = function()
+      keymap('n', '<C-h>', '<C-w>h')
+      keymap('n', '<C-l>', '<C-w>l')
+      keymap('n', 'q', '<Cmd>close<CR>')
+    end,
+  })
 end
 
 function Config.ccc()
@@ -292,15 +300,21 @@ end
 function Config.fidget()
   require('fidget').setup {
     text = {
-      spinner = 'arc',
+      spinner = 'dots',
+      done = ui.status.success,
+      commenced = ui.status.running,
+      completed = ui.status.success,
     },
     window = {
       relative = 'editor',
       blend = 0,
     },
     fmt = {
+      fidget = function(fidget_name, spinner)
+        return ('%s %s '):format(spinner, fidget_name)
+      end,
       task = function(task_name, message, percentage)
-        return string.format('%s%s %s', message, ui.progressbar(percentage), task_name)
+        return ('%s%s %s '):format(message, ui.progressbar(percentage), task_name)
       end,
     },
   }

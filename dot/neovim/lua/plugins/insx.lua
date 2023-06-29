@@ -193,20 +193,46 @@ local tag_ft = with.filetype {
   'markdown',
 }
 
+local arrowfunc_ft = with.filetype {
+  'astro',
+  'typescript',
+  'javascript',
+  'typescriptreact',
+  'javascriptreact',
+}
+
 -- <foo| ==> <foo>|</foo>
 add(
   '>',
   with({
     action = function(ctx)
-      local name = ctx.before():match '<(%w+)'
+      local before = ctx.before():split '<' ---@type string[]
+      local name = before[#before]:match '%a[%w%.]*'
       local row, col = ctx.row(), ctx.col()
-      ctx.send(('></' .. name .. '>'))
+      ctx.send(('></' .. (name or '') .. '>'))
       ctx.move(row, col + 1)
     end,
     enabled = function(ctx)
-      return regex.match(ctx.before(), Tag.Open:gsub('>$', '')) ~= nil and regex.match(ctx.after(), Tag.Close) == nil
+      return regex.match(ctx.before(), Tag.Open:gsub('>$', '')) ~= nil
+        and regex.match(ctx.after(), Tag.Close) == nil
+        and ctx.before():match 'function' == nil
+        and ctx.before():match '|' == nil
+        and ctx.after():match '^[%(%)]' == nil
     end,
   }, { tag_ft })
+)
+
+-- (hello|) ==> (hello) => {|}
+add(
+  '>',
+  with({
+    action = function(ctx)
+      ctx.send '<Del>) => {}<Left>'
+    end,
+    enabled = function(ctx)
+      return ctx.before():match '%([%w, ]*' and ctx.after():match '^%)'
+    end,
+  }, { arrowfunc_ft })
 )
 
 -- <foo| ==> <foo />
@@ -234,7 +260,7 @@ add(
   '<BS>',
   with({
     action = function(ctx)
-      local close_tag_len = ctx.after():match('^</.*>'):len()
+      local close_tag_len = ctx.after():match('^</[^>]*>'):len()
       ctx.send('<BS>' .. ('<Del>'):rep(close_tag_len))
     end,
     enabled = function(ctx)
@@ -249,7 +275,7 @@ add(
   '<BS>',
   with({
     action = function(ctx)
-      local space_len = ctx.before():match('(%s+)/>$'):len()
+      local space_len = ctx.before():match('(%s*)/>$'):len()
       ctx.send(('<BS>'):rep(space_len + 2))
     end,
     enabled = function(ctx)

@@ -55,7 +55,7 @@ hi FloatBorder guifg=#52566d guibg=#1a1e33
 hi! VertSplit guifg=#61657c guibg=#171b30 gui=NONE
 hi! Underlined guifg=#abafc9 gui=underline
 hi! Bold gui=bold
-hi! Todo guibg=#dca757 gui=bold
+hi! Todo guifg=#171b30 guibg=#dca757 gui=bold
 hi Directory guifg=#94b0ec
 hi! StatusLine guifg=#61657c guibg=#171b30 gui=NONE
 hi! StatusLineNC guifg=#3c4056 guibg=#171b30 gui=NONE
@@ -75,6 +75,8 @@ hi! DiagnosticUnderlineHint gui=undercurl guisp=#6cc456
 hi! DiagnosticUnderlineInfo gui=undercurl guisp=#5cc0bc
 hi! DiagnosticUnderlineWarn gui=undercurl guisp=#dca757
 hi! DiagnosticUnderlineError gui=undercurl guisp=#ef98a4
+hi! link Error DiagnosticError
+hi! link ErrorMsg Error
 hi! @none gui=NONE
 hi @variable guifg=#abafc9
 hi @variable.builtin guifg=#ef98a4
@@ -106,6 +108,8 @@ hi! link @lsp.typemod.variable.defaultLibrary @variable.builtin
 hi! link @lsp.typemod.enum.defaultLibrary @variable.builtin
 hi! link @lsp.typemod.enumMember.defaultLibrary @variable.builtin
 hi! link @tagattribute @property
+hi LspInlayHint guifg=#686c84 guibg=#1d2136
+hi! link LspInfoBorder FloatBorder
 hi rainbowcol1 guifg=#ef98a4
 hi rainbowcol2 guifg=#dca757
 hi rainbowcol3 guifg=#6cc456

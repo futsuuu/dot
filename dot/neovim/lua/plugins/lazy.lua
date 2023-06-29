@@ -148,10 +148,6 @@ return function(init, config)
       build = ':TSUpdate',
       event = 'BufRead',
       config = config.treesitter,
-      dependencies = {
-        'mrjones2014/nvim-ts-rainbow',
-        'windwp/nvim-ts-autotag',
-      },
     },
   }
 
