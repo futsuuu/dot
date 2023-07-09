@@ -95,6 +95,10 @@ local settings = {
   javascript = {
     inlayHints = js_ts_inlayhint,
   },
+  json = {
+    schemas = require('schemastore').json.schemas(),
+    validate = { enable = true },
+  },
 }
 
 mason_lspconfig.setup_handlers {

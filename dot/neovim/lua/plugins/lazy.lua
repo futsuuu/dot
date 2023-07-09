@@ -67,6 +67,9 @@ return function(init, config)
           config = config.neodev,
         },
         {
+          'b0o/schemastore.nvim',
+        },
+        {
           'j-hui/fidget.nvim',
           tag = 'legacy',
           config = config.fidget,
