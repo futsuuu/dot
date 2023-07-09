@@ -29,6 +29,15 @@ function Init.aerial()
   m('n', '<Space>a', '<Cmd>AerialToggle<CR>')
 end
 
+function Init.mr()
+  vim.g['mr#mrw#predicates'] = {
+    ---@param filename string
+    function(filename)
+      return filename:match '%.git[/\\]' == nil
+    end,
+  }
+end
+
 function Init.suda()
   vim.api.nvim_create_user_command('S', 'SudaWrite', {})
 end

@@ -120,6 +120,7 @@ return function(init, config)
         },
         {
           'lambdalisue/mr.vim',
+          init = init.mr,
           event = 'BufReadPre',
         },
       },
