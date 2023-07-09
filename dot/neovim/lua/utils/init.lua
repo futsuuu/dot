@@ -57,12 +57,15 @@ end
 ---@param module_name string
 ---@return table
 function M.call(module_name)
+  ---@type metatable
   local metatable = {
     func = module_name,
     children = {},
+    value = nil,
   }
 
-  function metatable.__index(self, key)
+  ---@param key string
+  function metatable:__index(key)
     local meta = getmetatable(self)
     local child = M.call(meta.func .. '#' .. key)
     meta.children[key] = child
@@ -70,7 +73,7 @@ function M.call(module_name)
     return child
   end
 
-  function metatable.__call(self, ...)
+  function metatable:__call(...)
     local func_name = getmetatable(self).func ---@type string
     if func_name:match '.+#_fn$' then
       local args = { ... }

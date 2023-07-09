@@ -93,5 +93,4 @@ neotree.setup {
   },
 }
 
-hl(0, 'NeoTreeGitIgnored', { link = 'CursorLineNr' })
 hl(0, 'NeoTreeModified', { link = '@variable.builtin' })

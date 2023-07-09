@@ -69,7 +69,7 @@ function Init.overseer()
 end
 
 function Init.actions_preview()
-  m('n', '<Space>ca', function()
+  m('n', 'ma', function()
     require('actions-preview').code_actions()
   end)
 end

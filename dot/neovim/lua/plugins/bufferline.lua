@@ -10,6 +10,8 @@ local function overseer_info()
     return result
   end
 
+  local is_empty = true
+
   local tasks = require('overseer.task_list').list_tasks { unique = true }
   local tasks_by_status = require('overseer.util').tbl_group_by(tasks, 'status')
 
@@ -19,7 +21,14 @@ local function overseer_info()
     if task then
       local text = '%#' .. 'Overseer' .. status .. '#' .. symbol .. ' ' .. #task .. ' '
       table.insert(result, { text = text })
+      if #task ~= 0 then
+        is_empty = false
+      end
     end
+  end
+
+  if not is_empty then
+    table.insert(result, 1, { text = ' ' })
   end
 
   return result
@@ -39,6 +48,8 @@ bufferline.setup {
     left_trunc_marker = '',
     right_trunc_marker = '',
     show_buffer_icons = true,
+    buffer_close_icon = '󰅖',
+    show_close_icon = false,
     show_buffer_close_icons = true,
     always_show_bufferline = true,
     max_name_length = 20,

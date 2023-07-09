@@ -208,8 +208,8 @@ function Config.luasnip()
   require('luasnip.loaders.from_vscode').lazy_load()
 end
 
-function Config.scope()
-  require('scope').setup()
+function Config.tabscope()
+  require('tabscope').setup {}
 end
 
 function Config.nvim_surround()
@@ -318,8 +318,6 @@ function Config.fidget()
       end,
     },
   }
-  hl(0, 'FidgetTask', { link = 'CursorLineNr' })
-  hl(0, 'FidgetTitle', { link = 'Title' })
 end
 
 function Config.navic()
@@ -357,14 +355,43 @@ function Config.actions_preview()
 end
 
 function Config.mason_lspconfig()
-  require('mason-lspconfig').setup {
-    ensure_installed = { 'lua_ls' },
-  }
+  require('mason-lspconfig').setup()
 end
 
 function Config.mason()
   local cb = ui.checkbox
-  require('mason').setup {
+  local mason = require 'mason'
+  local registry = require 'mason-registry'
+
+  local packages = {
+    'lua-language-server',
+    'stylua',
+    'selene',
+  }
+
+  local function i(depends, servers)
+    if type(depends) == 'string' then
+      depends = { depends }
+    end
+    if type(servers) == 'string' then
+      servers = { servers }
+    end
+    for _, cmd in ipairs(depends) do
+      if not vim.fn.executable(cmd) then
+        return
+      end
+    end
+    for _, server in ipairs(servers) do
+      table.insert(packages, server)
+    end
+  end
+
+  i('npm', { 'json-lsp', 'css-lsp', 'html-lsp', 'vtsls' })
+  i('cargo', 'rust-analyzer')
+  i('python', 'black')
+  i({ 'python', 'npm' }, 'pyright')
+
+  mason.setup {
     providers = {
       'mason.providers.client',
       'mason.providers.registry-api',
@@ -379,12 +406,21 @@ function Config.mason()
       },
     },
   }
+
+  registry.refresh(function()
+    for _, pkg_name in ipairs(packages) do
+      local pkg = registry.get_package(pkg_name)
+      if not pkg:is_installed() then
+        pkg:install()
+      end
+    end
+  end)
 end
 
 function Config.visual_eof()
   require('visual-eof').setup {
     text_EOL = '',
-    text_NOEOL = '󰂭 󱞦',
+    text_NOEOL = '󰂭 󱞦 ',
   }
 end
 

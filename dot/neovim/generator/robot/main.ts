@@ -3,8 +3,6 @@ import * as Color from "./color.ts";
 type Color = Color.Color | "NONE";
 const color = Color.color;
 
-const _ = undefined;
-
 let vimFile = `hi clear
 if exists("syntax_on")
   syntax reset
@@ -34,6 +32,11 @@ type ColorScheme = {
 
 type FlatColorScheme = {
   [hlName: string]: ColorSchemeVal;
+};
+
+const _ = undefined;
+const f = (func: () => ColorScheme) => {
+  return func();
 };
 
 /**
@@ -192,16 +195,20 @@ const kinds: FlatColorScheme = {
 
 const hlData: ColorScheme = {
   Normal: [fg, bg],
-  Cursor: {
-    "": [bg, fg],
-    Line: [_, bg.mix(fg, isLight ? 0.04 : 0.1)],
-    Column: "CursorLine",
-    IM: "CursorLine",
-  },
-  "{}LineNr": {
-    "": [bg.mix(fg, 0.23), _],
-    Cursor: [bg.mix(fg, 0.55), _, "NONE"],
-  },
+  Cursor: f(() => {
+    const background = bg.mix(fg, isLight ? 0.04 : 0.1);
+    return {
+      "": [bg, fg],
+      Line: {
+        "": [_, background],
+        Nr: [bg.mix(blue, 0.6), _, "bold"],
+        NrBorder: [bg, background.mix(fg, 0.15)],
+      },
+      Column: "CursorLine",
+      IM: "CursorLine",
+    };
+  }),
+  LineNr: [bg.mix(fg, 0.23), _],
   MatchParen: [_, bg.mix(fg, 0.3), "bold"],
   Folded: [fg, bg.mix(blue, 0.2)],
   FoldColumn: [bg.mix(fg, 0.5), bg],
@@ -243,6 +250,11 @@ const hlData: ColorScheme = {
     Sbar: [_, bg.mix(fg, 0.2)],
   },
   Diff: diff,
+  diff: {
+    Added: diff["Add"],
+    Changed: diff["Change"],
+    Removed: diff["Delete"],
+  },
   DiffText: [_, bg.mix(diffChange, 0.5)],
   FloatBorder: [bg.mix(fg, 0.4), bg.mix(fg, 0.02)],
   VertSplit: [bg.mix(fg, 0.5), bg, "NONE"],
@@ -358,6 +370,7 @@ const hlData: ColorScheme = {
     Add: [diffAdd, _],
     Change: [diffChange, _],
     Delete: [diffDelete, _],
+    "{}Inline": {},
   },
   IndentBlankline: {
     Char: [bg.mix(fg, 0.2), _],
@@ -371,7 +384,11 @@ const hlData: ColorScheme = {
   Navic: {
     Icons: kinds,
   },
-  NeoTree: (() => {
+  Fidget: {
+    Task: [fg.mix(bg, 0.4), _],
+    Title: "Title",
+  },
+  NeoTree: f(() => {
     const background = bg.mix(fg, 0.03);
     return {
       Normal: {
@@ -395,14 +412,16 @@ const hlData: ColorScheme = {
       },
       Git: {
         Untracked: [color(diffAdd).l(60), _],
+        Ignored: [fg.mix(bg, 0.4), _],
       },
       CursorLine: [_, bg.mix(blue, 0.1)],
       WinSeparator: "StatusLineNC",
       DimText: [bg.mix(fg, 0.3), _],
       IndentMarker: [bg.mix(fg, 0.25), _],
     };
-  })(),
-  BufferLine: (() => {
+  }),
+  BufferLine: f(() => {
+    const tabSelectedBg = bg.mix(fg, 0.2);
     return {
       OffsetSeparator: "NeoTreeWinSeparator",
       Modified: {
@@ -410,20 +429,30 @@ const hlData: ColorScheme = {
         Visible: "BufferLineModified",
         Selected: "BufferLineModified",
       },
+      CloseButton: {
+        Selected: [red, _],
+      },
       Indicator: {
         Visible: [red.mix(bg, 0.3), _],
-        Selected: "BufferlineIndicatorVisible",
+        Selected: "BufferLineIndicatorVisible",
+      },
+      Tab: {
+        "": "BufferLineFill",
+        Selected: [red, tabSelectedBg, "bold"],
+        Separator: {
+          Selected: [tabSelectedBg, tabSelectedBg],
+        },
       },
     };
-  })(),
-  FoldLevel: (() => {
+  }),
+  FoldLevel: f(() => {
     const colors: { [index: string]: ColorSchemeVal } = {};
     const step = 0.09;
     for (let i = 1; i < 1 / step; i += 1) {
       colors[i.toString()] = [bg.mix(fg, (i - 1) * step), bg.mix(fg, i * step)];
     }
     return colors;
-  })(),
+  }),
 };
 
 readData(hlData);

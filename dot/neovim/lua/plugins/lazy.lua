@@ -214,9 +214,9 @@ return function(init, config)
       config = config.bufferline,
     },
     {
-      'tiagovla/scope.nvim',
-      event = 'TabNew',
-      config = config.scope,
+      'backdround/tabscope.nvim',
+      event = 'WinEnter',
+      config = config.tabscope,
     },
     {
       'famiu/bufdelete.nvim',

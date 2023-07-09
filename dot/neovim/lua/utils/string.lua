@@ -4,8 +4,14 @@
 ---@return string[]
 function string.split(s, with)
   local substrings = {}
-  for substring in s:gmatch('[^' .. with .. ']+') do
-    table.insert(substrings, substring)
+  if with == '' then
+    for i = 1, #s do
+      table.insert(substrings, s:sub(i, i))
+    end
+  else
+    for substring in s:gmatch('[^' .. with .. ']+') do
+      table.insert(substrings, substring)
+    end
   end
   return substrings
 end

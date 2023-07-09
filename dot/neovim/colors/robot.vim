@@ -7,10 +7,11 @@ set bg=dark
 hi Normal guifg=#abafc9 guibg=#171b30
 hi Cursor guifg=#171b30 guibg=#abafc9
 hi CursorLine guibg=#262a3f
+hi! CursorLineNr guifg=#6274a1 gui=bold
+hi CursorLineNrBorder guifg=#171b30 guibg=#3a3e54
 hi! link CursorColumn CursorLine
 hi! link CursorIM CursorLine
 hi LineNr guifg=#393d53
-hi! CursorLineNr guifg=#686c84 gui=NONE
 hi! MatchParen guibg=#43475e gui=bold
 hi Folded guifg=#abafc9 guibg=#303956
 hi FoldColumn guifg=#61657c guibg=#171b30
@@ -50,6 +51,9 @@ hi PmenuSbar guibg=#35394f
 hi DiffAdd guibg=#1d362f
 hi DiffChange guibg=#203157
 hi! DiffDelete guifg=NONE guibg=#472144 gui=NONE
+hi diffAdded guibg=#1d362f
+hi diffChanged guibg=#203157
+hi! diffRemoved guifg=NONE guibg=#472144 gui=NONE
 hi DiffText guibg=#264071
 hi FloatBorder guifg=#52566d guibg=#1a1e33
 hi! VertSplit guifg=#61657c guibg=#171b30 gui=NONE
@@ -160,6 +164,8 @@ hi! link NavicIconsProperty @lsp.type.enum
 hi! link NavicIconsVariable Keyword
 hi! link NavicIconsEnumMember @lsp.type.enumMember
 hi! link NavicIconsConstructor @constructor
+hi FidgetTask guifg=#70748c
+hi! link FidgetTitle Title
 hi NeoTreeNormal guibg=#1b1f35
 hi! link NeoTreeNormalNC NeoTreeNormal
 hi NeoTreeDirectoryName guifg=#abafc9
@@ -170,6 +176,7 @@ hi NeoTreeTabInactive guifg=#49577b guibg=#1b1f35
 hi NeoTreeTabSeparatorActive guifg=#1b1f35
 hi NeoTreeTabSeparatorInactive guifg=#1b1f35
 hi NeoTreeGitUntracked guifg=#3fa442
+hi NeoTreeGitIgnored guifg=#70748c
 hi NeoTreeCursorLine guibg=#232a43
 hi! link NeoTreeWinSeparator StatusLineNC
 hi NeoTreeDimText guifg=#43475e
@@ -178,8 +185,12 @@ hi! link BufferLineOffsetSeparator NeoTreeWinSeparator
 hi BufferLineModified guifg=#ef98a4
 hi! link BufferLineModifiedVisible BufferLineModified
 hi! link BufferLineModifiedSelected BufferLineModified
+hi BufferLineCloseButtonSelected guifg=#ef98a4
 hi BufferLineIndicatorVisible guifg=#ae7381
-hi! link BufferLineIndicatorSelected BufferlineIndicatorVisible
+hi! link BufferLineIndicatorSelected BufferLineIndicatorVisible
+hi! link BufferLineTab BufferLineFill
+hi! BufferLineTabSelected guifg=#ef98a4 guibg=#35394f gui=bold
+hi BufferLineTabSeparatorSelected guifg=#35394f guibg=#35394f
 hi FoldLevel1 guifg=#171b30 guibg=#24283e
 hi FoldLevel2 guifg=#24283e guibg=#32364c
 hi FoldLevel3 guifg=#32364c guibg=#3f4359
