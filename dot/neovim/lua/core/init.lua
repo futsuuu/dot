@@ -11,11 +11,12 @@ opt.termguicolors = true
 opt.fillchars:append {
   eob = ' ',
 }
-if vim.fn.executable 'nu' then
-  opt.shell = 'nu'
-  opt.shellcmdflag = '-c'
-  opt.shellxquote = ''
-end
+
+opt.shell = 'nu'
+opt.shellcmdflag = '-c'
+opt.shellxquote = ''
+
+require 'core.restore_dir'
 
 au('InsertEnter', {
   pattern = '*',
