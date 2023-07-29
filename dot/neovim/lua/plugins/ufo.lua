@@ -15,15 +15,15 @@ vim.opt.fillchars:append {
 
 ufo.setup {
   close_fold_kinds = {},
-  ---@type fun(bufnr, filetype, buftype): string[] | string
+  ---@type fun(bufnr: buffer, filetype: string, buftype: string): string[] | string
   provider_selector = function(bufnr, filetype, buftype)
     for _, v in ipairs { 'terminal' } do
       if v == buftype then
         return ''
       end
     end
-    for _, v in ipairs { 'neo-tree', 'neo-tree-popup' } do
-      if v == filetype then
+    for _, v in ipairs { 'neo-tree', 'Neogit' } do
+      if filetype:find(v) then
         return ''
       end
     end

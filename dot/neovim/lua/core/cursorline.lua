@@ -113,8 +113,8 @@ function M:is_enabled()
       return
     end
   end
-  for _, v in ipairs { 'TelescopePrompt', 'neo-tree', 'alpha', 'ddu-ff', 'ddu-ff-filter', 'OverseerList' } do
-    if vim.bo.filetype == v then
+  for _, v in ipairs { 'Telescope', 'neo-tree', 'alpha', 'ddu', 'Overseer', 'Neogit' } do
+    if vim.bo.filetype:find(v, nil, true) then
       enabled = false
       return
     end

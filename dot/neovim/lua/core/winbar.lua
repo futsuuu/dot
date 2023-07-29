@@ -31,19 +31,22 @@ end
 ---@param file string
 ---@return string
 function M.get_winbar(bufnr, file)
-  file = file:gsub(vim.fn.getcwd(), '')
-  file = file:gsub(vim.fn.expand '~', '~')
+  local normalize = vim.fs.normalize
+  local cwd = normalize(vim.fn.getcwd())
+  local home = normalize(vim.fn.expand '~')
+  file = normalize(file, { expand_env = false })
+  file = file:gsub(cwd, '')
+  file = file:gsub(home, '~')
 
-  local path = file:split '/\\'
+  local path = file:split '/'
 
   local file_name = table.remove(path)
   table.insert(path, get_icon(bufnr) .. file_name)
 
   local navic_info = get_navic_info(bufnr)
 
-  ---@type string
   local winbar = ' '
-  winbar = winbar .. (' / '):join(path)
+  winbar = winbar .. ui.winbar_sep.path:join(path)
 
   if navic_info ~= '' then
     winbar = winbar .. ui.winbar_sep.context
