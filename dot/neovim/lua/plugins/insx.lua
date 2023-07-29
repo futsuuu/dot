@@ -120,6 +120,7 @@ for open, close in pairs {
       '[',
       with(pair, {
         with.nomatch [[\033\%#]],
+        with.nomatch [[\027\%#]],
         with.nomatch [[\x1b\%#]],
       })
     )

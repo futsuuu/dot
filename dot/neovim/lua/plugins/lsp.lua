@@ -7,9 +7,9 @@ local mason_lspconfig = require 'mason-lspconfig'
 local root_pattern = lspconfig.util.root_pattern
 
 require('utils').on_attach(function(client, bufnr)
-  if client.supports_method 'textDocument/inlayHint' and vim.lsp.buf.inlay_hint then
+  if client.supports_method 'textDocument/inlayHint' and vim.lsp.inlay_hint then
     vim.api.nvim_buf_create_user_command(bufnr, 'InlayHintToggle', function()
-      vim.lsp.buf.inlay_hint(bufnr)
+      vim.lsp.inlay_hint(bufnr)
     end, {})
   end
 end)
@@ -27,7 +27,7 @@ capabilities.textDocument = {
   },
 }
 
-if _G.plugin_flags.cmp then
+if _G.config_flags.cmp then
   local cmp_nvim_lsp = require 'cmp_nvim_lsp'
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
@@ -123,7 +123,7 @@ if vim.fn.executable 'deno' then
   lspconfig.denols.setup {
     capabilities = capabilities,
     settings = settings,
-    root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock'),
+    root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock', 'deps.ts'),
   }
 end
 

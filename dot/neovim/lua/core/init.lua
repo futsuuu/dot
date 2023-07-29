@@ -17,6 +17,7 @@ opt.shellcmdflag = '-c'
 opt.shellxquote = ''
 
 require 'core.restore_dir'
+m('n', '<Space>', '<Nop>')
 
 au('InsertEnter', {
   pattern = '*',

@@ -74,7 +74,7 @@ opts.window = {
     winhighlight = 'Normal:Pmenu,CursorLine:PmenuSel,FloatBorder:FloatBorder,Search:None',
     col_offset = -3,
     side_padding = 0,
-    scrollbar = '▌',
+    scrollbar = true,
     scrolloff = 8,
   },
   documentation = {
@@ -124,5 +124,20 @@ autocmd('FileType', {
     cmp.setup.buffer {
       completion = { autocomplete = false },
     }
+  end,
+})
+
+local thumb = {}
+for _ = 1, vim.o.lines do
+  table.insert(thumb, '┃')
+end
+require('cmp.utils.buffer').cache = setmetatable({}, {
+  ---@param name string|integer
+  ---@param buf buffer
+  __newindex = function(t, name, buf)
+    if type(name) == 'string' and name:find 'thumb_buf' then
+      vim.api.nvim_buf_set_lines(buf, 0, 1, false, thumb)
+    end
+    rawset(t, name, buf)
   end,
 })

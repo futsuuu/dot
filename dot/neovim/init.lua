@@ -1,4 +1,4 @@
-_G.plugin_flags = {
+_G.config_flags = {
   colorscheme = 'robot',
   main = true,
   nvim_lsp = true,

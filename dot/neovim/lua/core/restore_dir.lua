@@ -17,11 +17,16 @@ function M.restore()
   if not file then
     return
   end
-  vim.api.nvim_set_current_dir(file:read '*a')
+  local path = file:read '*a'
+  if vim.fn.isdirectory(path) == 1 then
+    vim.api.nvim_set_current_dir(path)
+  else
+    M.save()
+  end
   file:close()
 end
 
-if vim.loop.os_homedir() == cwd() or vim.list_contains(vim.v.argv, '--embed') then
+if vim.fn.expand '~' == cwd() or vim.g.gui_running then
   M.restore()
 else
   M.save()

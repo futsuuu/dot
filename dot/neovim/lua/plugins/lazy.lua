@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-field
 
-local flags = _G.plugin_flags
+local flags = _G.config_flags
 
 ---@param init Plugins.Init
 ---@param config Plugins.Config

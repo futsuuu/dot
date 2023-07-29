@@ -92,4 +92,4 @@ end
 
 require 'plugins.lazy'(Init, Config)
 
-vim.cmd.colorscheme(_G.plugin_flags.colorscheme)
+vim.cmd.colorscheme(_G.config_flags.colorscheme)
