@@ -29,6 +29,17 @@ function Init.aerial()
   m('n', '<Space>a', '<Cmd>AerialToggle<CR>')
 end
 
+function Init.ddu()
+  m('n', '<Space>fr', '<Cmd>Ddu -name=ghq<CR>')
+  m('n', '<Space>fs', '<Cmd>Ddu file_rec<CR>')
+  m('n', '<Space>fh', '<Cmd>Ddu mr<CR>')
+  m('n', '<Space>fg', '<Cmd>Ddu -name=rg-live<CR>')
+  m('n', '<Space>fl', '<Cmd>Ddu highlight<CR>')
+  m('n', '<Space>la', '<Cmd>Ddu -name=code-action<CR>')
+  m('n', '<Space>ld', '<Cmd>Ddu -name=definition<CR>')
+  m('n', '<Space>lr', '<Cmd>Ddu -name=references<CR>')
+end
+
 function Init.mr()
   vim.g['mr#mrw#predicates'] = {
     ---@param filename string
@@ -75,19 +86,6 @@ end
 function Init.overseer()
   m('n', '<Space>qr', '<Cmd>OverseerRun<CR>')
   m('n', '<Space>qt', '<Cmd>OverseerToggle<CR>')
-end
-
-function Init.actions_preview()
-  m('n', 'ma', function()
-    require('actions-preview').code_actions()
-  end)
-end
-
-function Init.telescope()
-  m('n', '<Space>fs', '<Cmd>Telescope find_files<CR>')
-  m('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
-  m('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
-  m('n', '<Space>fl', '<Cmd>Telescope highlights<CR>')
 end
 
 require 'plugins.lazy'(Init, Config)

@@ -30,10 +30,10 @@ function Config.alpha()
   local section, button = dashboard.section, dashboard.button
   section.header.val = header:split '\n'
   section.buttons.val = {
-    button('h', '  · MRW', '<Cmd>Telescope mr mrw<CR>'),
-    button('f', '  · Find file', '<Cmd>Telescope find_files<CR>'),
+    button('h', '  · MRW', '<Cmd>Ddu mr<CR>'),
+    button('f', '  · Find file', '<Cmd>Ddu file_rec<CR>'),
+    button('r', '  · Repositories', '<Cmd>Ddu -name=ghq<CR>'),
     button('e', '  · File explorer', '<Cmd>Neotree<CR>'),
-    button('t', '  · Terminal', '<Cmd>terminal<CR>'),
     button('u', '  · Update plugins', '<Cmd>Lazy update<CR>'),
     button('x', '  · Exit', '<Cmd>qa<CR>'),
   }
@@ -50,7 +50,7 @@ function Config.dressing()
       default_prompt = '> ',
     },
     select = {
-      backend = { 'telescope', 'nui', 'builtin' },
+      backend = { 'nui', 'builtin' },
     },
   }
 end
@@ -342,16 +342,6 @@ function Config.navic()
 
   hl(0, 'NavicText', { link = 'Winbar' })
   hl(0, 'NavicSeparator', { link = 'NavicText' })
-end
-
-function Config.actions_preview()
-  require('actions-preview').setup {
-    diff = {
-      ignore_whitespace = true,
-    },
-    backend = { 'telescope', 'nui' },
-    telescope = require('telescope.themes').get_dropdown(),
-  }
 end
 
 function Config.mason_lspconfig()

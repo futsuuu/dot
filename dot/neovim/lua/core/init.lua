@@ -118,9 +118,8 @@ au('BufRead', {
       end
     end)
 
-    m('n', 'mr', vim.lsp.buf.rename)
-    m('n', 'md', vim.lsp.buf.definition)
-    m('n', 'mf', vim.lsp.buf.format)
+    m('n', '<Space>ln', vim.lsp.buf.rename)
+    m('n', '<Space>lf', vim.lsp.buf.format)
 
     local opts = { float = { border = 'rounded' } }
 

@@ -82,11 +82,6 @@ return function(init, config)
       },
     },
     {
-      'aznhe21/actions-preview.nvim',
-      init = init.actions_preview,
-      config = config.actions_preview,
-    },
-    {
       'stevearc/aerial.nvim',
       cmd = 'AerialToggle',
       init = init.aerial,
@@ -107,41 +102,39 @@ return function(init, config)
     },
   }
 
-  group 'telescope' {
-    {
-      'nvim-telescope/telescope.nvim',
-      branch = '0.1.x',
-      cmd = 'Telescope',
-      init = init.telescope,
-      config = config.telescope,
-      dependencies = {
-        {
-          'natecraddock/telescope-zf-native.nvim',
-        },
-        {
-          'lambdalisue/mr.vim',
-          init = init.mr,
-          event = 'BufReadPre',
-        },
-      },
-    },
-  }
-
   group 'ddu' {
     {
       'Shougo/ddu.vim',
       dependencies = {
         'Shougo/ddu-ui-ff',
+        'Shougo/ddu-ui-filer',
         'Shougo/ddu-source-file_rec',
+        'matsui54/ddu-source-highlight',
+        '4513ECHO/ddu-source-ghq',
+        'shun/ddu-source-rg',
+        '4513ECHO/ddu-source-colorscheme',
+        'uga-rosa/ddu-source-lsp',
+        'Shougo/ddu-source-line',
+        {
+          'kuuote/ddu-source-mr',
+          dependencies = {
+            {
+              'lambdalisue/mr.vim',
+              init = init.mr,
+              event = 'BufReadPre',
+            },
+          },
+        },
         'yuki-yano/ddu-filter-fzf',
+        'Shougo/ddu-filter-matcher_relative',
+        'uga-rosa/ddu-filter-converter_devicon',
         'Shougo/ddu-kind-file',
+        'ryota2357/ddu-column-icon_filename',
         'Shougo/ddu-commands.vim',
       },
-      cmd = 'Ddu',
-      config = function()
-        require('denops-lazy').load 'ddu.vim'
-        config.ddu()
-      end,
+      init = init.ddu,
+      config = config.ddu,
+      event = 'VeryLazy',
     },
   }
 
@@ -187,6 +180,15 @@ return function(init, config)
     {
       'vim-denops/denops.vim',
       event = 'VeryLazy',
+      dependencies = {
+        {
+          'vim-denops/denops-shared-server.vim',
+          build = {
+            ":let g:denops_server_addr = '127.0.0.1:32123'",
+            ':call denops_shared_server#install()',
+          },
+        },
+      },
     },
     { 'yuki-yano/denops-lazy.nvim' },
   }
