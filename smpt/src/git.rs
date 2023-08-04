@@ -56,8 +56,8 @@ impl Display for Git {
             format!(
                 "{}⭭{}{}",
                 utils::RED,
+                utils::RESET,
                 utils::small_number(self.behind, true),
-                utils::RESET
             )
         };
 
