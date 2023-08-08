@@ -307,9 +307,19 @@ function Config.neodev()
 end
 
 function Config.fidget()
+  require('fidget.spinners').dot_wave = {
+    '( 󰧞 ·   · )',
+    '(  󰧞 ·   )',
+    '(   󰧞 · )',
+    '(    󰧞 )',
+    '( 󰧞    )',
+    '( · 󰧞   )',
+    '(   · 󰧞  )',
+    '( ·   · 󰧞 )',
+  }
   require('fidget').setup {
     text = {
-      spinner = 'dots',
+      spinner = 'dot_wave',
       done = ui.status.success,
       commenced = ui.status.running,
       completed = ui.status.success,
