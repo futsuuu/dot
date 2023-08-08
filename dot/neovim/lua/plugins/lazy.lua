@@ -231,9 +231,19 @@ return function(init, config)
     },
 
     {
+      'folke/todo-comments.nvim',
+      event = 'BufRead',
+      config = config.todo_comments,
+    },
+    {
       'lukas-reineke/indent-blankline.nvim',
       event = 'CursorMoved',
       config = config.blankline,
+    },
+    {
+      'lewis6991/satellite.nvim',
+      event = 'BufRead',
+      config = config.satellite,
     },
 
     {

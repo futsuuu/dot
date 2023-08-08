@@ -151,6 +151,15 @@ function Config.neogit()
   hl(0, 'NeogitDiffDeleteHighlight', { link = 'DiffDelete' })
 end
 
+function Config.todo_comments()
+  local tc = require 'todo-comments'
+  tc.setup {
+    signs = false,
+  }
+  m('n', ']t', tc.jump_next)
+  m('n', '[t', tc.jump_prev)
+end
+
 function Config.blankline()
   require('indent_blankline').setup {
     show_first_indent_level = true,
@@ -317,6 +326,12 @@ function Config.fidget()
         return ('%s%s %s '):format(message, ui.progressbar(percentage), task_name)
       end,
     },
+  }
+end
+
+function Config.satellite()
+  require('satellite').setup {
+    winblend = 60,
   }
 end
 
