@@ -59,7 +59,8 @@ function Config.notify()
   require('notify').setup {
     timeout = 3000,
     on_open = function(win)
-      api.nvim_set_option_value('filetype', 'markdown', { win = win })
+      local buf = api.nvim_win_get_buf(win)
+      api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
     end,
   }
 end
@@ -359,7 +360,7 @@ function Config.navic()
     separator = ui.winbar_sep.context,
   }
 
-  utils.on_attach(function(client, bufnr)
+  utils.lsp.on_attach(function(client, bufnr)
     if client.server_capabilities.documentSymbolProvider then
       navic.attach(client, bufnr)
     end

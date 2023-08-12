@@ -13,6 +13,7 @@ _G.config_flags = {
 }
 
 for _, v in ipairs {
+  'utils.table',
   'utils.string',
   'gui',
   'core',
