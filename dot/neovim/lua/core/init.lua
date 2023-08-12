@@ -59,6 +59,11 @@ au('CursorMoved', {
   end,
 })
 
+au('BufEnter', {
+  once = true,
+  callback = require('refcounter').setup,
+})
+
 au('BufReadPre', {
   pattern = '*',
   once = true,
