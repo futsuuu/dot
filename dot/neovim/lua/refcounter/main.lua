@@ -164,10 +164,14 @@ end
 
 ---@param references table<lsp.DocumentSymbol, lsp.Location[]>
 function M:show(references)
+  if not api.nvim_buf_is_valid(self.buf) then
+    return
+  end
+
   self.virt_line:del()
 
   for symbol, ref_locations in pairs(references) do
-    local text = config.format(symbol, ref_locations)
+    local text = config.format(self.buf, symbol, ref_locations)
     if text then
       self.virt_line:set(symbol.range.start.line, text)
     end

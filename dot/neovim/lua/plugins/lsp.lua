@@ -83,6 +83,9 @@ local settings = {
     unstable = true,
     importMap = './deno.jsonc',
     inlayHints = js_ts_inlayhint,
+    suggest = {
+      autoImports = false,
+    },
   },
   ['rust-analyzer'] = {
     check = {

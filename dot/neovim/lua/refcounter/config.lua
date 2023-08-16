@@ -27,10 +27,12 @@ M.parent_kind = {
   kind.Package,
 }
 
+---@param buf buffer
 ---@param symbol lsp.DocumentSymbol
 ---@param ref_locations lsp.Location[]
 ---@return string?
-function M.format(symbol, ref_locations) ---@diagnostic disable-line: unused-local
+---@diagnostic disable-next-line: unused-local
+function M.format(buf, symbol, ref_locations)
   local refs = #ref_locations
   if refs == 0 then
     return

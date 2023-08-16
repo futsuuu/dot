@@ -88,9 +88,23 @@ return function(init, config)
       config = config.aerial,
     },
     {
-      'zbirenbaum/neodim',
+      'futsuuu/neodim',
       event = 'LspAttach',
       config = config.neodim,
+    },
+  }
+
+  group 'nvim_dap' {
+    {
+      'mfussenegger/nvim-dap',
+      config = config.dap,
+      init = init.dap,
+      dependencies = {
+        {
+          'rcarriga/nvim-dap-ui',
+          config = config['dap.ui'],
+        },
+      },
     },
   }
 
@@ -108,13 +122,16 @@ return function(init, config)
       dependencies = {
         'Shougo/ddu-ui-ff',
         'Shougo/ddu-ui-filer',
+        'Shougo/ddu-source-file',
         'Shougo/ddu-source-file_rec',
+        'Shougo/ddu-source-line',
         'matsui54/ddu-source-highlight',
-        '4513ECHO/ddu-source-ghq',
         'shun/ddu-source-rg',
+        'shun/ddu-source-buffer',
+        '4513ECHO/ddu-source-ghq',
         '4513ECHO/ddu-source-colorscheme',
         'uga-rosa/ddu-source-lsp',
-        'Shougo/ddu-source-line',
+        'yuki-yano/ddu-source-nvim-notify',
         {
           'kuuote/ddu-source-mr',
           dependencies = {
@@ -296,7 +313,7 @@ return function(init, config)
 
     {
       'nvim-neo-tree/neo-tree.nvim',
-      branch = 'v2.x',
+      branch = 'v3.x',
       cmd = 'Neotree',
       init = init.neotree,
       config = config.neotree,

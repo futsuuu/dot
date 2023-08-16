@@ -1,7 +1,7 @@
 local api = vim.api
 local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
-local keymap = vim.keymap.set
+local m = vim.keymap.set
 
 local ui = require 'core.ui'
 local utils = require 'utils'
@@ -147,6 +147,14 @@ function Config.neogit()
       item = { ui.chevron.right, ui.chevron.down },
     },
   }
+  autocmd('FileType', {
+    pattern = 'NeogitStatus',
+    callback = function()
+      vim.schedule(function()
+        vim.cmd.stopinsert()
+      end)
+    end,
+  })
   hl(0, 'NeogitDiffContextHighlight', { link = 'CursorLine' })
   hl(0, 'NeogitDiffAddHighlight', { link = 'DiffAdd' })
   hl(0, 'NeogitDiffDeleteHighlight', { link = 'DiffDelete' })
@@ -201,8 +209,8 @@ function Config.skkeleton()
   autocmd('User skkeleton-initialize-pre', {
     callback = function()
       skkeleton.config {
-        markerHenkan = '▽ ',
-        markerHenkanSelect = '▼ ',
+        markerHenkan = ' ',
+        markerHenkanSelect = ' ',
         keepState = true,
         eggLikeNewline = true,
         setUndoPoint = false,
@@ -224,38 +232,6 @@ end
 
 function Config.nvim_surround()
   require('nvim-surround').setup()
-end
-
-function Config.telescope()
-  local telescope = require 'telescope'
-  telescope.setup {
-    defaults = {
-      layout_config = {
-        horizontal = {
-          prompt_position = 'top',
-          width = 0.9,
-          height = 0.9,
-        },
-      },
-      preview = {
-        treesitter = true,
-      },
-      results_title = false,
-      prompt_title = false,
-      sorting_strategy = 'ascending',
-      prompt_prefix = '   ',
-      selection_caret = ' ',
-    },
-  }
-  telescope.load_extension 'zf-native'
-  telescope.load_extension 'mr'
-  hl(0, 'TelescopeMatching', { link = 'Search' })
-  autocmd('FileType', {
-    pattern = 'TelescopePrompt',
-    callback = function()
-      vim.opt_local.cursorline = false
-    end,
-  })
 end
 
 function Config.overseer()
@@ -284,9 +260,9 @@ function Config.overseer()
   autocmd('FileType', {
     pattern = 'OverseerList',
     callback = function()
-      keymap('n', '<C-h>', '<C-w>h')
-      keymap('n', '<C-l>', '<C-w>l')
-      keymap('n', 'q', '<Cmd>close<CR>')
+      m('n', '<C-h>', '<C-w>h')
+      m('n', '<C-l>', '<C-w>l')
+      m('n', 'q', '<Cmd>close<CR>')
     end,
   })
 end
@@ -436,7 +412,7 @@ end
 function Config.visual_eof()
   require('visual-eof').setup {
     text_EOL = '',
-    text_NOEOL = '󰂭 󱞦 ',
+    text_NOEOL = ' ',
   }
 end
 

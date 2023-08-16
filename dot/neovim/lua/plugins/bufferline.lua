@@ -79,6 +79,12 @@ bufferline.setup {
         highlight = 'WinSeparator',
         separator = true,
       },
+      {
+        filetype = 'ddu-filer',
+        text = '',
+        highlight = 'WinSeparator',
+        separator = true,
+      },
     },
   },
 }

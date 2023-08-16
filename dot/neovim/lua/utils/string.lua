@@ -23,3 +23,31 @@ end
 function string.join(s, str_list)
   return table.concat(str_list, s)
 end
+
+---@param s string
+function string.ignorecase_pattern(s)
+  local r = ''
+  for _, char in ipairs(s:split '') do
+    r = r .. '[' .. char:upper() .. char:lower() .. ']'
+  end
+  return r
+end
+
+---@param s string
+---@param from string
+---@param to string
+function string.replace(s, from, to)
+  local r ---@type string
+
+  while true do
+    local str = r or s
+    local first, last = str:find(from, nil, true)
+    if not (first and last) then
+      break
+    end
+
+    r = str:sub(1, first - 1) .. to .. str:sub(last + 1, str:len())
+  end
+
+  return r or s
+end

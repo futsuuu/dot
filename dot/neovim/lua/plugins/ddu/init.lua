@@ -1,3 +1,4 @@
+local ui = require 'core.ui'
 local ddu = require('utils').call 'ddu'
 local custom = ddu.custom
 local patch, patchl = custom.patch_global, custom.patch_local
@@ -35,10 +36,20 @@ patch {
       converters = { 'converter_devicon' },
       ignoreCase = true,
     },
+    ghq = { defaultAction = 'cd' },
+    lsp_documentSymbol = { converters = { 'converter_lsp_symbol' } },
+    lsp_workspaceSymbol = { converters = { 'converter_lsp_symbol' } },
   },
   sourceParams = {
     file_rec = {
-      ignoredDirectories = { '.git', 'target', 'node_modules', 'dist', '__pycache__' },
+      ignoredDirectories = {
+        '.git',
+        'target',
+        'node_modules',
+        'dist',
+        '__pycache__',
+        '.venv',
+      },
     },
     mr = { kind = 'mrw' },
     ghq = {
@@ -48,10 +59,19 @@ patch {
     rg = {
       args = { '--column', '--no-heading', '--color', 'never' },
     },
+    lsp = {
+      includeDeclaration = false,
+    },
   },
   columnParams = {
     icon_filename = {
       padding = 2,
+    },
+    lsp_symbols = {
+      collapsedIcon = ui.chevron.right,
+      expandedIcon = ui.chevron.down,
+      iconWidth = 4,
+      kindLabels = ui.kind,
     },
   },
   filterParams = {
@@ -61,6 +81,9 @@ patch {
     converter_devicon = {
       padding = 1,
     },
+    converter_lsp_symbol = {
+      iconMap = ui.kind
+    }
   },
   uiParams = {
     ff = {
@@ -82,6 +105,7 @@ patch {
       splitDirection = 'topleft',
       sort = 'filename',
       sortTreesFirst = true,
+      displayRoot = false,
     },
   },
   kindOptions = {
@@ -89,6 +113,8 @@ patch {
     colorscheme = { defaultAction = 'set' },
     lsp = { defaultAction = 'open' },
     lsp_codeAction = { defaultAction = 'apply' },
+    ui_select = { defaultAction = 'select' },
+    ['nvim-notify'] = { defaultAction = 'open' },
   },
 }
 
@@ -96,9 +122,6 @@ patch(layouts.ff(90, 80, true))
 
 patchl('ghq', {
   sources = { { name = 'ghq' } },
-  kindOptions = {
-    file = { defaultAction = 'cd' },
-  },
   uiParams = {
     ff = {
       startAutoAction = false,
@@ -151,6 +174,15 @@ patchl('rg-live', {
         matchers = {},
         volatile = true,
       },
+    },
+  },
+})
+
+patchl('notify', {
+  sources = { { name = 'nvim-notify' } },
+  uiParams = {
+    ff = {
+      startFilter = false,
     },
   },
 })

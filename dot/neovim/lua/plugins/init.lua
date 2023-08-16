@@ -2,6 +2,8 @@
 local Init = {}
 local Config = require 'plugins.config'
 
+local utils = require 'utils'
+local req = utils.lazy_require
 local m = vim.keymap.set
 
 function Init.dressing()
@@ -35,6 +37,7 @@ function Init.ddu()
   m('n', '<Space>fh', '<Cmd>Ddu mr<CR>')
   m('n', '<Space>fg', '<Cmd>Ddu -name=rg-live<CR>')
   m('n', '<Space>fl', '<Cmd>Ddu highlight<CR>')
+  m('n', '<Space>fn', '<Cmd>Ddu -name=notify<CR>')
   m('n', '<Space>la', '<Cmd>Ddu -name=code-action<CR>')
   m('n', '<Space>ld', '<Cmd>Ddu -name=definition<CR>')
   m('n', '<Space>lr', '<Cmd>Ddu -name=references<CR>')
@@ -47,6 +50,11 @@ function Init.mr()
       return filename:match '%.git[/\\]' == nil
     end,
   }
+end
+
+function Init.dap()
+  m('n', '<Space>dd', req('dapui').toggle)
+  m('n', '<Space>db', req('dap').toggle_breakpoint)
 end
 
 function Init.suda()
@@ -68,13 +76,7 @@ function Init.gitsigns()
 end
 
 function Init.bufdelete()
-  m('n', '<Space>bd', function()
-    if vim.fn.expand('%s'):match '^term://.*' then
-      return '<Cmd>Bdelete!<CR>'
-    else
-      return '<Cmd>Bdelete<CR>'
-    end
-  end, { expr = true })
+  m('n', '<Space>bd', '<Cmd>Bwipeout!<CR>')
 end
 
 function Init.ccc()

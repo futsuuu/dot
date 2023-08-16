@@ -1,23 +1,47 @@
-local opt = vim.opt
+local o, opt, optl = vim.o, vim.opt, vim.opt_local
 
 local au = vim.api.nvim_create_autocmd
 local m = vim.keymap.set
 
 opt.syntax = 'off'
 
+opt.title = true
+au({ 'BufWinEnter', 'DirChanged' }, {
+  pattern = '*',
+  callback = function()
+    local homedir = vim.uv.os_homedir() or '////'
+    o.titlestring = 'Neovim ❯ ' .. vim.fn.getcwd():gsub(homedir, '~'):gsub('\\', '/')
+  end,
+})
+
 opt.cmdheight = 0
 opt.laststatus = 0
 opt.termguicolors = true
 opt.fillchars:append {
   eob = ' ',
+  diff = '╱',
+  stl = '─',
+  stlnc = '─',
 }
-
-opt.shell = 'nu'
-opt.shellcmdflag = '-c'
-opt.shellxquote = ''
+opt.statusline = "%{''}"
+opt.tabline = "%{''}"
+opt.inccommand = 'split'
+opt.splitright = true
+opt.splitbelow = true
 
 require 'core.restore_dir'
+
 m('n', '<Space>', '<Nop>')
+m('n', '<Space><CR>', function()
+  local shell, shellcmdflag, shellxquote = o.shell, o.shellcmdflag, o.shellxquote
+  o.shell = 'nu'
+  o.shellcmdflag = '-c'
+  o.shellxquote = ''
+  vim.cmd.terminal()
+  o.shell = shell
+  o.shellcmdflag = shellcmdflag
+  o.shellxquote = shellxquote
+end)
 
 au('InsertEnter', {
   pattern = '*',
@@ -28,15 +52,16 @@ au('InsertEnter', {
   end,
 })
 
+au('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
+
 au('WinNew', {
   pattern = '*',
   once = true,
   callback = function()
-    opt.statusline = "%{''}"
-    opt.fillchars:append {
-      stl = '─',
-      stlnc = '─',
-    }
     m('n', '<C-h>', '<C-w>h')
     m('n', '<C-j>', '<C-w>j')
     m('n', '<C-k>', '<C-w>k')
@@ -104,13 +129,13 @@ au('BufRead', {
     opt.softtabstop = 2
 
     opt.number = true
-    opt.signcolumn = 'yes'
+    opt.signcolumn = 'yes:2'
 
     m('n', 'a', function()
       return vim.api.nvim_get_current_line():match '^%s*$' and 'S' or 'a'
     end, { expr = true })
 
-    m('n', 'K', function()
+    local function hover()
       local filetype = vim.bo.filetype
       if vim.tbl_contains({ 'vim', 'help' }, filetype) then
         vim.cmd('h ' .. vim.fn.expand '<cword>')
@@ -121,7 +146,9 @@ au('BufRead', {
       else
         vim.lsp.buf.hover()
       end
-    end)
+    end
+    m('n', 'K', hover)
+    m('n', '<RightMouse>', hover)
 
     m('n', '<Space>ln', vim.lsp.buf.rename)
     m('n', '<Space>lf', vim.lsp.buf.format)
@@ -141,8 +168,9 @@ au('TermOpen', {
   pattern = '*',
   callback = function()
     vim.cmd.startinsert()
-    m('t', '<Esc>', '<C-\\><C-n>')
-    vim.opt_local.number = false
-    vim.opt_local.signcolumn = 'no'
+    m('t', '<C-]>', '<C-\\><C-n>')
+    optl.number = false
+    optl.signcolumn = 'no'
+    optl.foldcolumn = '0'
   end,
 })

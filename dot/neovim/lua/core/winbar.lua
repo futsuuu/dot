@@ -28,15 +28,14 @@ local function get_icon(bufnr)
 end
 
 ---@param bufnr number
----@param file string
 ---@return string
-function M.get_winbar(bufnr, file)
+function M.get_winbar(bufnr)
   local normalize = vim.fs.normalize
-  local cwd = normalize(vim.fn.getcwd())
-  local home = normalize(vim.fn.expand '~')
-  file = normalize(file, { expand_env = false })
-  file = file:gsub(cwd, '')
-  file = file:gsub(home, '~')
+  local cwd = normalize(vim.uv.cwd() or '')
+  local home = normalize(vim.uv.os_homedir() or '')
+  local file = normalize(vim.api.nvim_buf_get_name(bufnr))
+  file = file:replace(cwd, '')
+  file = file:replace(home, '~')
 
   local path = file:split '/'
 
@@ -59,7 +58,7 @@ end
 vim.api.nvim_create_autocmd('BufRead', {
   pattern = '*',
   callback = function(ev)
-    vim.opt_local.winbar = "%!v:lua.require'core.winbar'.get_winbar(" .. ev.buf .. ",'" .. ev.file .. "')"
+    vim.opt_local.winbar = "%!v:lua.require'core.winbar'.get_winbar(" .. ev.buf .. ')'
   end,
 })
 

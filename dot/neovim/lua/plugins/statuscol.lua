@@ -60,12 +60,7 @@ statuscol.setup {
   bt_ignore = { 'terminal' },
   segments = {
     { text = { ' ', builtin.lnumfunc }, click = 'v:lua.ScLa' },
-    { text = { '%s' }, click = 'v:lua.ScSa' },
-    {
-      text = { '', foldfunc, '' },
-      click = 'v:lua.ScFa',
-    },
-    { text = { '%#IndentBlanklineChar#▕%*' } },
+    { text = { '%s ' }, click = 'v:lua.ScSa' },
   },
 }
 
@@ -73,9 +68,10 @@ vim.api.nvim_create_autocmd({ 'FileType', 'BufWinEnter' }, {
   callback = function(ev)
     ---@type string
     local ft = vim.api.nvim_get_option_value('filetype', { buf = ev.buf })
-    for _, ft_ignore in ipairs { 'neo-tree', 'Neogit', 'Overseer' } do
+    for _, ft_ignore in ipairs { 'neo-tree', 'Neogit', 'Overseer', 'dapui' } do
       if ft:find(ft_ignore, nil, true) then
-        vim.api.nvim_set_option_value('statuscolumn', '', { buf = ev.buf })
+        local winid = vim.fn.bufwinid(ev.buf)
+        vim.api.nvim_set_option_value('statuscolumn', '', { win = winid })
       end
     end
   end,
