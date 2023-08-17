@@ -186,6 +186,7 @@ return function(init, config)
     {
       'vim-skk/skkeleton',
       keys = { { '<C-j>', '<Plug>(skkeleton-enable)', mode = { 'i', 'c' } } },
+      event = 'CursorHold',
       config = function()
         require('denops-lazy').load 'skkeleton'
         config.skkeleton()
