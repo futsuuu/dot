@@ -1,0 +1,23 @@
+* {
+  all: unset;
+  font-family: "IosevkaCustom Nerd Font";
+  color: #cadcef;
+}
+
+tooltip {
+  background-color: #000000;
+  border-radius: 0.5em;
+  font-size: 0.8em;
+}
+
+.bar {
+  padding: 1.2em 0.3em 1em 0.8em;
+}
+
+.time {
+  font-size: 1.1em;
+}
+
+.inner-number {
+  font-size: 0.9em;
+}

@@ -220,6 +220,11 @@ return function(init, config)
     { 'MunifTanjim/nui.nvim' },
 
     {
+      'elkowar/yuck.vim',
+      event = 'VeryLazy',
+    },
+
+    {
       'hrsh7th/nvim-insx',
       event = { 'InsertEnter', 'CmdlineEnter' },
       config = config.insx,

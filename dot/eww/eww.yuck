@@ -1,0 +1,60 @@
+(deflisten info "./target/debug/eww-info")
+
+(defwidget bar []
+  (box
+    :class "bar"
+    :orientation "v"
+    (time)
+    (sysinfos)))
+
+(defwidget time []
+  (box
+    :orientation "v"
+    :class "time"
+    :valign "start"
+    {info.date.hour}
+    {info.date.minute}))
+
+(defwidget sysinfos []
+  (box
+    :orientation "v"
+    :valign "end"
+    :spacing 10
+    (sysinfo
+      :text "bat"
+      :val {info.sys.battery})
+    (sysinfo
+      :text "mem"
+      :val {info.sys.memory})
+    (sysinfo
+      :text "cpu"
+      :val {info.sys.cpu})))
+
+(defwidget sysinfo [text val]
+  (box
+    :orientation "v"
+    :valign "start"
+    (overlay
+      ;; dummy
+      (circular-progress
+        :thickness 16
+        :value 0)
+      (circular-progress
+        :start-at 75
+        :thickness 2
+        :value val)
+      (box
+        :class "inner-number"
+        val))
+    text))
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry
+    :width "40px"
+    :height "100%"
+    :anchor "center left")
+  :stacking "bg"
+  :focusable false
+  :exclusive true
+  (bar))
