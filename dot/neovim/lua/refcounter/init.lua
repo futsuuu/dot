@@ -5,7 +5,7 @@ local Main = require 'refcounter.main'
 local M = {}
 
 ---@type boolean
-M.enabled = true
+M.enabled = false
 ---@type table<buffer, refcounter.Main>
 M.counters = {}
 

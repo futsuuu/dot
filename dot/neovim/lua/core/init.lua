@@ -3,6 +3,8 @@ local o, opt, optl = vim.o, vim.opt, vim.opt_local
 local au = vim.api.nvim_create_autocmd
 local m = vim.keymap.set
 
+local utils = require 'utils'
+
 opt.syntax = 'off'
 
 opt.title = true
@@ -84,9 +86,9 @@ au('CursorMoved', {
   end,
 })
 
-au('BufEnter', {
+au('LspAttach', {
   once = true,
-  callback = require('refcounter').setup,
+  callback = utils.lazy_require('refcounter').setup,
 })
 
 au('BufReadPre', {
