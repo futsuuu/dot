@@ -1,17 +1,41 @@
 # Nushell Environment Config File
 
-$env.DENO_TLS_CA_STORE = "system"
-$env.LANG = "en_US.utf-8"
-$env.EDITOR = "nvim"
-$env.FZF_DEFAULT_OPTS = "
-  --prompt=' ' --height 60% --border --margin=0,4 --reverse
-  --cycle --no-mouse
-  --color fg:gray,hl:blue,fg+:white,bg:black,bg+:black,hl+:blue
-  --color info:green,prompt:blue,spinner:yellow,pointer:red,marker:red,border:gray
-"
+let home = $nu.home-path
 
-mkdir ~/.cache/smpt
-~/dev/github.com/futsuuu/dot/smpt/target/release/smpt init nu | save -f ~/.cache/smpt/init.nu
+$env.PATH = (
+  $env.PATH
+    | split row (char esep)
+    | prepend ($home | path join ".cargo" "bin")
+    | prepend ($home | path join ".deno" "bin")
+    | prepend ($home | path join "bin")
+    | uniq
+)
+
+export-env {
+  load-env {
+    LANG: "en_US.UTF-8"
+    SHELL: $nu.current-exe
+    EDITOR: "nvim"
+    VISUAL: $env.EDITOR
+    BROWSER: "vivaldi-stable"
+  }
+  if $nu.os-info.name == "linux" {
+    load-env {
+      XDG_CONFIG_HOME: ($home | path join ".config")
+      XDG_CACHE_HOME: ($home | path join ".cache")
+      XDG_DATA_HOME: ($home | path join ".local" "share")
+      XDG_STATE_HOME: ($home | path join ".local" "state")
+    }
+  }
+}
+
+$env.DENO_TLS_CA_STORE = "system"
+$env.FZF_DEFAULT_OPTS = "
+--prompt='> ' --height 60% --border --margin=0,4 --reverse
+--cycle --no-mouse
+--color fg:gray,hl:blue,fg+:white,bg:black,bg+:black,hl+:blue
+--color info:green,prompt:blue,spinner:yellow,pointer:red,marker:red,border:gray
+"
 
 # Specifies how environment variables are:
 # - converted from a string to a value on Nushell startup (from_string)
@@ -28,19 +52,9 @@ $env.ENV_CONVERSIONS = {
   }
 }
 
-# Directories to search for scripts when calling source or use
-#
-# By default, <nushell-config-dir>/scripts is added
 $env.NU_LIB_DIRS = [
-    ($nu.config-path | path dirname | path join 'scripts')
+  ($nu.config-path | path dirname | path join 'scripts')
 ]
-
-# Directories to search for plugin binaries when calling register
-#
-# By default, <nushell-config-dir>/plugins is added
 $env.NU_PLUGIN_DIRS = [
-    ($nu.config-path | path dirname | path join 'plugins')
-]
-
-# To add entries to PATH (on Windows you might use Path), you can use the following pattern:
-# $env.PATH = ($env.PATH | split row (char esep) | prepend '/some/path')
+   ($nu.config-path | path dirname | path join 'plugins')
+ ]
