@@ -198,14 +198,13 @@ return function(init, config)
     {
       'vim-denops/denops.vim',
       event = 'VeryLazy',
-      dependencies = {
-        {
-          'vim-denops/denops-shared-server.vim',
-          build = {
-            ":let g:denops_server_addr = '127.0.0.1:32123'",
-            ':call denops_shared_server#install()',
-          },
-        },
+    },
+    {
+      'vim-denops/denops-shared-server.vim',
+      build = {
+        ':let g:denops#deno = "deno"',
+        ':let g:denops_server_addr = "127.0.0.1:32123"',
+        ':call denops_shared_server#install()',
       },
     },
     { 'yuki-yano/denops-lazy.nvim' },
