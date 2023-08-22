@@ -41,7 +41,7 @@ pub fn start() {
     });
 
     thread::spawn(move || loop {
-        let manager = battery::Manager::new().unwrap();
+        let manager = starship_battery::Manager::new().unwrap();
         if let Some(battery) = manager.batteries().unwrap().next() {
             let state = format!("{:?}", battery.unwrap().state_of_charge());
 
