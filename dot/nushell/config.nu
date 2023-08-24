@@ -1,8 +1,13 @@
-mkdir ~/.cache/smpt
-~/dev/github.com/futsuuu/dot/smpt/target/release/smpt init nu | save -f ~/.cache/smpt/init.nu
-source ~/.cache/smpt/init.nu
-
 use config
+
+if (which smpt | length) == 0 {
+  use installer
+  installer smpt download
+}
+
+mkdir ~/.cache/smpt
+smpt init nu | save -f ~/.cache/smpt/init.nu
+source ~/.cache/smpt/init.nu
 
 alias c = clear
 alias ca = cargo

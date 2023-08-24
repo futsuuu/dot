@@ -89,15 +89,6 @@ path = "nushell"
   [dotfiles.target."sys(os)"]
   default = "~/.config/nushell"
   windows = "~/AppData/Roaming/nushell"
-  [dotfiles.hook_add."sys(os)"]
-  default = """
-cd ~/dev/github.com/futsuuu/dot/smpt
-cargo build --release
-"""
-  windows = """
-cd %USERPROFILE%/dev/github.com/futsuuu/dot/smpt
-cargo build --release
-"""
 
 [[dotfiles]]
 path = "neofetch"
