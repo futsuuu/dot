@@ -24,12 +24,13 @@ enable."sys(os)" = { default = false, "arch linux" = true }
 [[dotfiles]]
 path = "waybar"
 target = "~/.config/waybar"
-enable."sys(os)" = { default = false, "arch linux" = true }
+enable."which(waybar)" = { default = true, "" = false }
 
 [[dotfiles]]
 path = "eww"
 target = "~/.config/eww"
 enable."which(eww)" = { default = true, "" = false }
+hook_add = "cargo build"
 
 [[dotfiles]]
 path = "dunst"
@@ -46,6 +47,11 @@ path = "neovim"
 path = "goneovim"
 target = "~/.config/goneovim"
 enable."which(goneovim)" = { default = true, "" = false }
+
+[[dotfiles]]
+path = "profile.png"
+target = "~/.face.icon"
+enable."which(sddm)" = { default = true, "" = false }
 
 [[dotfiles]]
 path = "alacritty"
