@@ -1,10 +1,3 @@
-<samp>
+## dot
 
-- **dot/**
-  \
-  dotfiles
-- **smpt/**
-  \
-  prompt
-
-</samp>
+This is me
