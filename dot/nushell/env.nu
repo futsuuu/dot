@@ -2,6 +2,8 @@
 
 let home = $nu.home-path
 
+$env.banner = true
+
 $env.PATH = (
   $env.PATH
     | split row (char esep)
@@ -11,23 +13,20 @@ $env.PATH = (
     | uniq
 )
 
-export-env {
-  load-env {
-    LANG: "en_US.UTF-8"
-    SHELL: $nu.current-exe
-    EDITOR: "nvim"
-    VISUAL: $env.EDITOR
-    BROWSER: "vivaldi-stable"
-  }
-  if $nu.os-info.name == "linux" {
-    load-env {
-      XDG_CONFIG_HOME: ($home | path join ".config")
-      XDG_CACHE_HOME: ($home | path join ".cache")
-      XDG_DATA_HOME: ($home | path join ".local" "share")
-      XDG_STATE_HOME: ($home | path join ".local" "state")
-    }
-  }
+if $nu.os-info.name == "linux" {
+  $env.XDG_CONFIG_HOME = ($home | path join ".config")
+  $env.XDG_CACHE_HOME = ($home | path join ".cache")
+  $env.XDG_DATA_HOME = ($home | path join ".local" "share")
+  $env.XDG_STATE_HOME = ($home | path join ".local" "state")
 }
+
+export-env { load-env {
+  LANG: "en_US.UTF-8"
+  SHELL: $nu.current-exe
+  EDITOR: "nvim"
+  VISUAL: $env.EDITOR
+  BROWSER: "vivaldi-stable"
+} }
 
 $env.DENO_TLS_CA_STORE = "system"
 $env.FZF_DEFAULT_OPTS = "
