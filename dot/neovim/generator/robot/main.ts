@@ -136,9 +136,9 @@ function readData(cs: ColorScheme) {
 const isLight = false;
 vimFile += isLight ? "set bg=light\n" : "set bg=dark\n";
 
-const bg = color(isLight ? "#fafbfd" : "#171b30");
-const fg = isLight ? color(bg).l(43) : color(bg).l(72).s(30);
-const red = color(fg).s(75).h(4);
+const bg = color(isLight ? "#ebeff4" : "#171b30");
+const fg = isLight ? color(bg).l(53) : color(bg).l(72).s(30);
+const red = color(fg).s(70).h(4);
 const yellow = color(red).h(53);
 const green = color(red).h(123);
 const cyan = color(red).h(188);
@@ -186,34 +186,33 @@ const kinds: FlatColorScheme = {
   Function: "Function",
   Operator: "Operator",
   Property: "@lsp.type.enum",
-  Variable: "Keyword",
+  Variable: [magenta, _],
   //Interface
   //Reference
   EnumMember: "@lsp.type.enumMember",
   Constructor: "@constructor",
 };
 
+const cursorlineBg = bg.mix(fg, isLight ? 0.04 : 0.1);
+
 const hlData: ColorScheme = {
   Normal: [fg, bg],
-  Cursor: f(() => {
-    const background = bg.mix(fg, isLight ? 0.04 : 0.1);
-    return {
-      "": [bg, fg],
-      Line: {
-        "": [_, background],
-        Nr: [bg.mix(blue, 0.6), _, "bold"],
-        NrBorder: [bg, background.mix(fg, 0.15)],
-      },
-      Column: "CursorLine",
-      IM: "CursorLine",
-    };
-  }),
+  Cursor: {
+    "": [bg, fg],
+    Line: {
+      "": [_, cursorlineBg],
+      Nr: [bg.mix(blue, 0.6), _, "bold"],
+      NrBorder: [bg, cursorlineBg.mix(fg, 0.15)],
+    },
+    Column: "CursorLine",
+    IM: "CursorLine",
+  },
   LineNr: [bg.mix(fg, 0.23), _],
   MatchParen: [_, bg.mix(fg, 0.3), "bold"],
   Folded: [fg, bg.mix(blue, 0.2)],
   FoldColumn: [bg.mix(fg, 0.5), bg],
   SignColumn: [fg, bg],
-  Constant: [color(red).s(57).h(33), _],
+  Constant: [color(red).h(33), _],
   Boolean: "Constant",
   Number: "Constant",
   String: [green, _],
@@ -221,20 +220,21 @@ const hlData: ColorScheme = {
   Function: [blue, _],
   Float: "Number",
   Type: [cyan, _, "NONE"],
-  Keyword: [magenta, _],
+  Keyword: [magenta, _, "italic"],
+  Operator: [blue, _],
   Conditional: "Keyword",
   Exception: "Keyword",
   Repeat: "Keyword",
-  Operator: "Keyword",
   Include: "Keyword",
-  Label: "Keyword",
-  Identifier: "Keyword",
+  Identifier: "Type",
+  Label: "Identifier",
   Statement: "Keyword",
   PreProc: [magenta, _],
   Title: [blue, _, "bold"],
   Special: {
-    "": [magenta, _],
-    Key: "Special",
+    "": "Keyword",
+    Key: [blue, _],
+    Char: [magenta, _],
   },
   NonText: [bg.mix(fg, 0.2), _],
   Conceal: [bg.mix(fg, 0.7), "NONE"],
@@ -246,7 +246,7 @@ const hlData: ColorScheme = {
   Pmenu: {
     "": [_, bg.mix(fg, 0.04)],
     Sel: [_, bg.mix(blue, 0.2)],
-    Thumb: [bg.mix(blue, 0.5), bg],
+    Thumb: [bg.mix(blue, 0.6), bg],
     Sbar: [_, bg.mix(fg, 0.2)],
   },
   Diff: diff,
@@ -300,8 +300,13 @@ const hlData: ColorScheme = {
     number: "Number",
     float: "Float",
     string: "String",
+    function: {
+      "": "Function",
+      ".builtin": "@function",
+      ".macro": "@function",
+    },
     comment: "Comment",
-    constructor: "Special",
+    constructor: "Function",
     property: [fg, _, "NONE"],
     label: "Label",
     exception: "Exception",
@@ -345,6 +350,10 @@ const hlData: ColorScheme = {
       attribute: "@property",
     },
   },
+  "{}TagName": {
+    html: [magenta, _],
+    css: "htmlTagName",
+  },
   Lsp: {
     InlayHint: [fg.mix(bg, 0.45), bg.mix(fg, 0.04)],
     Info: {
@@ -370,6 +379,7 @@ const hlData: ColorScheme = {
     Add: [diffAdd, _],
     Change: [diffChange, _],
     Delete: [diffDelete, _],
+    CurrentLineBlame: [cursorlineBg.mix(blue, 0.5), _],
     "{}Inline": {},
   },
   IndentBlankline: {
@@ -377,7 +387,10 @@ const hlData: ColorScheme = {
   },
   ScrollView: "Visual",
   CmpItem: {
-    Abbr: [fg, _],
+    Abbr: {
+      "": [fg.mix(bg, 0.1), _],
+      Match: [blue.mix(cyan, 0.2), _],
+    },
     Menu: [fg, _],
     Kind: kinds,
   },
@@ -420,6 +433,10 @@ const hlData: ColorScheme = {
       IndentMarker: [bg.mix(fg, 0.25), _],
     };
   }),
+  Satellite: {
+    Bar: [_, blue.mix(bg, 0.4)],
+    Cursor: [fg, _],
+  },
   BufferLine: f(() => {
     const tabSelectedBg = bg.mix(fg, 0.2);
     return {
@@ -445,6 +462,10 @@ const hlData: ColorScheme = {
       },
     };
   }),
+  Dap: {
+    Breakpoint: [red, _],
+    Stopped: [yellow, _],
+  },
   FoldLevel: f(() => {
     const colors: { [index: string]: ColorSchemeVal } = {};
     const step = 0.09;
