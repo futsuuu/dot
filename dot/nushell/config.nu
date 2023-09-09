@@ -26,27 +26,21 @@ alias ll = ls -la
 def-env select_nvim_appname [] {
   $env.NVIM_APPNAME = ($env.NVIM_APPNAME? | default "nvim")
 
-  print "current: " $env.NVIM_APPNAME "\n" -n
-  mut nvim_configs = []
+  print $"current: ($env.NVIM_APPNAME)"
 
   let config_dir = if $nu.os-info.name == "windows" { $env.LOCALAPPDATA } else { $env.XDG_CONFIG_HOME }
 
-  for $entry in (ls $config_dir).name {
-    if $env.NVIM_APPNAME == ($entry | path basename) {
-      continue
+  let nvim_configs = (ls $config_dir | par-each { |entry|
+    if $entry.type not-in ["dir", "symlink"] {
+      return
     }
-    if ($entry | path type) not-in ["dir", "symlink"] {
-      continue
-    }
-    if ((ls $entry).name
-      | where { |e| ($e =~ "init.vim") or ($e =~ "init.lua") }
+    if (ls $entry.name
+      | where { |e| ($e.name | path basename) in ["init.vim", "init.lua"] }
       | length
-    ) < 1 {
-      continue
+    ) == 1 {
+      return ($entry.name | path basename)
     }
-
-    $nvim_configs = ($nvim_configs | insert 0 ($entry | path basename))
-  }
+  } | insert 1 "NONE")
 
   $env.NVIM_APPNAME = ($nvim_configs | str join "\n" | fzf)
   print $env.NVIM_APPNAME
