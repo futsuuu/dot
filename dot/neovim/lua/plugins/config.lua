@@ -130,17 +130,13 @@ function Config.crates()
         keywords_label = ' keywords       ',
       },
     },
-    null_ls = {
-      enabled = true,
-      name = 'crates',
-    },
   }
 end
 
 function Config.neogit()
   require('neogit').setup {
     integrations = {
-      diffview = true,
+      diffview = false,
     },
     signs = {
       section = { ui.chevron.right, ui.chevron.down },
@@ -195,6 +191,9 @@ function Config.gitsigns()
       topdelete = { text = ' ▘' },
       changedelete = { text = ' ▍' },
       untracked = { text = ' ▍' },
+    },
+    preview_config = {
+      border = 'rounded',
     },
   }
 end
@@ -268,10 +267,14 @@ function Config.overseer()
 end
 
 function Config.ccc()
-  require('ccc').setup {
+  local ccc = require 'ccc'
+  ccc.setup {
     bar_char = '󰝤',
     point_char = '⎕', -- not a garbled character
     point_color = '#808080',
+    pickers = {
+      ccc.picker.ansi_escape(),
+    },
   }
 end
 

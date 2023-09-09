@@ -7,9 +7,12 @@ _G.config_flags = {
   ddu = true,
   cmp = true,
   alpha = true,
-  telescope = true,
   treesitter = true,
-  foldcolumn = true,
+  statuscolumn = true,
+  decoration = true,
+  buffer = true,
+  on_open = true,
+  null_ls = true,
 }
 
 for _, v in ipairs {

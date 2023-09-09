@@ -81,7 +81,6 @@ local settings = {
     enable = true,
     lint = true,
     unstable = true,
-    importMap = './deno.jsonc',
     inlayHints = js_ts_inlayhint,
     suggest = {
       autoImports = false,

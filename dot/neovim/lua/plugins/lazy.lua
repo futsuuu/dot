@@ -88,9 +88,30 @@ return function(init, config)
       config = config.aerial,
     },
     {
-      'futsuuu/neodim',
+      dir = '~/dev/github.com/zbirenbaum/neodim',
       event = 'LspAttach',
       config = config.neodim,
+    },
+    {
+      'williamboman/mason.nvim',
+      cmd = {
+        'Mason',
+        'MasonUpdate',
+        'MasonInstall',
+        'MasonUninstall',
+        'MasonUninstallAll',
+        'MasonLog',
+      },
+      build = ':MasonUpdate',
+      config = config.mason,
+    },
+  }
+
+  group 'null_ls' {
+    {
+      'jose-elias-alvarez/null-ls.nvim',
+      event = 'BufReadPost',
+      config = config.null_ls,
     },
   }
 
@@ -166,7 +187,7 @@ return function(init, config)
     },
   }
 
-  group 'foldcolumn' {
+  group 'statuscolumn' {
     {
       'luukvbaal/statuscol.nvim',
       event = { 'BufRead', 'TabNew' },
@@ -179,6 +200,13 @@ return function(init, config)
       dependencies = {
         'kevinhwang91/promise-async',
       },
+    },
+    {
+      'lewis6991/gitsigns.nvim',
+      config = config.gitsigns,
+      init = init.gitsigns,
+      cmd = 'Gitsigns',
+      event = 'BufRead',
     },
   }
 
@@ -210,6 +238,77 @@ return function(init, config)
     { 'yuki-yano/denops-lazy.nvim' },
   }
 
+  group 'decoration' {
+    {
+      'folke/todo-comments.nvim',
+      event = 'BufRead',
+      config = config.todo_comments,
+    },
+    {
+      'lukas-reineke/indent-blankline.nvim',
+      event = 'CursorMoved',
+      config = config.blankline,
+    },
+    {
+      'lewis6991/satellite.nvim',
+      event = 'BufRead',
+      config = config.satellite,
+    },
+    {
+      'uga-rosa/ccc.nvim',
+      init = init.ccc,
+      config = config.ccc,
+      cmd = {
+        'CccPick',
+        'CccConvert',
+        'CccHighlighterToggle',
+        'CccHighlighterDisable',
+        'CccHighlighterEnalble',
+      },
+    },
+    {
+      'LumaKernel/nvim-visual-eof.lua',
+      config = config.visual_eof,
+      event = 'BufRead',
+    },
+    {
+      'stevearc/dressing.nvim',
+      init = init.dressing,
+    },
+    {
+      'rcarriga/nvim-notify',
+      cmd = 'Notifications',
+      init = init.notify,
+    },
+  }
+
+  group 'buffer' {
+    {
+      'akinsho/bufferline.nvim',
+      version = '*',
+      event = { 'BufRead', 'TermOpen', 'TabNew' },
+      config = config.bufferline,
+    },
+    {
+      'backdround/tabscope.nvim',
+      event = 'WinEnter',
+      config = config.tabscope,
+    },
+    {
+      'famiu/bufdelete.nvim',
+      cmd = { 'Bdelete', 'Bwipeout' },
+      init = init.bufdelete,
+    },
+  }
+
+  group 'on_open' {
+    {
+      'ethanholz/nvim-lastplace',
+      event = 'BufReadPre',
+      config = config.lastplace,
+    },
+  }
+
   group 'main' {
     { 'nvim-lua/plenary.nvim' },
     {
@@ -236,84 +335,9 @@ return function(init, config)
     },
 
     {
-      'akinsho/bufferline.nvim',
-      version = '*',
-      event = { 'BufRead', 'TermOpen', 'TabNew' },
-      config = config.bufferline,
-    },
-    {
-      'backdround/tabscope.nvim',
-      event = 'WinEnter',
-      config = config.tabscope,
-    },
-    {
-      'famiu/bufdelete.nvim',
-      cmd = { 'Bdelete', 'Bwipeout' },
-      init = init.bufdelete,
-    },
-
-    {
-      'folke/todo-comments.nvim',
-      event = 'BufRead',
-      config = config.todo_comments,
-    },
-    {
-      'lukas-reineke/indent-blankline.nvim',
-      event = 'CursorMoved',
-      config = config.blankline,
-    },
-    {
-      'lewis6991/satellite.nvim',
-      event = 'BufRead',
-      config = config.satellite,
-    },
-
-    {
-      'lewis6991/gitsigns.nvim',
-      config = config.gitsigns,
-      init = init.gitsigns,
-      cmd = 'Gitsigns',
-      event = 'BufRead',
-    },
-    {
       'NeogitOrg/neogit',
-      dependencies = {
-        {
-          'sindrets/diffview.nvim',
-          cmd = 'DiffviewOpen',
-        },
-      },
       cmd = 'Neogit',
       config = config.neogit,
-    },
-
-    {
-      'stevearc/dressing.nvim',
-      init = init.dressing,
-    },
-    {
-      'rcarriga/nvim-notify',
-      cmd = 'Notifications',
-      init = init.notify,
-    },
-
-    {
-      'williamboman/mason.nvim',
-      cmd = {
-        'Mason',
-        'MasonUpdate',
-        'MasonInstall',
-        'MasonUninstall',
-        'MasonUninstallAll',
-        'MasonLog',
-      },
-      build = ':MasonUpdate',
-      config = config.mason,
-    },
-    {
-      'jose-elias-alvarez/null-ls.nvim',
-      event = 'BufReadPost',
-      config = config.null_ls,
     },
 
     {
@@ -336,18 +360,6 @@ return function(init, config)
     },
 
     {
-      'uga-rosa/ccc.nvim',
-      init = init.ccc,
-      config = config.ccc,
-      cmd = {
-        'CccPick',
-        'CccConvert',
-        'CccHighlighterToggle',
-        'CccHighlighterDisable',
-        'CccHighlighterEnalble',
-      },
-    },
-    {
       'lambdalisue/suda.vim',
       cmd = {
         'SudaRead',
@@ -355,21 +367,6 @@ return function(init, config)
       },
       init = init.suda,
       enabled = vim.fn.executable 'sudo' == 1,
-    },
-    {
-      'LumaKernel/nvim-visual-eof.lua',
-      config = config.visual_eof,
-      event = 'BufRead',
-    },
-    {
-      'ethanholz/nvim-lastplace',
-      event = 'BufReadPre',
-      config = config.lastplace,
-    },
-    {
-      'dstein64/vim-startuptime',
-      cmd = 'StartupTime',
-      config = config.startuptime,
     },
   }
 
@@ -437,7 +434,7 @@ return function(init, config)
           'rplugin',
           -- 'man',
           'netrwPlugin',
-          'editorconfig',
+          -- 'editorconfig',
           'nvim',
         },
       },

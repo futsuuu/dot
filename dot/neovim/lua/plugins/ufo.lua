@@ -22,7 +22,7 @@ ufo.setup {
         return ''
       end
     end
-    for _, v in ipairs { 'neo-tree', 'Neogit' } do
+    for _, v in ipairs { 'neo-tree', 'Neogit', 'help' } do
       if filetype:find(v) then
         return ''
       end
