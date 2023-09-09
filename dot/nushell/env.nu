@@ -4,20 +4,31 @@ let home = $nu.home-path
 
 $env.banner = true
 
-$env.PATH = (
-  $env.PATH
-    | split row (char esep)
-    | prepend ($home | path join ".cargo" "bin")
-    | prepend ($home | path join ".deno" "bin")
-    | prepend ($home | path join "bin")
-    | uniq
-)
-
 if $nu.os-info.name == "linux" {
+  $env.PATH = (
+    $env
+      | get PATH
+      | split row (char esep)
+      | prepend ($home | path join ".cargo" "bin")
+      | prepend ($home | path join ".deno" "bin")
+      | prepend ($home | path join "bin")
+      | uniq
+  )
+
   $env.XDG_CONFIG_HOME = ($home | path join ".config")
   $env.XDG_CACHE_HOME = ($home | path join ".cache")
   $env.XDG_DATA_HOME = ($home | path join ".local" "share")
   $env.XDG_STATE_HOME = ($home | path join ".local" "state")
+} else {
+  $env.Path = (
+    $env
+      | get PATH
+      | split row (char esep)
+      | prepend ($home | path join ".cargo" "bin")
+      | prepend ($home | path join ".deno" "bin")
+      | prepend ($home | path join "bin")
+      | uniq
+  )
 }
 
 export-env { load-env {
