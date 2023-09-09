@@ -196,6 +196,9 @@ function Config.gitsigns()
       changedelete = { text = ' ▍' },
       untracked = { text = ' ▍' },
     },
+    preview_config = {
+      border = 'rounded',
+    },
   }
 end
 

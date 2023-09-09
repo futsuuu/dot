@@ -88,7 +88,8 @@ return function(init, config)
       config = config.aerial,
     },
     {
-      'futsuuu/neodim',
+      -- 'futsuuu/neodim',
+      dir = '~/dev/github.com/zbirenbaum/neodim',
       event = 'LspAttach',
       config = config.neodim,
     },
