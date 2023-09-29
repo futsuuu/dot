@@ -74,7 +74,7 @@ devicons.setup {
     ['.gitignore'] = git,
     ['.gitkeep'] = git,
     ['.gitmodules'] = git,
-    ['.gitattribules'] = git,
+    ['.gitattributes'] = git,
     ['commit_editmsg'] = git,
     ['readme.md'] = readme,
     ['todo.md'] = todo,
