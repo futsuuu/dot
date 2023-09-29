@@ -360,6 +360,11 @@ return function(init, config)
     },
 
     {
+      'tweekmonster/helpful.vim',
+      cmd = 'HelpfulVersion',
+    },
+
+    {
       'lambdalisue/suda.vim',
       cmd = {
         'SudaRead',
