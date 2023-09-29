@@ -133,8 +133,36 @@ au('BufRead', {
     opt.number = true
     opt.signcolumn = 'yes:2'
 
+    local function in_indent(include_head)
+      return (vim.fn.col '.' - (include_head and 1 or 0)) <= vim.fn.indent '.'
+    end
+
     m('n', 'a', function()
       return vim.api.nvim_get_current_line():match '^%s*$' and 'S' or 'a'
+    end, { expr = true })
+
+    m({ 'n', 'v' }, 'f<Space>', function()
+      return in_indent() and '^f<Space>' or 'f<Space>'
+    end, { expr = true })
+    m({ 'n', 'v' }, 't<Space>', function()
+      return in_indent() and '^t<Space>' or 't<Space>'
+    end, { expr = true })
+
+    m({ 'n', 'v' }, 'l', function()
+      if not in_indent() then
+        return 'l'
+      end
+      local col = vim.fn.col '.' - 1
+      local sw = vim.fn.shiftwidth()
+      return (sw - col % sw) .. 'l'
+    end, { expr = true })
+    m({ 'n', 'v' }, 'h', function()
+      if not in_indent(true) then
+        return 'h'
+      end
+      local col = vim.fn.col '.' - 1
+      local sw = vim.fn.shiftwidth()
+      return (sw - col % sw) .. 'h'
     end, { expr = true })
 
     local function hover()
