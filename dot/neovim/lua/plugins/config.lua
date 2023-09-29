@@ -166,18 +166,25 @@ function Config.todo_comments()
 end
 
 function Config.blankline()
-  require('indent_blankline').setup {
-    show_first_indent_level = true,
-    show_current_context = false,
-    show_current_context_start = false,
-    char = '▏',
-    filetype_exclude = {
-      'lspinfo',
-      'checkhealth',
-      'help',
-      'man',
-      'OverseerForm',
-      '',
+  require('ibl').setup {
+    indent = {
+      char = '▏',
+    },
+    scope = {
+      enabled = true,
+      highlight = 'CursorLineNr',
+      show_start = false,
+      show_end = false,
+    },
+    exclude = {
+      filetypes = {
+        'lspinfo',
+        'checkhealth',
+        'help',
+        'man',
+        'OverseerForm',
+        '',
+      },
     },
   }
 end
