@@ -141,5 +141,5 @@ vim.diagnostic.config {
   severity_sort = true,
 }
 
-lsp_win.default_options.border = 'rounded'
-lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover, { border = 'rounded' })
+lsp_win.default_options.border = 'none'
+lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover, { border = 'none' })

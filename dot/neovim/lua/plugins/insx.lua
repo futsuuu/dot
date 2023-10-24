@@ -16,11 +16,15 @@ local helper = insx.helper
 local regex = helper.regex
 local with, add, esc, Tag = insx.with, insx.add, regex.esc, helper.search.Tag
 
-require('insx.preset.standard').setup_cmdline_mode {
-  cmdline = {
-    enabled = true,
-  },
-}
+do
+  local standard = require 'insx.preset.standard'
+  standard.config = {
+    cmdline = {
+      enabled = true,
+    },
+  }
+  standard.setup_cmdline_mode()
+end
 
 for _, quote in ipairs { '"', "'", '`' } do
   -- jump_out

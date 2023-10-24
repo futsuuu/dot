@@ -20,5 +20,5 @@ null_ls.setup {
     },
   },
   default_timeout = 100000,
-  border = 'rounded',
+  border = 'none',
 }

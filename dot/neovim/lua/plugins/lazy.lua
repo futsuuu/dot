@@ -1,9 +1,5 @@
----@diagnostic disable: undefined-field
-
 local flags = _G.config_flags
 
----@param init Plugins.Init
----@param config Plugins.Config
 return function(init, config)
   local plugins = {}
 
@@ -17,12 +13,27 @@ return function(init, config)
     end
   end
 
-  group 'alpha' {
+  group 'colorscheme' {
+    { 'sainnhe/edge' },
+  }
+
+  group 'telescope' {
     {
-      'goolord/alpha-nvim',
-      config = config.alpha,
-      event = 'VimEnter',
+      'nvim-telescope/telescope.nvim',
+      branch = '0.1.x',
+      cmd = 'Telescope',
+      init = init.telescope,
+      config = config.telescope,
+      dependencies = {
+        {
+          'lambdalisue/mr.vim',
+          init = init.mr,
+          event = 'BufReadPre',
+        },
+      },
     },
+    { 'nvim-telescope/telescope-file-browser.nvim' },
+    { 'natecraddock/telescope-zf-native.nvim' },
   }
 
   group 'cmp' {
@@ -35,21 +46,19 @@ return function(init, config)
     { 'hrsh7th/cmp-nvim-lsp-signature-help', event = 'InsertEnter' },
     { 'hrsh7th/cmp-path', event = { 'InsertEnter', 'CmdlineEnter' } },
     { 'hrsh7th/cmp-cmdline', event = 'CmdlineEnter' },
+    { 'hrsh7th/cmp-vsnip', event = 'InsertEnter', cond = flags.vsnip },
+  }
+
+  group 'vsnip' {
     {
-      'saadparwaiz1/cmp_luasnip',
-      event = 'InsertEnter',
+      'hrsh7th/vim-vsnip',
+      version = '*',
       dependencies = {
-        {
-          'L3MON4D3/LuaSnip',
-          version = '*',
-          dependencies = {
-            'rafamadriz/friendly-snippets',
-          },
-          config = config.luasnip,
-        },
+        'hrsh7th/vim-vsnip-integ',
+        'rafamadriz/friendly-snippets',
       },
+      event = 'InsertEnter',
     },
-    { 'uga-rosa/cmp-skkeleton', event = 'User skkeleton-enable-pre' },
   }
 
   group 'nvim_lsp' {
@@ -137,45 +146,6 @@ return function(init, config)
     },
   }
 
-  group 'ddu' {
-    {
-      'Shougo/ddu.vim',
-      dependencies = {
-        'Shougo/ddu-ui-ff',
-        'Shougo/ddu-ui-filer',
-        'Shougo/ddu-source-file',
-        'Shougo/ddu-source-file_rec',
-        'Shougo/ddu-source-line',
-        'matsui54/ddu-source-highlight',
-        'shun/ddu-source-rg',
-        'shun/ddu-source-buffer',
-        '4513ECHO/ddu-source-ghq',
-        '4513ECHO/ddu-source-colorscheme',
-        'uga-rosa/ddu-source-lsp',
-        'yuki-yano/ddu-source-nvim-notify',
-        {
-          'kuuote/ddu-source-mr',
-          dependencies = {
-            {
-              'lambdalisue/mr.vim',
-              init = init.mr,
-              event = 'BufReadPre',
-            },
-          },
-        },
-        'yuki-yano/ddu-filter-fzf',
-        'Shougo/ddu-filter-matcher_relative',
-        'uga-rosa/ddu-filter-converter_devicon',
-        'Shougo/ddu-kind-file',
-        'ryota2357/ddu-column-icon_filename',
-        'Shougo/ddu-commands.vim',
-      },
-      init = init.ddu,
-      config = config.ddu,
-      event = 'VeryLazy',
-    },
-  }
-
   group 'treesitter' {
     {
       'nvim-treesitter/nvim-treesitter',
@@ -184,29 +154,6 @@ return function(init, config)
       build = ':TSUpdate',
       event = 'BufRead',
       config = config.treesitter,
-    },
-  }
-
-  group 'statuscolumn' {
-    {
-      'luukvbaal/statuscol.nvim',
-      event = { 'BufRead', 'TabNew' },
-      config = config.statuscol,
-    },
-    {
-      'kevinhwang91/nvim-ufo',
-      event = { 'BufRead', 'TabNew' },
-      config = config.ufo,
-      dependencies = {
-        'kevinhwang91/promise-async',
-      },
-    },
-    {
-      'lewis6991/gitsigns.nvim',
-      config = config.gitsigns,
-      init = init.gitsigns,
-      cmd = 'Gitsigns',
-      event = 'BufRead',
     },
   }
 
@@ -339,14 +286,14 @@ return function(init, config)
       cmd = 'Neogit',
       config = config.neogit,
     },
-
     {
-      'nvim-neo-tree/neo-tree.nvim',
-      branch = 'v3.x',
-      cmd = 'Neotree',
-      init = init.neotree,
-      config = config.neotree,
+      'lewis6991/gitsigns.nvim',
+      config = config.gitsigns,
+      init = init.gitsigns,
+      cmd = 'Gitsigns',
+      event = 'BufRead',
     },
+
     {
       'stevearc/overseer.nvim',
       cmd = {
@@ -371,12 +318,11 @@ return function(init, config)
         'SudaWrite',
       },
       init = init.suda,
-      enabled = vim.fn.executable 'sudo' == 1,
     },
   }
 
   local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-  if not vim.loop.fs_stat(lazypath) then
+  if not vim.uv.fs_stat(lazypath) then
     vim.fn.system {
       'git',
       'clone',
@@ -400,10 +346,10 @@ return function(init, config)
     },
     concurrency = 10,
     install = {
-      colorscheme = { flags.colorscheme, 'habamax' },
+      colorscheme = { flags.colorscheme },
     },
     ui = {
-      border = 'rounded',
+      border = 'none',
       icons = {
         loaded = ui.checkbox.check,
         not_loaded = ui.checkbox.close,

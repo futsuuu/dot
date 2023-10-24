@@ -50,6 +50,7 @@ au('InsertEnter', {
   once = true,
   callback = function()
     opt.showmode = false
+    opt.completeopt = { 'menu', 'menuone', 'noinsert' }
     m('i', 'jj', '<Esc>')
   end,
 })
@@ -130,8 +131,10 @@ au('BufRead', {
     opt.tabstop = 2
     opt.softtabstop = 2
 
+    opt.numberwidth = 6
     opt.number = true
     opt.signcolumn = 'yes:2'
+    opt.statuscolumn = ' %=%l%r%s '
 
     local function in_indent(include_head)
       return (vim.fn.col '.' - (include_head and 1 or 0)) <= vim.fn.indent '.'
@@ -183,7 +186,7 @@ au('BufRead', {
     m('n', '<Space>ln', vim.lsp.buf.rename)
     m('n', '<Space>lf', vim.lsp.buf.format)
 
-    local opts = { float = { border = 'rounded' } }
+    local opts = { float = { border = 'none' } }
 
     m('n', ']d', function()
       vim.diagnostic.goto_next(opts)

@@ -8,7 +8,6 @@ local utils = require 'utils'
 
 local call = utils.call
 
----@class Plugins.Config
 local Config = setmetatable({}, {
   ---@type fun(table: table, key: string): function
   __index = function(_, key)
@@ -18,39 +17,19 @@ local Config = setmetatable({}, {
   end,
 })
 
-function Config.alpha()
-  local header = [[
- ／l、     
-(ﾟ､ ｡ ７   
- l  ~ヽ    
- じしf_,)ノ
-]]
-  local alpha = require 'alpha'
-  local dashboard = require 'alpha.themes.dashboard'
-  local section, button = dashboard.section, dashboard.button
-  section.header.val = header:split '\n'
-  section.buttons.val = {
-    button('h', '  · MRW', '<Cmd>Ddu mr<CR>'),
-    button('f', '  · Find file', '<Cmd>Ddu file_rec<CR>'),
-    button('r', '  · Repositories', '<Cmd>Ddu -name=ghq<CR>'),
-    button('e', '  · File explorer', '<Cmd>Neotree<CR>'),
-    button('u', '  · Update plugins', '<Cmd>Lazy update<CR>'),
-    button('x', '  · Exit', '<Cmd>qa<CR>'),
-  }
-  local vim_ver = vim.version()
-  if vim_ver then
-    section.footer.val = 'Neovim v' .. vim_ver.major .. '.' .. vim_ver.minor .. '.' .. vim_ver.patch
-  end
-  alpha.setup(dashboard.opts)
-end
-
 function Config.dressing()
   require('dressing').setup {
     input = {
       default_prompt = '> ',
     },
     select = {
-      backend = { 'nui', 'builtin' },
+      backend = { 'telescope', 'nui', 'builtin' },
+      nui = {
+        border = 'none',
+      },
+      builtin = {
+        border = 'none',
+      },
     },
   }
 end
@@ -116,7 +95,7 @@ function Config.crates()
     curl_args = { package.config:sub(1, 1) == '/' and '-sL' or '-skL', '--retry', '1' },
     thousands_separator = ',',
     popup = {
-      border = 'rounded',
+      border = 'none',
       text = {
         title = ' %s',
         created_label = ' created        ',
@@ -200,7 +179,7 @@ function Config.gitsigns()
       untracked = { text = ' ▍' },
     },
     preview_config = {
-      border = 'rounded',
+      border = 'none',
     },
   }
 end
@@ -212,7 +191,8 @@ end
 function Config.skkeleton()
   local skkeleton = call 'skkeleton'
 
-  autocmd('User skkeleton-initialize-pre', {
+  autocmd('User', {
+    pattern = ' skkeleton-initialize-pre',
     callback = function()
       skkeleton.config {
         markerHenkan = ' ',
@@ -226,10 +206,6 @@ function Config.skkeleton()
       skkeleton.register_keymap('input', ';', 'henkanPoint')
     end,
   })
-end
-
-function Config.luasnip()
-  require('luasnip.loaders.from_vscode').lazy_load()
 end
 
 function Config.tabscope()
@@ -399,7 +375,7 @@ function Config.mason()
       'mason.providers.registry-api',
     },
     ui = {
-      border = 'rounded',
+      border = 'none',
       height = 0.8,
       icons = {
         package_installed = cb.check,

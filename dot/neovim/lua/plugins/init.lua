@@ -1,4 +1,3 @@
----@class Plugins.Init
 local Init = {}
 local Config = require 'plugins.config'
 
@@ -31,16 +30,22 @@ function Init.aerial()
   m('n', '<Space>a', '<Cmd>AerialToggle<CR>')
 end
 
-function Init.ddu()
-  m('n', '<Space>fr', '<Cmd>Ddu -name=ghq<CR>')
-  m('n', '<Space>fs', '<Cmd>Ddu file_rec<CR>')
-  m('n', '<Space>fh', '<Cmd>Ddu mr<CR>')
-  m('n', '<Space>fg', '<Cmd>Ddu -name=rg-live<CR>')
-  m('n', '<Space>fl', '<Cmd>Ddu highlight<CR>')
-  m('n', '<Space>fn', '<Cmd>Ddu -name=notify<CR>')
-  m('n', '<Space>la', '<Cmd>Ddu -name=code-action<CR>')
-  m('n', '<Space>ld', '<Cmd>Ddu -name=definition<CR>')
-  m('n', '<Space>lr', '<Cmd>Ddu -name=references<CR>')
+function Init.telescope()
+  m('n', '<Space>fs', '<Cmd>Telescope find_files<CR>')
+  m('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
+  m('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
+  m('n', '<Space>fl', '<Cmd>Telescope highlights<CR>')
+
+  vim.api.nvim_create_autocmd('BufEnter', {
+    callback = function(ev)
+      local bufname = vim.api.nvim_buf_get_name(ev.buf)
+      local stat = vim.uv.fs_stat(bufname)
+      if stat and stat.type == 'directory' then
+        vim.api.nvim_buf_delete(ev.buf, { force = true })
+        vim.cmd('Telescope file_browser path=' .. bufname)
+      end
+    end,
+  })
 end
 
 function Init.mr()
@@ -59,10 +64,6 @@ end
 
 function Init.suda()
   vim.api.nvim_create_user_command('S', 'SudaWrite', {})
-end
-
-function Init.neotree()
-  m('n', '<Space>e', '<Cmd>Neotree toggle=true source=filesystem<CR>')
 end
 
 function Init.gitsigns()

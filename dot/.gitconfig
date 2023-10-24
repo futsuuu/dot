@@ -30,8 +30,8 @@
   cfl = config --local
   sh = stash
 
-[credential "helperselector"]
-  selected = manager
+[credential "https://github.com"]
+  helper = !gh auth git-credential
 
 [filter "lfs"]
   clean = git-lfs clean -- %f
@@ -54,6 +54,9 @@
 
 [pull]
   ff = only
+
+[fetch]
+  prune = true
 
 [push]
   default = current

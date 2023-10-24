@@ -17,6 +17,11 @@ enable."sys(os)" = { default = false, windows = true }
 target = "~/.glaze-wm"
 
 [[dotfiles]]
+path = "xremap"
+target = "~/.config/xremap"
+enable."which(xremap)" = { default = true, "" = false }
+
+[[dotfiles]]
 path = "hyprland"
 target = "~/.config/hypr"
 enable."sys(os)" = { default = false, "arch linux" = true }
