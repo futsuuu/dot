@@ -5,23 +5,30 @@ button.window-close {
   background-color: transparent !important;
 }
 
-/*
-#webpage-stack {
-  border-radius: 10px !important;
+.mainbar {
+  border: none !important;
 }
-*/
+
+#webpage-stack {
+  border-radius: 14px !important;
+  border: 1px solid var(--colorBorder) !important;
+}
+
+#webview-container {
+  background-color: var(--colorBg) !important;
+  padding: 0 7px 7px 7px;
+}
 
 #modal-bg.slide > div {
   border-radius: var(--radius) !important;
 }
 
-#tabs-tabbar-container.top {
-  padding-top: 4px !important;
+#tabs-tabbar-container {
+  padding-top: 2px !important;
 }
 
 button.vivaldi {
-  height: 0;
-  padding: 5px 0 0;
+  margin: 2px;
 }
 
 .UrlBar-AddressField,
@@ -33,6 +40,15 @@ button.vivaldi {
 .color-behind-tabs-on .UrlBar-AddressField:focus-within {
   outline-offset: 0px;
   outline-width: 0px;
+}
+
+#tabs-subcontainer {
+  background-color: #00000013 !important;
+  box-shadow: none !important;
+}
+
+.tab.active .favicon {
+  filter: none !important;
 }
 
 .UrlField > input[placeholder$="Search or enter an address"]::placeholder {
