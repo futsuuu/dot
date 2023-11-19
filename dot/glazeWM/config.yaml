@@ -1,15 +1,16 @@
-gaps:
-  inner_gap: 20
-  outer_gap: 15
-
 general:
-  # Whether to show floating windows as always on top.
+  focus_follows_cursor: true
+  cursor_follows_focus: true
   show_floating_on_top: true
 
+gaps:
+  inner_gap: 10
+  outer_gap: 8
+
 bar:
-  height: '18'
+  height: '19'
   position: 'top'
-  opacity: 0.8
+  opacity: 1.0
   background: '#000000'
   foreground: '#aaafb4'
   font_family: 'IosevkaCustom Nerd Font'
@@ -28,8 +29,6 @@ bar:
       default_workspace_foreground: '#51555F'
       padding: '0'
       margin: '0'
-  components_center:
-    - type: 'window title'
   components_right:
     - type: 'tiling direction'
       label_horizontal: ' ⮂ '
@@ -147,19 +146,19 @@ keybindings:
 
   # Change the focused window to be maximized / unmaximized.
   - command: 'toggle maximized'
-    binding: 'Alt+X'
+    binding: 'Alt+M'
 
   # Minimize focused window.
   - command: 'set minimized'
-    binding: 'Alt+M'
+    binding: 'Alt+X'
 
   # Close focused window.
   - command: 'close'
-    binding: 'Alt+Shift+Q'
+    binding: 'Alt+C'
 
   # Kill GlazeWM process safely.
   - command: 'exit wm'
-    binding: 'Alt+Shift+E'
+    binding: 'Alt+Shift+Q'
 
   # Re-evaluate configuration file.
   - command: 'reload config'
