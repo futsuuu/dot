@@ -8,6 +8,7 @@
 [core]
   editor = nvim
   autocrlf = input
+  commentChar = ";"
 
 [alias]
   i = init
@@ -30,7 +31,15 @@
   cfl = config --local
   sh = stash
 
+[credential "helperselector"]
+  selected = <no helper>
+
 [credential "https://github.com"]
+  helper =
+  helper = !gh auth git-credential
+
+[credential "https://gist.github.com"]
+  helper =
   helper = !gh auth git-credential
 
 [filter "lfs"]
