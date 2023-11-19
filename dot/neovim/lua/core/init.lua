@@ -33,16 +33,13 @@ opt.splitbelow = true
 
 require 'core.restore_dir'
 
+opt.shell = 'nu'
+opt.shellcmdflag = '-c'
+opt.shellxquote = ''
+
 m('n', '<Space>', '<Nop>')
 m('n', '<Space><CR>', function()
-  local shell, shellcmdflag, shellxquote = o.shell, o.shellcmdflag, o.shellxquote
-  o.shell = 'nu'
-  o.shellcmdflag = '-c'
-  o.shellxquote = ''
   vim.cmd.terminal()
-  o.shell = shell
-  o.shellcmdflag = shellcmdflag
-  o.shellxquote = shellxquote
 end)
 
 au('InsertEnter', {
@@ -122,7 +119,7 @@ au('BufRead', {
 
     opt.autoread = true
     opt.list = true
-    opt.listchars = { trail = '╴', tab = '', extends = '' }
+    opt.listchars = { trail = '╴', tab = ' - ', extends = '' }
     opt.autochdir = false
     opt.autoindent = true
     opt.smartindent = true

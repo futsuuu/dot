@@ -40,7 +40,7 @@ bufferline.setup {
       right = overseer_info,
     },
     mode = 'buffers',
-    separator_style = 'thick',
+    separator_style = 'slant',
     style_preset = bufferline.style_preset.no_italic,
     themable = true,
     indicator = { style = 'icon', icon = '▎' },

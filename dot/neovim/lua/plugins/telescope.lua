@@ -10,6 +10,7 @@ telescope.setup {
         preview_width = 0.5,
       },
     },
+    file_ignore_patterns = { '^%.git' },
   },
   pickers = {},
   extensions = {

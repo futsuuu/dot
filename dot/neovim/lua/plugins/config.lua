@@ -345,6 +345,7 @@ function Config.mason()
     'lua-language-server',
     'stylua',
     'selene',
+    'efm',
   }
 
   local function i(depends, servers)

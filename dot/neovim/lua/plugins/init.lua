@@ -5,6 +5,10 @@ local utils = require 'utils'
 local req = utils.lazy_require
 local m = vim.keymap.set
 
+function Init.edge()
+  vim.g.edge_disable_italic_comment = 1
+end
+
 function Init.dressing()
   ---@diagnostic disable-next-line: duplicate-set-field
   vim.ui.select = function(...)
@@ -31,7 +35,7 @@ function Init.aerial()
 end
 
 function Init.telescope()
-  m('n', '<Space>fs', '<Cmd>Telescope find_files<CR>')
+  m('n', '<Space>fs', '<Cmd>Telescope find_files hidden=true<CR>')
   m('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
   m('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
   m('n', '<Space>fl', '<Cmd>Telescope highlights<CR>')

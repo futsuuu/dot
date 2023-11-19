@@ -1,6 +1,5 @@
 _G.config_flags = {
   colorscheme = 'edge',
-  main = true,
   nvim_lsp = true,
   denops = true,
   skkeleton = true,
@@ -11,7 +10,15 @@ _G.config_flags = {
   decoration = true,
   buffer = true,
   on_open = true,
-  null_ls = true,
+  git = true,
+  map = {
+    i = true,
+    n = true,
+  },
+  lang = {
+    rust = true,
+    yuck = true,
+  },
 }
 
 vim.opt.background = 'light'

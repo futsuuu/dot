@@ -1,5 +1,6 @@
 local lsp = vim.lsp
 
+local configs = require 'lspconfig.configs'
 local lspconfig = require 'lspconfig'
 local lsp_win = require 'lspconfig.ui.windows'
 local mason_lspconfig = require 'mason-lspconfig'
@@ -7,6 +8,10 @@ local mason_lspconfig = require 'mason-lspconfig'
 local root_pattern = lspconfig.util.root_pattern
 
 require('utils').lsp.on_attach(function(client, bufnr)
+  if client.name ~= 'efm' then
+    client.server_capabilities.documentFormattingProvider = false
+  end
+
   if client.supports_method 'textDocument/inlayHint' and vim.lsp.inlay_hint then
     vim.api.nvim_buf_create_user_command(bufnr, 'InlayHintToggle', function()
       vim.lsp.inlay_hint(bufnr)
@@ -30,6 +35,16 @@ capabilities.textDocument = {
 if _G.config_flags.cmp then
   local cmp_nvim_lsp = require 'cmp_nvim_lsp'
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+end
+
+if not configs.nu_ls then
+  configs.nu_ls = {
+    default_config = {
+      cmd = { 'nu', '--lsp' },
+      filetypes = { 'nu' },
+      root_dir = root_pattern('config.nu', 'env.nu'),
+    },
+  }
 end
 
 local js_ts_inlayhint = {
@@ -119,6 +134,43 @@ mason_lspconfig.setup_handlers {
       single_file_support = false,
     }
   end,
+  efm = function()
+    lspconfig.efm.setup {
+      init_options = {
+        documentFormatting = true,
+        documentRangeFormatting = true,
+      },
+      settings = {
+        rootMarkers = {
+          '.git/',
+        },
+        languages = {
+          lua = {
+            {
+              formatCommand = 'stylua --color Never -s -',
+              formatStdin = true,
+              rootMarkers = {
+                'stylua.toml',
+                '.stylua.toml',
+              },
+            },
+          },
+          rust = {
+            {
+              formatCommand = 'rustfmt --color=never --emit=stdout --edition=2021',
+              formatStdin = true,
+              rootMarkers = {
+                'rustfmt.toml',
+                '.rustfmt.toml',
+                'Cargo.lock',
+                'Cargo.toml',
+              },
+            },
+          },
+        },
+      },
+    }
+  end,
 }
 
 if vim.fn.executable 'deno' then
@@ -127,6 +179,10 @@ if vim.fn.executable 'deno' then
     settings = settings,
     root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock', 'deps.ts'),
   }
+end
+
+if vim.fn.executable 'nu' then
+  lspconfig.nu_ls.setup {}
 end
 
 vim.diagnostic.config {
