@@ -9,9 +9,9 @@ if $nu.os-info.name == "linux" {
     $env
       | get PATH
       | split row (char esep)
-      | prepend ($home | path join ".cargo" "bin")
-      | prepend ($home | path join ".deno" "bin")
-      | prepend ($home | path join "bin")
+      | append ($home | path join "bin")
+      | append ($home | path join ".cargo" "bin")
+      | append ($home | path join ".deno" "bin")
       | uniq
   )
 
@@ -24,20 +24,19 @@ if $nu.os-info.name == "linux" {
     $env
       | get PATH
       | split row (char esep)
-      | prepend ($home | path join ".cargo" "bin")
-      | prepend ($home | path join ".deno" "bin")
-      | prepend ($home | path join "bin")
+      | append ($home | path join "bin")
+      | append ($home | path join ".nrtm" "bin")
+      | append ($home | path join ".cargo" "bin")
+      | append ($home | path join ".deno" "bin")
       | uniq
   )
 }
 
-export-env { load-env {
-  LANG: "en_US.UTF-8"
-  SHELL: $nu.current-exe
-  EDITOR: "nvim"
-  VISUAL: $env.EDITOR
-  BROWSER: "vivaldi-stable"
-} }
+$env.LANG = "en_US.UTF-8"
+$env.SHELL = $nu.current-exe
+$env.EDITOR = "nvim"
+$env.VISUAL = $env.EDITOR
+$env.BROWSER = "vivaldi-stable"
 
 $env.DENO_TLS_CA_STORE = "system"
 $env.FZF_DEFAULT_OPTS = "
