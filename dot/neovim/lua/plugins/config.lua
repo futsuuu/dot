@@ -34,16 +34,6 @@ function Config.dressing()
   }
 end
 
-function Config.notify()
-  require('notify').setup {
-    timeout = 3000,
-    on_open = function(win)
-      local buf = api.nvim_win_get_buf(win)
-      api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
-    end,
-  }
-end
-
 function Config.treesitter()
   require('nvim-treesitter.configs').setup {
     ensure_installed = {
@@ -270,7 +260,7 @@ function Config.neodev()
 end
 
 function Config.fidget()
-  require('fidget.spinners').dot_wave = {
+  require('fidget.spinner.patterns').dot_wave = {
     '( 󰧞 ·   · )',
     '(  󰧞 ·   )',
     '(   󰧞 · )',
@@ -281,23 +271,43 @@ function Config.fidget()
     '( ·   · 󰧞 )',
   }
   require('fidget').setup {
-    text = {
-      spinner = 'dot_wave',
-      done = ui.status.success,
-      commenced = ui.status.running,
-      completed = ui.status.success,
+    progress = {
+      display = {
+        done_icon = ui.status.success .. ' ',
+        progress_icon = { 'dot_wave' },
+        format_message = function(msg)
+          local message = msg.message ---@type string?
+          local per = msg.percentage ---@type integer?
+
+          if not message then
+            message = msg.done and ui.status.success or ui.status.running
+          end
+          message = message .. ui.progressbar(per)
+
+          return message
+        end,
+      },
     },
-    window = {
-      relative = 'editor',
-      blend = 0,
-    },
-    fmt = {
-      fidget = function(fidget_name, spinner)
-        return ('%s %s '):format(spinner, fidget_name)
-      end,
-      task = function(task_name, message, percentage)
-        return ('%s%s %s '):format(message, ui.progressbar(percentage), task_name)
-      end,
+    notification = {
+      configs = {
+        default = {
+          name = 'notification',
+          icon = ' ',
+          ttl = 5,
+          debug_annote = ' ',
+          info_annote = ' ',
+          warn_annote = ' ',
+          error_annote = ' ',
+        },
+      },
+      window = {
+        winblend = 0,
+        x_padding = 2,
+        y_padding = 1,
+      },
+      view = {
+        group_separator = '────────────── ',
+      },
     },
   }
 end

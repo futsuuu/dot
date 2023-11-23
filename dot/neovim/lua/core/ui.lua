@@ -2,7 +2,7 @@ local M = {
   bug = ' ',
 }
 
----@param percentage integer
+---@param percentage integer?
 function M.progressbar(percentage)
   if not percentage then
     return ''

@@ -88,11 +88,6 @@ return function(init, config)
         },
         { 'b0o/schemastore.nvim' },
         {
-          'j-hui/fidget.nvim',
-          tag = 'legacy',
-          config = config.fidget,
-        },
-        {
           'SmiteshP/nvim-navic',
           config = config.navic,
           event = 'BufReadPre',
@@ -292,9 +287,10 @@ return function(init, config)
     },
     {
       cond = flags.decoration,
-      'rcarriga/nvim-notify',
-      cmd = 'Notifications',
-      init = init.notify,
+      'j-hui/fidget.nvim',
+      event = { 'LspAttach' },
+      config = config.fidget,
+      init = init.fidget,
     },
     {
       cond = flags.buffer,

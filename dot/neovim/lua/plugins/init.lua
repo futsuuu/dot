@@ -22,10 +22,10 @@ function Init.dressing()
   end
 end
 
-function Init.notify()
+function Init.fidget()
   local function notify(...)
-    Config.notify()
-    return require 'notify'(...)
+    Config.fidget()
+    return require('fidget').notify(...)
   end
   vim.notify = notify
 end
