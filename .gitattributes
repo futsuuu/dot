@@ -1,1 +1,2 @@
+dot/**/* linguist-detectable
 *.nu linguist-language=Nushell
