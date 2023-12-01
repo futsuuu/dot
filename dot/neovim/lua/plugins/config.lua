@@ -316,6 +316,7 @@ function Config.satellite()
   require('satellite').setup {
     winblend = 60,
   }
+  hl(0, 'SatelliteBar', { link = 'PmenuThumb' })
 end
 
 function Config.navic()
