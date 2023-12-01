@@ -36,10 +36,8 @@ telescope.setup {
   },
 }
 
-for _, e in ipairs {
-  'mr',
-  'file_browser',
-  'zf-native',
-} do
-  telescope.load_extension(e)
+telescope.load_extension 'mr'
+telescope.load_extension 'file_browser'
+if vim.uv.fs_stat(require('zf').get_path()) then
+  telescope.load_extension 'zf-native'
 end

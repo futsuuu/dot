@@ -1,7 +1,7 @@
 _G.config_flags = {
   colorscheme = 'edge',
   nvim_lsp = true,
-  denops = true,
+  denops = vim.fn.executable 'deno' == 1,
   skkeleton = true,
   telescope = true,
   cmp = true,
