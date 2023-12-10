@@ -1,4 +1,11 @@
+local api = vim.api
+local uv = vim.uv
+local normalize = vim.fs.normalize
+
 local ui = require 'core.ui'
+
+local home = normalize(uv.os_homedir() or '')
+local runtime = normalize(vim.env.VIMRUNTIME)
 
 local M = {}
 
@@ -30,11 +37,10 @@ end
 ---@param bufnr number
 ---@return string
 function M.get_winbar(bufnr)
-  local normalize = vim.fs.normalize
-  local cwd = normalize(vim.uv.cwd() or '')
-  local home = normalize(vim.uv.os_homedir() or '')
-  local file = normalize(vim.api.nvim_buf_get_name(bufnr))
+  local cwd = normalize(uv.cwd() or '')
+  local file = normalize(api.nvim_buf_get_name(bufnr))
   file = file:replace(cwd, '')
+  file = file:replace(runtime, '')
   file = file:replace(home, '~')
 
   local path = file:split '/'
@@ -55,9 +61,13 @@ function M.get_winbar(bufnr)
   return winbar
 end
 
-vim.api.nvim_create_autocmd('BufRead', {
+api.nvim_set_hl(0, 'WinBar', { link = 'WinBarNC' })
+api.nvim_create_autocmd('BufRead', {
   pattern = '*',
   callback = function(ev)
+    if not uv.fs_stat(ev.file) then
+      return
+    end
     vim.opt_local.winbar = "%!v:lua.require'core.winbar'.get_winbar(" .. ev.buf .. ')'
   end,
 })
