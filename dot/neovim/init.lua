@@ -11,6 +11,7 @@ _G.config_flags = {
   buffer = true,
   on_open = true,
   git = true,
+  filer = 'oil',
   map = {
     i = true,
     n = true,

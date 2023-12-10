@@ -34,6 +34,21 @@ function Config.dressing()
   }
 end
 
+function Config.oil()
+  require('oil').setup {
+    columns = {
+      'size',
+      'icon',
+    },
+    win_options = {
+      number = false,
+    },
+    view_options = {
+      show_hidden = true,
+    }
+  }
+end
+
 function Config.treesitter()
   require('nvim-treesitter.configs').setup {
     ensure_installed = {
@@ -52,8 +67,8 @@ end
 
 function Config.neodim()
   require('neodim').setup {
-    update_in_insert = {
-      enable = false,
+    regex = {
+      rust = {},
     },
   }
 end

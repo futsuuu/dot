@@ -34,22 +34,15 @@ function Init.aerial()
   m('n', '<Space>a', '<Cmd>AerialToggle<CR>')
 end
 
+function Init.oil()
+  m('n', '<Space>e', '<Cmd>Oil<CR>')
+end
+
 function Init.telescope()
   m('n', '<Space>fs', '<Cmd>Telescope find_files hidden=true<CR>')
   m('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
   m('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
   m('n', '<Space>fl', '<Cmd>Telescope highlights<CR>')
-
-  vim.api.nvim_create_autocmd('BufEnter', {
-    callback = function(ev)
-      local bufname = vim.api.nvim_buf_get_name(ev.buf)
-      local stat = vim.uv.fs_stat(bufname)
-      if stat and stat.type == 'directory' then
-        vim.api.nvim_buf_delete(ev.buf, { force = true })
-        vim.cmd('Telescope file_browser path=' .. bufname)
-      end
-    end,
-  })
 end
 
 function Init.mr()

@@ -7,7 +7,13 @@ return function(init, config)
       'sainnhe/edge',
       init = init.edge,
     },
-
+    {
+      cond = flags.filer == 'oil',
+      'stevearc/oil.nvim',
+      cmd = 'Oil',
+      init = init.oil,
+      config = config.oil,
+    },
     {
       cond = flags.telescope,
       'nvim-telescope/telescope.nvim',
@@ -21,7 +27,6 @@ return function(init, config)
           init = init.mr,
           event = 'BufReadPre',
         },
-        { 'nvim-telescope/telescope-file-browser.nvim' },
         { 'natecraddock/telescope-zf-native.nvim' },
       },
     },
@@ -198,7 +203,6 @@ return function(init, config)
     },
 
     {
-      cond = flags.nvim_lsp,
       'williamboman/mason.nvim',
       cmd = {
         'Mason',
