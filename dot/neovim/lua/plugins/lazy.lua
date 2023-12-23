@@ -248,6 +248,11 @@ return function(init, config)
       config = config.crates,
     },
     {
+      'nacro90/numb.nvim',
+      event = 'CmdlineEnter',
+      config = config.numb,
+    },
+    {
       cond = flags.decoration,
       'folke/todo-comments.nvim',
       event = 'BufRead',

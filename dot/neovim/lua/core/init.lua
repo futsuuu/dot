@@ -129,7 +129,7 @@ au('BufRead', {
     opt.softtabstop = 2
 
     opt.numberwidth = 6
-    opt.number = true
+    -- opt.number = true
     opt.signcolumn = 'yes:2'
     opt.statuscolumn = ' %=%l%r%s '
 

@@ -25,11 +25,11 @@ _G.config_flags = {
 vim.opt.background = 'light'
 
 for _, v in ipairs {
+  'plugins',
   'utils.table',
   'utils.string',
   'gui',
   'core',
-  'plugins',
 } do
   require(v)
 end

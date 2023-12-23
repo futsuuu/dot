@@ -68,7 +68,9 @@ end
 function Config.neodim()
   require('neodim').setup {
     regex = {
-      rust = {},
+      rust = {
+        'warn%(unused_mut%)'
+      },
     },
   }
 end
@@ -138,6 +140,10 @@ function Config.neogit()
   hl(0, 'NeogitDiffContextHighlight', { link = 'CursorLine' })
   hl(0, 'NeogitDiffAddHighlight', { link = 'DiffAdd' })
   hl(0, 'NeogitDiffDeleteHighlight', { link = 'DiffDelete' })
+end
+
+function Config.numb()
+  require('numb').setup()
 end
 
 function Config.todo_comments()
