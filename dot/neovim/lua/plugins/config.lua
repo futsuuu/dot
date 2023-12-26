@@ -364,6 +364,10 @@ function Config.navic()
   hl(0, 'NavicSeparator', { link = 'NavicText' })
 end
 
+function Config.refs_info()
+  require('refs_info').setup()
+end
+
 function Config.mason_lspconfig()
   require('mason-lspconfig').setup()
 end

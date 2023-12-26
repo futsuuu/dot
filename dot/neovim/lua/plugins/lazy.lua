@@ -99,6 +99,12 @@ return function(init, config)
         },
       },
     },
+    {
+      cond = flags.nvim_lsp,
+      'futsuuu/refs_info.nvim',
+      cmd = { 'RefsInfoEnable', 'RefsInfoDisable', 'RefsInfoToggle' },
+      config = config.refs_info,
+    },
 
     {
       cond = flags.treesitter,
