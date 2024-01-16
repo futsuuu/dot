@@ -1,5 +1,9 @@
 export-env {
 
+export module config/color_config.nu
+export module config/keybindings.nu
+export module config/hooks.nu
+
 use color_config
 use keybindings
 use hooks
