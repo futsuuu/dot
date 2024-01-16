@@ -308,6 +308,12 @@ return function(init, config)
       init = init.fidget,
     },
     {
+      cond = flags.decoration,
+      'RRethy/vim-illuminate',
+      event = { 'CursorMoved' },
+      config = config.illuminate,
+    },
+    {
       cond = flags.buffer,
       'akinsho/bufferline.nvim',
       version = '*',

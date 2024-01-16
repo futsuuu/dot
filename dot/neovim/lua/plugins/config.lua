@@ -45,7 +45,7 @@ function Config.oil()
     },
     view_options = {
       show_hidden = true,
-    }
+    },
   }
 end
 
@@ -69,7 +69,7 @@ function Config.neodim()
   require('neodim').setup {
     regex = {
       rust = {
-        'warn%(unused_mut%)'
+        'warn%(unused_mut%)',
       },
     },
   }
@@ -330,6 +330,12 @@ function Config.fidget()
         group_separator = '────────────── ',
       },
     },
+  }
+end
+
+function Config.illuminate()
+  require('illuminate').configure {
+    delay = 300,
   }
 end
 
