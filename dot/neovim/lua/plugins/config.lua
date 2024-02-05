@@ -3,8 +3,8 @@ local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
 local m = vim.keymap.set
 
-local ui = require 'core.ui'
-local utils = require 'utils'
+local ui = require 'rc.ui'
+local utils = require 'rc.utils'
 
 local call = utils.call
 

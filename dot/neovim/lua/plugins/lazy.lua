@@ -254,11 +254,6 @@ return function(init, config)
       config = config.crates,
     },
     {
-      'nacro90/numb.nvim',
-      event = 'CmdlineEnter',
-      config = config.numb,
-    },
-    {
       cond = flags.decoration,
       'folke/todo-comments.nvim',
       event = 'BufRead',
@@ -360,7 +355,7 @@ return function(init, config)
   end
   vim.opt.rtp:prepend(lazypath)
 
-  local ui = require 'core.ui'
+  local ui = require 'rc.ui'
   require('lazy').setup(plugins, {
     defaults = {
       lazy = true,

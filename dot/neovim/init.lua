@@ -26,10 +26,7 @@ vim.opt.background = 'light'
 
 for _, v in ipairs {
   'plugins',
-  'utils.table',
-  'utils.string',
-  'gui',
-  'core',
+  'rc',
 } do
   require(v)
 end

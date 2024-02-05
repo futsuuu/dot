@@ -2,7 +2,7 @@ local map = vim.keymap.set
 
 local bufferline = require 'bufferline'
 
-local ui = require 'core.ui'
+local ui = require 'rc.ui'
 
 local function overseer_info()
   local result = {}

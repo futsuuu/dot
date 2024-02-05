@@ -1,3 +1,8 @@
+require 'rc.utils.table'
+require 'rc.utils.string'
+require 'rc.gui'
+require 'rc.restore_dir'
+
 local o, opt, optl = vim.o, vim.opt, vim.opt_local
 
 local au = vim.api.nvim_create_autocmd
@@ -28,8 +33,6 @@ opt.tabline = "%{''}"
 opt.inccommand = 'split'
 opt.splitright = true
 opt.splitbelow = true
-
-require 'core.restore_dir'
 
 opt.shell = 'nu'
 opt.shellcmdflag = '-c'
@@ -78,7 +81,7 @@ au('CursorMoved', {
     opt.virtualedit = 'onemore'
     opt.wrap = false
     m('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR><Esc>')
-    require 'core.cursorline'
+    require 'rc.cursorline'
   end,
 })
 
@@ -86,7 +89,7 @@ au('BufReadPre', {
   pattern = '*',
   once = true,
   callback = function()
-    require 'core.winbar'
+    require 'rc.winbar'
   end,
 })
 
@@ -122,7 +125,7 @@ au('BufRead', {
     opt.softtabstop = 2
 
     opt.numberwidth = 6
-    -- opt.number = true
+    opt.number = true
     opt.signcolumn = 'yes:2'
     opt.statuscolumn = ' %=%l%r%s '
 
@@ -192,6 +195,7 @@ au('TermOpen', {
   callback = function()
     vim.cmd.startinsert()
     m('t', '<C-]>', '<C-\\><C-n>')
+    optl.statuscolumn = ''
     optl.number = false
     optl.signcolumn = 'no'
     optl.foldcolumn = '0'

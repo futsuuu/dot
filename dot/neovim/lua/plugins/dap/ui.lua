@@ -1,4 +1,4 @@
-local ui = require 'core.ui'
+local ui = require 'rc.ui'
 
 require('dapui').setup {
   icons = {

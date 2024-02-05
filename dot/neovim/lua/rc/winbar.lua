@@ -1,8 +1,15 @@
 local api = vim.api
 local uv = vim.uv
-local normalize = vim.fs.normalize
+local function normalize(path)
+  path = vim.fs.normalize(path)
+  if package.config:sub(1, 1) == '\\' and path:sub(2, 3) == ':/' then
+    path = path:sub(1, 1):upper() .. path:sub(2)
+  end
+  return path
+end
 
-local ui = require 'core.ui'
+local ui = require 'rc.ui'
+local hl = require 'rc.highlight'
 
 local home = normalize(uv.os_homedir() or '')
 local runtime = normalize(vim.env.VIMRUNTIME)
@@ -30,8 +37,8 @@ local function get_icon(bufnr)
 
   local filetype = vim.fn.getbufvar(bufnr, '&filetype')
   ---@type string, string
-  local icon, hl = devicons.get_icon_by_filetype(filetype)
-  return '%#' .. hl .. '#' .. icon .. '%* '
+  local icon, icon_hl = devicons.get_icon_by_filetype(filetype)
+  return '%#' .. icon_hl .. '#' .. icon .. '%* '
 end
 
 ---@param bufnr number
@@ -51,7 +58,7 @@ function M.get_winbar(bufnr)
   local navic_info = get_navic_info(bufnr)
 
   local winbar = ' '
-  winbar = winbar .. ui.winbar_sep.path:join(path)
+  winbar = winbar .. table.concat(path, ui.winbar_sep.path)
 
   if navic_info ~= '' then
     winbar = winbar .. ui.winbar_sep.context
@@ -61,14 +68,14 @@ function M.get_winbar(bufnr)
   return winbar
 end
 
-api.nvim_set_hl(0, 'WinBar', { link = 'WinBarNC' })
+hl { WinBar = 'WinBarNC' }
 api.nvim_create_autocmd('BufRead', {
   pattern = '*',
   callback = function(ev)
     if not uv.fs_stat(ev.file) then
       return
     end
-    vim.opt_local.winbar = "%!v:lua.require'core.winbar'.get_winbar(" .. ev.buf .. ')'
+    vim.opt_local.winbar = "%!v:lua.require'rc.winbar'.get_winbar(" .. ev.buf .. ')'
   end,
 })
 

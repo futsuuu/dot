@@ -2,7 +2,7 @@ local M = setmetatable({
   lsp = nil, ---@module 'utils.lsp'
 }, {
   __index = function(t, k)
-    t[k] = require('utils.' .. k)
+    t[k] = require('rc.utils.' .. k)
     return t[k]
   end,
 })

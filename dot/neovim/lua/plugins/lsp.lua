@@ -7,7 +7,7 @@ local mason_lspconfig = require 'mason-lspconfig'
 
 local root_pattern = lspconfig.util.root_pattern
 
-require('utils').lsp.on_attach(function(client, bufnr)
+require('rc.utils').lsp.on_attach(function(client, bufnr)
   if client.name ~= 'efm' then
     client.server_capabilities.documentFormattingProvider = false
   end
@@ -134,6 +134,13 @@ mason_lspconfig.setup_handlers {
       single_file_support = false,
     }
   end,
+  rust_analyzer = function()
+    lspconfig.rust_analyzer.setup {
+      capabilities = capabilities,
+      settings = settings,
+      autostart = false,
+    }
+  end,
   efm = function()
     lspconfig.efm.setup {
       init_options = {
@@ -182,7 +189,9 @@ if vim.fn.executable 'deno' then
 end
 
 if vim.fn.executable 'nu' then
-  lspconfig.nu_ls.setup {}
+  lspconfig.nu_ls.setup {
+    autostart = false,
+  }
 end
 
 vim.diagnostic.config {

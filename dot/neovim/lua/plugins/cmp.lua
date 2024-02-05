@@ -1,7 +1,7 @@
 local cmp = require 'cmp'
-local vsnip = require('utils').call 'vsnip'
+local vsnip = require('rc.utils').call 'vsnip'
 
-local ui = require 'core.ui'
+local ui = require 'rc.ui'
 
 local ellipsis_char = ''
 local max_label_width = 50

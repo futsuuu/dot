@@ -16,23 +16,6 @@ function string.split(s, with)
   return substrings
 end
 
----Join strings
----@param s string
----@param str_list string[]
----@return string
-function string.join(s, str_list)
-  return table.concat(str_list, s)
-end
-
----@param s string
-function string.ignorecase_pattern(s)
-  local r = ''
-  for _, char in ipairs(s:split '') do
-    r = r .. '[' .. char:upper() .. char:lower() .. ']'
-  end
-  return r
-end
-
 ---@param s string
 ---@param from string
 ---@param to string

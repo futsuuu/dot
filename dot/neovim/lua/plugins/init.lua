@@ -1,7 +1,7 @@
 local Init = {}
 local Config = require 'plugins.config'
 
-local utils = require 'utils'
+local utils = require 'rc.utils'
 local req = utils.lazy_require
 local m = vim.keymap.set
 
