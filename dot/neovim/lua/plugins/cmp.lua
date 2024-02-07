@@ -1,5 +1,5 @@
 local cmp = require 'cmp'
-local vsnip = require('rc.utils').call 'vsnip'
+local vsnip = require('rc.utils').fn.vsnip
 
 local ui = require 'rc.ui'
 

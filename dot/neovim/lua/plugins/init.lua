@@ -63,6 +63,10 @@ function Init.suda()
   vim.api.nvim_create_user_command('S', 'SudaWrite', {})
 end
 
+function Init.skkeleton()
+  m({ 'i', 'c' }, '<C-j>', '<Plug>(skkeleton-enable)')
+end
+
 function Init.gitsigns()
   m({ 'n', 'v' }, '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
   m('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')

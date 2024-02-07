@@ -147,7 +147,6 @@ return function(init, config)
     {
       cond = flags.denops,
       'vim-denops/denops.vim',
-      event = 'VeryLazy',
     },
     {
       cond = flags.denops,
@@ -159,18 +158,12 @@ return function(init, config)
       },
     },
     {
-      cond = flags.denops,
-      'yuki-yano/denops-lazy.nvim',
-    },
-    {
       cond = flags.denops and flags.skkeleton,
       'vim-skk/skkeleton',
-      keys = { { '<C-j>', '<Plug>(skkeleton-enable)', mode = { 'i', 'c' } } },
-      event = 'CursorHold',
-      config = function()
-        require('denops-lazy').load 'skkeleton'
-        config.skkeleton()
-      end,
+      event = 'VeryLazy',
+      init = init.skkeleton,
+      config = config.skkeleton,
+      dependencies = 'denops.vim',
     },
 
     {

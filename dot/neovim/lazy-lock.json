@@ -10,7 +10,6 @@
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
   "cmp-vsnip": { "branch": "main", "commit": "989a8a73c44e926199bfd05fa7a516d51f2d2752" },
   "crates.nvim": { "branch": "main", "commit": "ec2b04a380c9f3a8e6ca38c230e4990d71978143" },
-  "denops-lazy.nvim": { "branch": "main", "commit": "aee18b31b15dafddc7674b6cd256789d56431efe" },
   "denops-shared-server.vim": { "branch": "main", "commit": "f4742b5f43c3fd9cb443b6ad99d4aa1504aae378" },
   "denops.vim": { "branch": "main", "commit": "b88638931616f8e53c0b1b27b753bcbfb3d05b31" },
   "dressing.nvim": { "branch": "master", "commit": "6f212262061a2120e42da0d1e87326e8a41c0478" },

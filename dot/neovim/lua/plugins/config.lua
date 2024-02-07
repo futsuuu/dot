@@ -6,8 +6,6 @@ local m = vim.keymap.set
 local ui = require 'rc.ui'
 local utils = require 'rc.utils'
 
-local call = utils.call
-
 local Config = setmetatable({}, {
   ---@type fun(table: table, key: string): function
   __index = function(_, key)
@@ -200,23 +198,21 @@ function Config.lastplace()
 end
 
 function Config.skkeleton()
-  local skkeleton = call 'skkeleton'
+  local denops = utils.fn.denops
+  local skkeleton = utils.fn.skkeleton
 
-  autocmd('User', {
-    pattern = ' skkeleton-initialize-pre',
-    callback = function()
-      skkeleton.config {
-        markerHenkan = ' ',
-        markerHenkanSelect = ' ',
-        keepState = true,
-        eggLikeNewline = true,
-        setUndoPoint = false,
-        userJisyo = vim.fn.stdpath 'data' .. 'SKK-JISYO.user',
-      }
+  denops.plugin.wait_async('skkeleton', function()
+    skkeleton.config {
+      markerHenkan = ' ',
+      markerHenkanSelect = ' ',
+      keepState = true,
+      eggLikeNewline = true,
+      setUndoPoint = false,
+      userDictionary = vim.fn.stdpath 'data' .. 'SKK-JISYO.user',
+    }
 
-      skkeleton.register_keymap('input', ';', 'henkanPoint')
-    end,
-  })
+    skkeleton.register_keymap('input', ';', 'henkanPoint')
+  end)
 end
 
 function Config.tabscope()

@@ -7,39 +7,20 @@ local M = setmetatable({
   end,
 })
 
----@param module_name string
----@return table
-function M.call(module_name)
-  ---@type metatable
-  local metatable = {
-    func = module_name,
-    children = {},
-    value = nil,
-  }
-
-  ---@param key string
-  function metatable:__index(key)
-    local meta = getmetatable(self)
-    local child = M.call(meta.func .. '#' .. key)
-    meta.children[key] = child
-    setmetatable(self, meta)
-    return child
-  end
-
-  function metatable:__call(...)
-    local func_name = getmetatable(self).func ---@type string
-    if func_name:match '.+#_fn$' then
-      local args = { ... }
-      return function()
-        return vim.fn[func_name:gsub('#_fn$', '', 1)](unpack(args))
-      end
-    else
-      return vim.fn[func_name](...)
-    end
-  end
-
-  return setmetatable({}, metatable)
-end
+M.fn = setmetatable({}, {
+  __index = function(_, key)
+    return setmetatable({ key }, {
+      __index = function(t, k)
+        local r = vim.deepcopy(t)
+        table.insert(r, k)
+        return r
+      end,
+      __call = function(t, ...)
+        return vim.fn[table.concat(t, '#')](...)
+      end,
+    })
+  end,
+})
 
 function M.lazy_require(modname)
   return setmetatable({}, {
