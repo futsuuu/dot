@@ -164,6 +164,7 @@ return function(init, config)
       init = init.skkeleton,
       config = config.skkeleton,
       dependencies = 'denops.vim',
+      build = ':call denops#notify("rc", "downloadJisyo", [])',
     },
 
     {

@@ -202,13 +202,15 @@ function Config.skkeleton()
   local skkeleton = utils.fn.skkeleton
 
   denops.plugin.wait_async('skkeleton', function()
+    local data_dir = vim.fn.stdpath 'data' .. '/'
     skkeleton.config {
       markerHenkan = ' ',
       markerHenkanSelect = ' ',
       keepState = true,
       eggLikeNewline = true,
       setUndoPoint = false,
-      userDictionary = vim.fn.stdpath 'data' .. 'SKK-JISYO.user',
+      globalDictionaries = { data_dir .. 'SKK-JISYO.L' },
+      userDictionary = data_dir .. 'SKK-JISYO.user',
     }
 
     skkeleton.register_keymap('input', ';', 'henkanPoint')
