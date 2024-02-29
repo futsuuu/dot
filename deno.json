@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "fmt": "deno fmt **/*.ts",
+    "molt": "deno run -A https://deno.land/x/molt/cli.ts"
+  }
+}

@@ -12,11 +12,6 @@ target = "~/.config/paru"
 enable."sys(os)" = { default = false, "arch linux" = true }
 
 [[dotfiles]]
-path = "glazeWM"
-enable."sys(os)" = { default = false, windows = true }
-target = "~/.glaze-wm"
-
-[[dotfiles]]
 path = "xremap"
 target = "~/.config/xremap"
 enable."which(xremap)" = { default = true, "" = false }
@@ -90,12 +85,6 @@ target = "~/.curlrc"
 sync_type."sys(os)" = { default = "symlink", windows = "hardlink" }
 
 [[dotfiles]]
-path = "bat"
-  [dotfiles.target."sys(os)"]
-  default = "~/.config/bat"
-  windows = "~/AppData/Roaming/bat"
-
-[[dotfiles]]
 path = "nushell"
   [dotfiles.target."sys(os)"]
   default = "~/.config/nushell"
@@ -108,13 +97,4 @@ target = "~/.config/neofetch"
 [[dotfiles]]
 path = "wofi"
 target = "~/.config/wofi"
-enable."sys(os)" = { default = false, "arch linux" = true }
-
-[[dotfiles]]
-path = "chromium-flags.conf"
-target = [
-  "~/.config/electron-flags.conf",
-  "~/.config/code-flags.conf",
-  "~/.config/vivaldi-stable.conf",
-]
 enable."sys(os)" = { default = false, "arch linux" = true }

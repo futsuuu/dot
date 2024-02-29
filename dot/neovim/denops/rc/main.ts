@@ -1,15 +1,12 @@
-import * as path from "https://deno.land/std@0.217.0/path/mod.ts";
-
-import type { Denops } from "https://deno.land/x/denops_std@v6.1.0/mod.ts";
-import * as fn from "https://deno.land/x/denops_std@v6.1.0/function/nvim/mod.ts";
-import { ensure, is } from "https://deno.land/x/unknownutil@v3.16.3/mod.ts";
-import { GzipStream } from "https://deno.land/x/compress@v0.4.6/gzip/mod.ts";
+import { path } from "../../../deps/std.ts";
+import { Denops, nvimFn } from "../../../deps/denops.ts";
+import { ensure, GzipStream, is } from "../../../deps/utils.ts";
 
 export function main(denops: Denops) {
   denops.dispatcher = {
     async downloadJisyo() {
       const dataDir: string = ensure(
-        await fn.stdpath(denops, "data"),
+        await nvimFn.stdpath(denops, "data"),
         is.String,
       );
       const compressed = path.join(dataDir, "SKK-JISYO.L.gz");
