@@ -1,6 +1,6 @@
-import { path } from "../../../deps/std.ts";
-import { Denops, nvimFn } from "../../../deps/denops.ts";
-import { ensure, GzipStream, is } from "../../../deps/utils.ts";
+import { path } from "../deps/std.ts";
+import { Denops, nvimFn } from "../deps/denops.ts";
+import { ensure, GzipStream, is } from "../deps/utils.ts";
 
 export function main(denops: Denops) {
   denops.dispatcher = {
