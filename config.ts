@@ -1,4 +1,6 @@
-import { fs, path, toml, yaml } from "./dot/deps/std.ts";
+import { fs, ini, path, toml, yaml } from "./dot/deps/std.ts";
+
+import { $ } from "./dot/deps/utils.ts";
 
 export interface Config {
   files: () => ConfigFile[] | Promise<ConfigFile[]>;
@@ -55,5 +57,47 @@ export class Flag extends ConfigFile {
       content += "\n";
     }
     super(configPath, content);
+  }
+}
+
+type SystemdService = {
+  Unit: {
+    Description?: string;
+    Documentation?: string;
+    After?: string;
+    Before?: string;
+    Requires?: string;
+    Wants?: string;
+    Conflicts?: string;
+  };
+  Service: {
+    Type: "simple" | "forking" | "oneshot" | "dbus" | "notify" | "idle";
+    ExecStart: string;
+    ExecStop?: string;
+    ExecReload?: string;
+    Restart: "always" | "no" | "one-success" | "on-failure";
+    RestartSec?: number;
+  };
+  Install: {
+    WantedBy?: string;
+    RequiredBy?: string;
+  };
+};
+
+export class Systemd extends ConfigFile {
+  name: string;
+
+  constructor(name: string, unit: SystemdService) {
+    super(Deno.makeTempFileSync(), ini.stringify(unit));
+    this.name = name;
+  }
+
+  async write() {
+    await Deno.writeTextFile(this.path, this.content);
+    const unitFile = `/etc/systemd/system/${this.name}.service`;
+    await $`sudo cp ${this.path} ${unitFile}`;
+    await $`sudo systemctl daemon-reload`;
+    await $`sudo systemctl enable --now ${this.name}.service`;
+    console.log(unitFile);
   }
 }

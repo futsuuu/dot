@@ -11,6 +11,7 @@
       "jsr:@std/fmt@0.213.0": "jsr:@std/fmt@0.213.0",
       "jsr:@std/fs@0.213.0": "jsr:@std/fs@0.213.0",
       "jsr:@std/fs@0.217": "jsr:@std/fs@0.217.0",
+      "jsr:@std/ini@0.217": "jsr:@std/ini@0.217.0",
       "jsr:@std/io@0.213.0": "jsr:@std/io@0.213.0",
       "jsr:@std/io@^0.213.0": "jsr:@std/io@0.213.0",
       "jsr:@std/path@0.213.0": "jsr:@std/path@0.213.0",
@@ -65,6 +66,9 @@
           "jsr:@std/assert@^0.217.0",
           "jsr:@std/path@^0.217.0"
         ]
+      },
+      "@std/ini@0.217.0": {
+        "integrity": "aa26eb38190abe870054abef2af415272ad427ec7e35c5582f8b9003a7876a0b"
       },
       "@std/io@0.213.0": {
         "integrity": "e78db92000e718c4b37e3c5f8a854a7c8d66cf4f1ab81d2c5c834172e66191cb",
