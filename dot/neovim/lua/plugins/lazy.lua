@@ -159,8 +159,12 @@ return function(init, config)
     },
     {
       cond = flags.denops and flags.skkeleton,
-      'vim-skk/skkeleton',
+      'kei-s16/skkeleton-azik-kanatable',
+      dependencies = 'skkeleton',
       event = 'VeryLazy',
+    },
+    {
+      'vim-skk/skkeleton',
       init = init.skkeleton,
       config = config.skkeleton,
       dependencies = 'denops.vim',

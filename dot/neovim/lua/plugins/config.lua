@@ -202,8 +202,11 @@ function Config.skkeleton()
   local skkeleton = utils.fn.skkeleton
 
   denops.plugin.wait_async('skkeleton', function()
+    skkeleton.azik.add_table 'us'
+
     local data_dir = vim.fn.stdpath 'data' .. '/'
     skkeleton.config {
+      kanaTable = 'azik',
       markerHenkan = ' ',
       markerHenkanSelect = ' ',
       keepState = true,
@@ -214,6 +217,9 @@ function Config.skkeleton()
     }
 
     skkeleton.register_keymap('input', ';', 'henkanPoint')
+    skkeleton.register_kanatable('azik', {
+      l = { 'っ' },
+    })
   end)
 end
 

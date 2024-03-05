@@ -64,7 +64,7 @@ function Init.suda()
 end
 
 function Init.skkeleton()
-  m({ 'i', 'c' }, '<C-j>', '<Plug>(skkeleton-enable)')
+  m({ 'i', 'c' }, '<C-j>', '<Plug>(skkeleton-toggle)')
 end
 
 function Init.gitsigns()
