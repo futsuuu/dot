@@ -1,8 +1,8 @@
 local api = vim.api
-local hl = api.nvim_set_hl
 local autocmd = api.nvim_create_autocmd
 local m = vim.keymap.set
 
+local hl = require 'rc.highlight'
 local ui = require 'rc.ui'
 local utils = require 'rc.utils'
 
@@ -135,9 +135,11 @@ function Config.neogit()
       end)
     end,
   })
-  hl(0, 'NeogitDiffContextHighlight', { link = 'CursorLine' })
-  hl(0, 'NeogitDiffAddHighlight', { link = 'DiffAdd' })
-  hl(0, 'NeogitDiffDeleteHighlight', { link = 'DiffDelete' })
+  hl {
+    NeogitDiffContextHighlight = 'CursorLine',
+    NeogitDiffAddHighlight = 'DiffAdd',
+    NeogitDiffDeleteHighlight = 'DiffDelete',
+  }
 end
 
 function Config.numb()
@@ -207,8 +209,8 @@ function Config.skkeleton()
     local data_dir = vim.fn.stdpath 'data' .. '/'
     skkeleton.config {
       kanaTable = 'azik',
-      markerHenkan = ' ',
-      markerHenkanSelect = ' ',
+      markerHenkan = '∘',
+      markerHenkanSelect = '•',
       keepState = true,
       eggLikeNewline = true,
       setUndoPoint = false,
@@ -257,8 +259,6 @@ function Config.overseer()
   autocmd('FileType', {
     pattern = 'OverseerList',
     callback = function()
-      m('n', '<C-h>', '<C-w>h')
-      m('n', '<C-l>', '<C-w>l')
       m('n', 'q', '<Cmd>close<CR>')
     end,
   })
@@ -270,9 +270,6 @@ function Config.ccc()
     bar_char = '󰝤',
     point_char = '⎕', -- not a garbled character
     point_color = '#808080',
-    pickers = {
-      ccc.picker.ansi_escape(),
-    },
   }
 end
 
@@ -340,6 +337,8 @@ end
 function Config.illuminate()
   require('illuminate').configure {
     delay = 300,
+    filetypes_denylist = { 'aerial' },
+    modes_denylist = { 'i' },
   }
 end
 
@@ -347,7 +346,7 @@ function Config.satellite()
   require('satellite').setup {
     winblend = 60,
   }
-  hl(0, 'SatelliteBar', { link = 'PmenuThumb' })
+  hl { SatelliteBar = 'PmenuThumb' }
 end
 
 function Config.navic()
@@ -370,8 +369,10 @@ function Config.navic()
     end
   end)
 
-  hl(0, 'NavicText', { link = 'Winbar' })
-  hl(0, 'NavicSeparator', { link = 'NavicText' })
+  hl {
+    NavicText = 'Winbar',
+    NavicSeparator = 'NavicText',
+  }
 end
 
 function Config.refs_info()

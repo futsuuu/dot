@@ -10,11 +10,10 @@ end
 
 local ui = require 'rc.ui'
 local hl = require 'rc.highlight'
+local line = require 'rc.ui.line'
 
-local home = normalize(uv.os_homedir() or '')
-local runtime = normalize(vim.env.VIMRUNTIME)
-
-local M = {}
+local HOME = normalize(uv.os_homedir() or '')
+local RUNTIME = normalize(vim.env.VIMRUNTIME)
 
 ---@param bufnr number
 ---@return string
@@ -35,20 +34,25 @@ local function get_icon(bufnr)
     return ''
   end
 
-  local filetype = vim.fn.getbufvar(bufnr, '&filetype')
   ---@type string, string
-  local icon, icon_hl = devicons.get_icon_by_filetype(filetype)
-  return '%#' .. icon_hl .. '#' .. icon .. '%* '
+  local icon, icon_hl = devicons.get_icon(api.nvim_buf_get_name(bufnr))
+  return line.with_hl(icon, icon_hl) .. ' '
 end
 
 ---@param bufnr number
 ---@return string
-function M.get_winbar(bufnr)
-  local cwd = normalize(uv.cwd() or '')
+local function get_winbar(bufnr)
+  if not api.nvim_buf_is_loaded(bufnr) then
+    return ''
+  end
+  local buftype = api.nvim_get_option_value('buftype', { buf = bufnr })
+  if buftype == 'nofile' or buftype == 'terminal' then
+    return ''
+  end
   local file = normalize(api.nvim_buf_get_name(bufnr))
-  file = file:replace(cwd, '')
-  file = file:replace(runtime, '')
-  file = file:replace(home, '~')
+    :replace(normalize(uv.cwd() or ''), '')
+    :replace(RUNTIME, '')
+    :replace(HOME, '~')
 
   local path = file:split '/'
 
@@ -68,15 +72,16 @@ function M.get_winbar(bufnr)
   return winbar
 end
 
-hl { WinBar = 'WinBarNC' }
-api.nvim_create_autocmd('BufRead', {
-  pattern = '*',
-  callback = function(ev)
-    if not uv.fs_stat(ev.file) then
-      return
-    end
-    vim.opt_local.winbar = "%!v:lua.require'rc.winbar'.get_winbar(" .. ev.buf .. ')'
-  end,
-})
+local M = {}
+
+function M.setup()
+  hl { WinBar = 'WinBarNC' }
+  api.nvim_create_autocmd('BufRead', {
+    pattern = '*',
+    callback = function(ev)
+      vim.opt_local.winbar = line.as_opt(get_winbar, tostring(ev.buf))
+    end,
+  })
+end
 
 return M

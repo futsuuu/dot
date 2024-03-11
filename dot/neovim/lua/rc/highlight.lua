@@ -10,6 +10,7 @@ local function set(name, val)
   api.nvim_create_autocmd('ColorScheme', { callback = fn })
 end
 
+---@param highlights { [string]: string | vim.api.keyset.highlight }
 return function(highlights)
   for name, val in pairs(highlights) do
     if type(val) == 'string' then

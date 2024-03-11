@@ -1,12 +1,14 @@
-require 'rc.utils.table'
-require 'rc.utils.string'
-require 'rc.gui'
-require 'rc.restore_dir'
-
 local o, opt, optl = vim.o, vim.opt, vim.opt_local
 
 local au = vim.api.nvim_create_autocmd
 local m = vim.keymap.set
+
+require 'rc.utils.table'
+require 'rc.utils.string'
+require 'rc.gui'
+require 'rc.restore_dir'
+require('rc.ui.winbar').setup()
+require('rc.ui.statusline').hide()
 
 opt.syntax = 'off'
 
@@ -19,17 +21,17 @@ au({ 'BufWinEnter', 'DirChanged' }, {
   end,
 })
 
+opt.backup = false
+opt.writebackup = false
+opt.swapfile = false
+
 opt.cmdheight = 0
 opt.laststatus = 0
 opt.termguicolors = true
 opt.fillchars:append {
   eob = ' ',
   diff = '╱',
-  stl = '─',
-  stlnc = '─',
 }
-opt.statusline = "%{''}"
-opt.tabline = "%{''}"
 opt.inccommand = 'split'
 opt.splitright = true
 opt.splitbelow = true
@@ -49,7 +51,6 @@ au('InsertEnter', {
   callback = function()
     opt.showmode = false
     opt.completeopt = { 'menu', 'menuone', 'noinsert' }
-    m('i', 'jj', '<Esc>')
   end,
 })
 
@@ -59,37 +60,26 @@ au('TextYankPost', {
   end,
 })
 
-au('WinNew', {
-  pattern = '*',
-  once = true,
-  callback = function()
-    m('n', '<C-h>', '<C-w>h')
-    m('n', '<C-j>', '<C-w>j')
-    m('n', '<C-k>', '<C-w>k')
-    m('n', '<C-l>', '<C-w>l')
-  end,
-})
-
 au('CursorMoved', {
   pattern = '*',
   once = true,
   callback = function()
-    opt.cursorline = true
     opt.scrolloff = 10
     opt.sidescroll = 1
     opt.sidescrolloff = 16
     opt.virtualedit = 'onemore'
     opt.wrap = false
     m('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR><Esc>')
-    require 'rc.cursorline'
   end,
 })
 
 au('BufReadPre', {
-  pattern = '*',
   once = true,
   callback = function()
-    require 'rc.winbar'
+    opt.expandtab = true
+    opt.shiftwidth = 2
+    opt.tabstop = 2
+    opt.softtabstop = 2
   end,
 })
 
@@ -97,9 +87,6 @@ au('BufRead', {
   pattern = '*',
   once = true,
   callback = function()
-    opt.backup = false
-    opt.writebackup = false
-    opt.swapfile = false
     opt.syntax = 'on'
 
     opt.encoding = 'utf-8'
@@ -119,10 +106,6 @@ au('BufRead', {
     opt.autochdir = false
     opt.autoindent = true
     opt.smartindent = true
-    opt.expandtab = true
-    opt.shiftwidth = 2
-    opt.tabstop = 2
-    opt.softtabstop = 2
 
     opt.numberwidth = 6
     opt.number = true
