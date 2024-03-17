@@ -4,6 +4,7 @@ import chromiumFlags from "./dot/chromium.ts";
 import curl from "./dot/curl.ts";
 import glazewm from "./dot/glazewm.ts";
 import lazygit from "./dot/lazygit.ts";
+import wofi from "./dot/wofi.ts";
 import xremap from "./dot/xremap.ts";
 
 for (
@@ -14,6 +15,7 @@ for (
     curl,
     glazewm,
     lazygit,
+    wofi,
     xremap,
   ]
 ) {
