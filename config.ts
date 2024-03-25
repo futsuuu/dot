@@ -29,6 +29,12 @@ class ConfigFile {
 
 export { ConfigFile as Text };
 
+export class Ini extends ConfigFile {
+  constructor(configPath: string | string[], obj: Record<string, unknown>) {
+    super(configPath, ini.stringify(obj));
+  }
+}
+
 export class Toml extends ConfigFile {
   constructor(configPath: string | string[], obj: Record<string, unknown>) {
     super(configPath, toml.stringify(obj));
