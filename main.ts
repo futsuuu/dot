@@ -2,6 +2,7 @@ import alacritty from "./dot/alacritty.ts";
 import bat from "./dot/bat.ts";
 import chromiumFlags from "./dot/chromium.ts";
 import curl from "./dot/curl.ts";
+import git from "./dot/git.ts";
 import glazewm from "./dot/glazewm.ts";
 import goneovim from "./dot/goneovim.ts";
 import lazygit from "./dot/lazygit.ts";
@@ -16,6 +17,7 @@ for (
     cargo,
     chromiumFlags,
     curl,
+    git,
     glazewm,
     goneovim,
     lazygit,

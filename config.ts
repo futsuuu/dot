@@ -51,6 +51,34 @@ export class Yaml extends ConfigFile {
   }
 }
 
+export class Git extends ConfigFile {
+  constructor(
+    configPath: string | string[],
+    obj: Record<string, Record<string, string | string[]>>,
+  ) {
+    super(
+      configPath,
+      ini(obj, {
+        // deno-lint-ignore no-explicit-any
+        replacer: (key: string, value: any, _section?: string) => {
+          if (!Array.isArray(value)) {
+            return `"${value}"`;
+          }
+          let result = "";
+          value.forEach((v, i) => {
+            if (i === 0) {
+              result += `"${v}"`;
+            } else {
+              result += `\n${key}="${v}"`;
+            }
+          });
+          return result;
+        },
+      }),
+    );
+  }
+}
+
 export class Flag extends ConfigFile {
   constructor(
     configPath: string | string[],
