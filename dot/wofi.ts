@@ -1,6 +1,6 @@
-import { path } from "./deps/std.ts";
+import * as path from "std/path";
 
-import { $ } from "./deps/utils.ts";
+import { $ } from "dax";
 
 import { Config, Ini, Text } from "../config.ts";
 import { CONFIG_DIR } from "../path.ts";

@@ -1,6 +1,15 @@
 {
+  "imports": {
+    "dax": "jsr:@david/dax@0.39.2",
+    "std/fs": "jsr:@std/fs@0.220.1",
+    "std/ini": "jsr:@std/ini@0.220.1",
+    "std/path": "jsr:@std/path@0.220.1",
+    "std/toml": "jsr:@std/toml@0.220.1",
+    "std/yaml": "jsr:@std/yaml@0.220.1"
+  },
   "tasks": {
     "fmt": "deno fmt **/*.ts",
-    "update": "deno run -A https://deno.land/x/molt/cli.ts ./dot/deps/*.ts ./dot/neovim/denops/deps/*.ts"
+    "molt": "deno run -A https://deno.land/x/molt/cli.ts",
+    "update": "deno task molt ./main.ts ./dot/neovim/denops/deps/*.ts"
   }
 }

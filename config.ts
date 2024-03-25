@@ -1,6 +1,10 @@
-import { fs, ini, path, toml, yaml } from "./dot/deps/std.ts";
+import { ensureDir } from "std/fs";
+import { stringify as ini } from "std/ini";
+import * as path from "std/path";
+import { stringify as toml } from "std/toml";
+import { stringify as yaml } from "std/yaml";
 
-import { $ } from "./dot/deps/utils.ts";
+import { $ } from "dax";
 
 export interface Config {
   files: () => ConfigFile[] | Promise<ConfigFile[]>;
@@ -21,7 +25,7 @@ class ConfigFile {
   }
 
   async write() {
-    await fs.ensureDir(path.dirname(this.path));
+    await ensureDir(path.dirname(this.path));
     await Deno.writeTextFile(this.path, this.content);
     console.log(this.path);
   }
@@ -31,19 +35,19 @@ export { ConfigFile as Text };
 
 export class Ini extends ConfigFile {
   constructor(configPath: string | string[], obj: Record<string, unknown>) {
-    super(configPath, ini.stringify(obj));
+    super(configPath, ini(obj));
   }
 }
 
 export class Toml extends ConfigFile {
   constructor(configPath: string | string[], obj: Record<string, unknown>) {
-    super(configPath, toml.stringify(obj));
+    super(configPath, toml(obj));
   }
 }
 
 export class Yaml extends ConfigFile {
   constructor(configPath: string | string[], obj: Record<string, unknown>) {
-    super(configPath, yaml.stringify(obj));
+    super(configPath, yaml(obj));
   }
 }
 
@@ -94,7 +98,7 @@ export class Systemd extends ConfigFile {
   name: string;
 
   constructor(name: string, unit: SystemdService) {
-    super(Deno.makeTempFileSync(), ini.stringify(unit));
+    super(Deno.makeTempFileSync(), ini(unit));
     this.name = name;
   }
 

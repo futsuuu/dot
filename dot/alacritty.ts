@@ -1,4 +1,4 @@
-import { $ } from "./deps/utils.ts";
+import { $ } from "dax";
 
 import { Config, Toml } from "../config.ts";
 import { APPDATA } from "../path.ts";
