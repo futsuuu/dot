@@ -1,6 +1,7 @@
 import { path } from "./deps/std.ts";
 
 import { $ } from "./deps/utils.ts";
+import { CONFIG_DIR } from "../path.ts";
 
 import { Config, Systemd, Yaml } from "../config.ts";
 
@@ -8,11 +9,7 @@ const xremap: Config = {
   enabled: () => $.commandExists("xremap"),
 
   files: () => {
-    const configFile = path.join(
-      Deno.env.get("XDG_CONFIG_HOME") as string,
-      "xremap",
-      "xremap.yml",
-    );
+    const configFile = path.join(CONFIG_DIR, "xremap", "xremap.yml");
 
     return [
       new Yaml(configFile, {

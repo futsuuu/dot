@@ -3,6 +3,7 @@ import { path } from "./deps/std.ts";
 import { $ } from "./deps/utils.ts";
 
 import { Config, Ini, Text } from "../config.ts";
+import { CONFIG_DIR } from "../path.ts";
 
 const css = `
 * {
@@ -74,14 +75,11 @@ const wofi: Config = {
   enabled: () => $.commandExists("wofi"),
 
   files: () => {
-    const directory = path.join(
-      Deno.env.get("XDG_CONFIG_HOME") as string,
-      "wofi",
-    );
+    const dir = path.join(CONFIG_DIR, "wofi");
     return [
-      new Text([directory, "style.css"], css),
+      new Text([dir, "style.css"], css),
       new Ini(
-        [directory, "config"],
+        [dir, "config"],
         {
           show: "drun",
           prompt: "",

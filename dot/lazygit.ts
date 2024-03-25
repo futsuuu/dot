@@ -1,16 +1,13 @@
 import { $ } from "./deps/utils.ts";
 
 import { Config, Yaml } from "../config.ts";
+import { LOCALAPPDATA } from "../path.ts";
 
 const lazygit: Config = {
-  enabled: () => $.commandExists("lazygit"),
+  enabled: () => !!LOCALAPPDATA && $.commandExists("lazygit"),
 
   files: () => [
-    new Yaml([
-      Deno.env.get("LOCALAPPDATA") || Deno.env.get("XDG_CONFIG_HOME") as string,
-      "lazygit",
-      "config.yml",
-    ], {
+    new Yaml([LOCALAPPDATA!, "lazygit", "config.yml"], {
       gui: {
         language: "en",
         showRandomTip: false,

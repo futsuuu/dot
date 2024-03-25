@@ -1,15 +1,14 @@
 import { $ } from "./deps/utils.ts";
 
 import { Config, Toml } from "../config.ts";
+import { APPDATA } from "../path.ts";
 
 const alacritty: Config = {
   enabled: () => $.commandExists("alacritty"),
 
   files: () => [
     new Toml([
-      Deno.build.os == "windows"
-        ? Deno.env.get("APPDATA") as string
-        : Deno.env.get("XDG_CONFIG_HOME") as string,
+      APPDATA,
       "alacritty",
       "alacritty.toml",
     ], {

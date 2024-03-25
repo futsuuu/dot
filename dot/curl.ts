@@ -1,12 +1,11 @@
 import { Config, Text } from "../config.ts";
+import { HOME_DIR } from "../path.ts";
 
 const curl: Config = {
+  enabled: () => !!HOME_DIR,
   files: () => [
     new Text(
-      [
-        Deno.env.get("HOME") || Deno.env.get("USERPROFILE") as string,
-        ".curlrc",
-      ],
+      [HOME_DIR!, ".curlrc"],
       ["show-error", 'referer = ";auto"', 'write-out = "\\n"'].join("\n"),
     ),
   ],

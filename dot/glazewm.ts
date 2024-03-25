@@ -1,6 +1,7 @@
 import { $ } from "./deps/utils.ts";
 
 import { Config, Yaml } from "../config.ts";
+import { HOME_DIR } from "../path.ts";
 
 function bind(command: string | string[], binding: string | string[]) {
   const result: {
@@ -23,11 +24,11 @@ function bind(command: string | string[], binding: string | string[]) {
 }
 
 const glazewm: Config = {
-  enabled: () => $.commandExists("glazewm"),
+  enabled: () => !!HOME_DIR && $.commandExists("glazewm"),
 
   files: () => [
     new Yaml([
-      Deno.env.get("USERPROFILE") as string,
+      HOME_DIR!,
       ".glaze-wm",
       "config.yaml",
     ], {
