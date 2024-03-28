@@ -26,6 +26,8 @@ const cargo: Config = {
         a: "add",
         i: "init",
         n: "new",
+        br: "build --release",
+        rr: "run --release",
       },
       http: {
         "check-revoke": Deno.build.os != "windows",
