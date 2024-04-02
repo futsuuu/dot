@@ -1,5 +1,4 @@
 local cmp = require 'cmp'
-local vsnip = require('rc.utils').fn.vsnip
 
 local ui = require 'rc.ui'
 
@@ -12,34 +11,34 @@ local opts = {}
 opts.sources = {
   { name = 'nvim_lsp' },
   { name = 'nvim_lsp_signature_help' },
-  { name = 'vsnip' },
+  { name = 'snippy' },
   { name = 'path' },
   { name = 'buffer' },
   { name = 'crates' },
-  { name = 'skkeleton' },
 }
 
 opts.completion = {
   completeopt = vim.o.completeopt,
 }
 
-local has_words_before = function()
+local function has_words_before()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
 end
 
-local feedkey = function(key, mode)
+local function feedkey(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+local snippy = require 'snippy'
 local mapping = cmp.mapping
 
 opts.mapping = mapping.preset.insert {
   ['<Tab>'] = mapping(function(fallback)
     if cmp.visible() then
       cmp.select_next_item()
-    elseif vsnip.available(1) == 1 then
-      feedkey('<Plug>(vsnip-expand-or-jump)', '')
+    elseif snippy.can_jump(1) then
+      feedkey('<Plug>(snippy-expand-or-advance)', '')
     elseif has_words_before() then
       cmp.complete()
     else
@@ -49,8 +48,8 @@ opts.mapping = mapping.preset.insert {
   ['<S-Tab>'] = mapping(function(fallback)
     if cmp.visible() then
       cmp.select_prev_item()
-    elseif vsnip.jumpable(-1) == 1 then
-      feedkey('<Plug>(vsnip-jump-prev)', '')
+    elseif snippy.can_jump(-1) then
+      feedkey('<Plug>(snippy-previous)', '')
     else
       fallback()
     end
@@ -65,7 +64,7 @@ opts.mapping = mapping.preset.insert {
 
 opts.snippet = {
   expand = function(args)
-    vsnip.anonymous(args.body)
+    snippy.expand_snippet(args.body)
   end,
 }
 

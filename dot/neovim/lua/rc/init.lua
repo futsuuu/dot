@@ -117,7 +117,10 @@ au('BufRead', {
     end
 
     m('n', 'a', function()
-      return vim.api.nvim_get_current_line():match '^%s*$' and 'S' or 'a'
+      if vim.fn.line '.' == 1 or vim.fn.line '$' == 1 or not vim.api.nvim_get_current_line():match '^%s*$' then
+        return 'a'
+      end
+      return 'kJo'
     end, { expr = true })
 
     m({ 'n', 'v' }, 'f<Space>', function()

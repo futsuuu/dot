@@ -61,20 +61,10 @@ return function(init, config)
       event = 'CmdlineEnter',
     },
     {
-      cond = flags.cmp and flags.vsnip,
-      'hrsh7th/cmp-vsnip',
+      cond = flags.cmp and flags.nvim_lsp,
+      'dcampos/cmp-snippy',
       event = 'InsertEnter',
-    },
-
-    {
-      cond = flags.vsnip,
-      'hrsh7th/vim-vsnip',
-      version = '*',
-      dependencies = {
-        'hrsh7th/vim-vsnip-integ',
-        'rafamadriz/friendly-snippets',
-      },
-      event = 'InsertEnter',
+      dependencies = 'dcampos/nvim-snippy',
     },
 
     {
@@ -175,6 +165,11 @@ return function(init, config)
       cond = flags.lang.yuck,
       'elkowar/yuck.vim',
       event = 'VeryLazy',
+    },
+    {
+      cond = flags.lang.log,
+      'fei6409/log-highlight.nvim',
+      ft = 'log',
     },
 
     {
@@ -327,10 +322,7 @@ return function(init, config)
     },
 
     { 'nvim-lua/plenary.nvim' },
-    {
-      'nvim-tree/nvim-web-devicons',
-      config = config.devicons,
-    },
+    { 'futsuuu/clico' },
     { 'MunifTanjim/nui.nvim' },
 
     {

@@ -29,14 +29,11 @@ end
 ---@param bufnr number
 ---@return string
 local function get_icon(bufnr)
-  local status, devicons = pcall(require, 'nvim-web-devicons')
-  if not status then
-    return ''
-  end
-
-  ---@type string, string
-  local icon, icon_hl = devicons.get_icon(api.nvim_buf_get_name(bufnr))
-  return line.with_hl(icon, icon_hl) .. ' '
+  local icon = require('clico').get {
+    path = api.nvim_buf_get_name(bufnr),
+    ft = api.nvim_get_option_value('filetype', { buf = bufnr }),
+  }
+  return line.with_hl(icon.icon, icon.hl) .. ' '
 end
 
 ---@param bufnr number
