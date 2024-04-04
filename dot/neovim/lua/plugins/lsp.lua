@@ -180,6 +180,14 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
+if vim.fn.executable 'rust-analyzer' then
+  lspconfig.rust_analyzer.setup {
+    capabilities = capabilities,
+    settings = settings,
+    autostart = false,
+  }
+end
+
 if vim.fn.executable 'deno' then
   lspconfig.denols.setup {
     capabilities = capabilities,

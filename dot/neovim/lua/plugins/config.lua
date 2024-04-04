@@ -413,7 +413,6 @@ function Config.mason()
   end
 
   i('npm', { 'json-lsp', 'css-lsp', 'html-lsp', 'vtsls' })
-  i('cargo', 'rust-analyzer')
   i('python', 'black')
   i({ 'python', 'npm' }, 'pyright')
 
