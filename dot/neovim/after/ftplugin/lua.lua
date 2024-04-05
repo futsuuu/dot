@@ -1,7 +1,8 @@
 ---@return string
 local function get_config_dir()
-  local config = vim.fn.stdpath 'config'
-  local link = vim.loop.fs_readlink(config)
+  ---@diagnostic disable-next-line: assign-type-mismatch
+  local config = vim.fn.stdpath 'config' ---@type string
+  local link = vim.uv.fs_readlink(config)
   local r
   if link then
     r = link
@@ -40,4 +41,4 @@ local function reload()
   end
 end
 
-vim.api.nvim_buf_create_user_command(0, 'ReloadPlugin', reload, {})
+vim.api.nvim_buf_create_user_command(0, 'ResetPlugin', reload, {})

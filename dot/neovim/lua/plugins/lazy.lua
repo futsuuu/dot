@@ -164,7 +164,7 @@ return function(init, config)
     {
       cond = flags.lang.yuck,
       'elkowar/yuck.vim',
-      event = 'VeryLazy',
+      ft = 'yuck',
     },
     {
       cond = flags.lang.log,

@@ -10,8 +10,6 @@ require 'rc.restore_dir'
 require('rc.ui.winbar').setup()
 require('rc.ui.statusline').hide()
 
-opt.syntax = 'off'
-
 opt.title = true
 au({ 'BufWinEnter', 'DirChanged' }, {
   pattern = '*',
@@ -87,8 +85,6 @@ au('BufRead', {
   pattern = '*',
   once = true,
   callback = function()
-    opt.syntax = 'on'
-
     opt.encoding = 'utf-8'
     opt.fileencodings = { 'ucs-bom', 'utf-8', 'iso-2022-jp', 'euc-jp', 'cp932', 'default', 'latin' }
     opt.fileformats = { 'unix', 'dos', 'mac' }
