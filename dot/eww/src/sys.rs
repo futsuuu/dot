@@ -2,7 +2,7 @@ use std::{sync::Mutex, thread, time::Duration};
 
 use once_cell::sync::Lazy;
 use serde_json::{json, Value};
-use sysinfo::{CpuExt, System, SystemExt};
+use sysinfo::System;
 
 pub static DATA: Lazy<Mutex<Value>> = Lazy::new(|| {
     Mutex::new(json!({
