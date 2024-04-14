@@ -13,10 +13,10 @@ const css = `
 }
 
 #window {
-  background-color: --wofi-color0;
-  color: --wofi-color2;
-  border: 0px solid --wofi-color1;
-  border-radius: 12px;
+  background-color: #24283b;
+  color: #a9b1d6;
+  border: 1px solid #a9b1d6;
+  border-radius: 15px;
 }
 
 #outer-box {
@@ -26,8 +26,8 @@ const css = `
 #input {
   font-weight: 600;
   font-size: 16px;
-  background-color: --wofi-color1;
-  border: 0px solid --wofi-color3;
+  background-color: #1f2335;
+  border: 1px solid #444b6a;
   padding: 4px 12px;
 }
 
@@ -42,12 +42,8 @@ const css = `
   padding-right: 8px;
 }
 
-#text {
-  color: --wofi-color2;
-}
-
 #text:selected {
-  color: --wofi-color0;
+  color: #24283b;
 }
 
 #entry {
@@ -55,8 +51,7 @@ const css = `
 }
 
 #entry:selected {
-  background-color: --wofi-color3;
-  color: --wofi-color0;
+  background-color: #7aa2f7;
 }
 
 #unselected {
@@ -117,6 +112,9 @@ const wofi: Config = {
           // Keys
           key_expand: "Tab",
           key_exit: "Escape",
+          key_forward: "Ctrl-n",
+          key_backward: "Ctrl-p",
+          key_submit: "Ctrl-m",
         },
       ),
     ];
