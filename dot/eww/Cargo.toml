@@ -3,25 +3,9 @@ name = "eww-info"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 starship-battery = "0.8"
-
-[dependencies.serde_json]
-version = "1.0"
-default-features = false
-features = ["alloc"]
-
-[dependencies.sysinfo]
-version = "0.30"
-default-features = false
-
-[dependencies.once_cell]
-version = "1.19"
-default-features = false
-
-[dependencies.chrono]
-version = "0.4"
-default-features = false
-features = ["clock"]
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+serde_json = { version = "1.0", default-features = true, features = [] }
+sysinfo = { version = "0.30", default-features = false }
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
