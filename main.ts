@@ -8,6 +8,7 @@ import goneovim from "./dot/goneovim.ts";
 import lazygit from "./dot/lazygit.ts";
 import { cargo, rustup } from "./dot/rust.ts";
 import wofi from "./dot/wofi.ts";
+import hyprland from "./dot/hyprland.ts";
 import xremap from "./dot/xremap.ts";
 
 for (
@@ -20,6 +21,7 @@ for (
     git,
     glazewm,
     goneovim,
+    hyprland,
     lazygit,
     rustup,
     wofi,

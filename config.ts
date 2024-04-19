@@ -139,3 +139,16 @@ export class Systemd extends ConfigFile {
     console.log(unitFile);
   }
 }
+
+export class Download extends ConfigFile {
+  async write() {
+    await ensureDir(path.dirname(this.path));
+    const data = await fetch(this.content);
+    if (!data.body) {
+      console.log(data.statusText);
+      return;
+    }
+    await Deno.writeFile(this.path, data.body);
+    console.log(this.path);
+  }
+}
