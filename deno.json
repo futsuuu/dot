@@ -1,11 +1,11 @@
 {
   "imports": {
-    "dax": "jsr:@david/dax@0.39.2",
-    "std/fs": "jsr:@std/fs@0.220.1",
-    "std/ini": "jsr:@std/ini@0.220.1",
-    "std/path": "jsr:@std/path@0.220.1",
-    "std/toml": "jsr:@std/toml@0.220.1",
-    "std/yaml": "jsr:@std/yaml@0.220.1"
+    "dax": "jsr:@david/dax@0.40.1",
+    "std/fs": "jsr:@std/fs@0.223.0",
+    "std/ini": "jsr:@std/ini@0.223.0",
+    "std/path": "jsr:@std/path@0.223.0",
+    "std/toml": "jsr:@std/toml@0.223.0",
+    "std/yaml": "jsr:@std/yaml@0.223.0"
   },
   "tasks": {
     "fmt": "deno fmt **/*.ts",
