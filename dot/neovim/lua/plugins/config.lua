@@ -262,6 +262,7 @@ function Config.overseer()
       m('n', 'q', '<Cmd>close<CR>')
     end,
   })
+  hl { OverSeerFAILURE = 'ErrorFloat', OverSserCANCELED = 'WarnFloat', OverSeerTaskBorder = 'WinSeparator' }
 end
 
 function Config.ccc()

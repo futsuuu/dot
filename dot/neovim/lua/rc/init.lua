@@ -7,6 +7,7 @@ require 'rc.utils.table'
 require 'rc.utils.string'
 require 'rc.gui'
 require 'rc.restore_dir'
+require('rc.ui.tabline').setup()
 require('rc.ui.winbar').setup()
 require('rc.ui.statusline').hide()
 

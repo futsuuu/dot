@@ -303,13 +303,6 @@ return function(init, config)
     },
     {
       cond = flags.buffer,
-      'akinsho/bufferline.nvim',
-      version = '*',
-      event = { 'BufRead', 'TermOpen', 'TabNew' },
-      config = config.bufferline,
-    },
-    {
-      cond = flags.buffer,
       'backdround/tabscope.nvim',
       event = 'WinEnter',
       config = config.tabscope,

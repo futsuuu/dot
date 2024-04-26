@@ -36,10 +36,10 @@ local function get_icon(bufnr)
   return line.with_hl(icon.icon, icon.hl) .. ' '
 end
 
----@param bufnr number
+---@param bufnr number?
 ---@return string
 local function get_winbar(bufnr)
-  if not api.nvim_buf_is_loaded(bufnr) then
+  if not bufnr or not api.nvim_buf_is_loaded(bufnr) then
     return ''
   end
   local buftype = api.nvim_get_option_value('buftype', { buf = bufnr })
