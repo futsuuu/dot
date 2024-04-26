@@ -320,6 +320,7 @@ return function(init, config)
       init = init.bufdelete,
     },
 
+    { 'nvim-neotest/nvim-nio' },
     { 'nvim-lua/plenary.nvim' },
     { 'futsuuu/clico' },
     { 'MunifTanjim/nui.nvim' },
