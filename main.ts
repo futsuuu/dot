@@ -5,10 +5,11 @@ import curl from "./dot/curl.ts";
 import git from "./dot/git.ts";
 import glazewm from "./dot/glazewm.ts";
 import goneovim from "./dot/goneovim.ts";
+import hyprland from "./dot/hyprland.ts";
 import lazygit from "./dot/lazygit.ts";
+import paru from "./dot/paru.ts";
 import { cargo, rustup } from "./dot/rust.ts";
 import wofi from "./dot/wofi.ts";
-import hyprland from "./dot/hyprland.ts";
 import xremap from "./dot/xremap.ts";
 
 for (
@@ -23,6 +24,7 @@ for (
     goneovim,
     hyprland,
     lazygit,
+    paru,
     rustup,
     wofi,
     xremap,

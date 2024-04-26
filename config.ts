@@ -59,8 +59,11 @@ export class Git extends ConfigFile {
     super(
       configPath,
       ini(obj, {
-        // deno-lint-ignore no-explicit-any
-        replacer: (key: string, value: any, _section?: string) => {
+        replacer: (
+          key: string,
+          value: string | string[],
+          _section?: string,
+        ) => {
           if (!Array.isArray(value)) {
             return `"${value}"`;
           }
@@ -76,6 +79,26 @@ export class Git extends ConfigFile {
         },
       }),
     );
+  }
+}
+
+export class Pacman extends ConfigFile {
+  constructor(
+    configPath: string | string[],
+    obj: Record<string, Record<string, string | boolean>>,
+  ) {
+    let content = "";
+    for (const [section, record] of Object.entries(obj)) {
+      content += `[${section}]\n`;
+      for (const [key, value] of Object.entries(record)) {
+        if (typeof value == "string") {
+          content += `${key} = ${value}\n`;
+        } else if (value) {
+          content += `${key}\n`;
+        }
+      }
+    }
+    super(configPath, content);
   }
 }
 
