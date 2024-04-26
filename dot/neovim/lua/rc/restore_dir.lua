@@ -1,7 +1,9 @@
+local stdpath = require('rc.utils').stdpath
+
 local M = {}
 
 local cwd = vim.fn.getcwd
-local data_path = vim.fs.joinpath(vim.fn.stdpath 'data', 'cwd')
+local data_path = vim.fs.joinpath(stdpath.data, 'cwd')
 
 function M.save()
   local file = io.open(data_path, 'w')

@@ -1,20 +1,22 @@
 local dap = require 'dap'
 
-local is_win = vim.fn.has 'win32' == 1
-local mason = vim.fn.stdpath 'data' .. '/mason/'
+local stdpath = require('rc.utils').stdpath
+
+local MASON = vim.fs.joinpath(stdpath.data, 'mason')
+local WINDOWS = vim.fn.has 'win32' == 1
 
 dap.adapters = {
   cppdbg = {
     id = 'cppdbg',
     type = 'executable',
-    command = mason .. 'bin/OpenDebugAD7.cmd',
+    command = vim.fs.joinpath(MASON, 'bin', 'OpenDebugAD7.cmd'),
     options = {
-      detached = not is_win,
+      detached = not WINDOWS,
     },
   },
   python = {
     type = 'executable',
-    command = mason .. 'packages/debugpy/venv/' .. (is_win and 'Scripts' or 'bin') .. 'python',
+    command = vim.fs.joinpath(MASON, 'packages', 'debugpy', 'venv', WINDOWS and 'Scripts' or 'bin', 'python'),
     args = { '-m', 'debugpy.adapter' },
   },
 }

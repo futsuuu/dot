@@ -1,13 +1,13 @@
+local stdpath = require('rc.utils').stdpath
+
 ---@return string
 local function get_config_dir()
-  ---@diagnostic disable-next-line: assign-type-mismatch
-  local config = vim.fn.stdpath 'config' ---@type string
-  local link = vim.uv.fs_readlink(config)
+  local link = vim.uv.fs_readlink(stdpath.config)
   local r
   if link then
     r = link
   else
-    r = config
+    r = stdpath.config
   end
   return vim.fs.normalize(r)
 end

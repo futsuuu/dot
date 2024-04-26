@@ -1,3 +1,6 @@
+local stdpath = require('rc.utils').stdpath
+local ui = require 'rc.ui'
+
 local flags = _G.config_flags
 
 return function(init, config)
@@ -104,6 +107,9 @@ return function(init, config)
       build = ':TSUpdate',
       event = 'BufRead',
       config = config.treesitter,
+      dependencies = {
+        'nushell/tree-sitter-nu',
+      },
     },
 
     {
@@ -325,7 +331,7 @@ return function(init, config)
     },
   }
 
-  local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+  local lazypath = vim.fs.joinpath(stdpath.data, 'lazy', 'lazy.nvim')
   if not vim.uv.fs_stat(lazypath) then
     vim.fn.system {
       'git',
@@ -338,7 +344,6 @@ return function(init, config)
   end
   vim.opt.rtp:prepend(lazypath)
 
-  local ui = require 'rc.ui'
   require('lazy').setup(plugins, {
     defaults = {
       lazy = true,

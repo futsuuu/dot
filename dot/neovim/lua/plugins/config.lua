@@ -206,7 +206,6 @@ function Config.skkeleton()
   denops.plugin.wait_async('skkeleton', function()
     skkeleton.azik.add_table 'us'
 
-    local data_dir = vim.fn.stdpath 'data' .. '/'
     skkeleton.config {
       kanaTable = 'azik',
       markerHenkan = '∘',
@@ -214,8 +213,8 @@ function Config.skkeleton()
       keepState = true,
       eggLikeNewline = true,
       setUndoPoint = false,
-      globalDictionaries = { data_dir .. 'SKK-JISYO.L' },
-      userDictionary = data_dir .. 'SKK-JISYO.user',
+      globalDictionaries = { vim.fs.joinpath(utils.stdpath.data, 'SKK-JISYO.L') },
+      userDictionary = vim.fs.joinpath(utils.stdpath.data, 'SKK-JISYO.user'),
     }
 
     skkeleton.register_keymap('input', ';', 'henkanPoint')

@@ -22,6 +22,15 @@ M.fn = setmetatable({}, {
   end,
 })
 
+---@type { cache: string, config: string, data: string, log: string, run: string, state: string, config_dirs: string[], data_dirs: string[] }
+M.stdpath = setmetatable({}, {
+  __index = function(t, key)
+    local result = vim.fn.stdpath(key)
+    rawset(t, key, result)
+    return result
+  end,
+})
+
 function M.lazy_require(modname)
   return setmetatable({}, {
     __index = function(_, k)

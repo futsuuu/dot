@@ -24,9 +24,5 @@ _G.config_flags = {
 
 vim.opt.background = 'light'
 
-for _, v in ipairs {
-  'plugins',
-  'rc',
-} do
-  require(v)
-end
+require 'plugins'
+require 'rc'
