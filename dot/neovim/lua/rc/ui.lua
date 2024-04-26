@@ -9,7 +9,7 @@ function M.progressbar(percentage)
   end
   local max_length = 30
   local length = math.floor(percentage / (100 / max_length))
-  return string.format(' %s%% %s%s', percentage, string.rep('', length), string.rep('─', max_length - length))
+  return string.format(' %s%% %s%s', percentage, string.rep('━', length), string.rep('·', max_length - length))
 end
 
 M.checkbox = {
@@ -27,7 +27,7 @@ M.status = {
 
 M.winbar_sep = {
   path = ' 󰿟 ',
-  context = '  ',
+  context = '  ',
 }
 
 M.chevron = {
