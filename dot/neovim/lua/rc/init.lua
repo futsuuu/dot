@@ -6,7 +6,7 @@ local m = vim.keymap.set
 require 'rc.utils.table'
 require 'rc.utils.string'
 require 'rc.gui'
-require 'rc.restore_dir'
+require('rc.state').setup()
 require('rc.ui.tabline').setup()
 require('rc.ui.winbar').setup()
 require('rc.ui.statusline').hide()

@@ -1,5 +1,4 @@
 _G.config_flags = {
-  colorscheme = 'edge',
   nvim_lsp = true,
   denops = vim.fn.executable 'deno' == 1,
   skkeleton = true,
@@ -21,8 +20,6 @@ _G.config_flags = {
     yuck = true,
   },
 }
-
-vim.opt.background = 'light'
 
 require 'plugins'
 require 'rc'

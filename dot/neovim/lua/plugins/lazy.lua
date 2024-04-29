@@ -6,7 +6,6 @@ local flags = _G.config_flags
 return function(init, config)
   local plugins = {
     {
-      cond = flags.colorscheme == 'edge',
       'sainnhe/edge',
       init = init.edge,
     },
@@ -355,9 +354,6 @@ return function(init, config)
       fallback = true,
     },
     concurrency = 10,
-    install = {
-      colorscheme = { flags.colorscheme },
-    },
     ui = {
       border = 'none',
       icons = {

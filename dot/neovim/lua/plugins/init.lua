@@ -93,5 +93,3 @@ function Init.overseer()
 end
 
 require 'plugins.lazy'(Init, Config)
-
-vim.cmd.colorscheme(_G.config_flags.colorscheme)
