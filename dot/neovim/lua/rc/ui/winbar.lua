@@ -8,9 +8,9 @@ local function normalize(path)
   return path
 end
 
-local ui = require 'rc.ui'
 local hl = require 'rc.highlight'
 local line = require 'rc.ui.line'
+local ui = require 'rc.ui'
 
 local HOME = normalize(uv.os_homedir() or '')
 local RUNTIME = normalize(vim.env.VIMRUNTIME)

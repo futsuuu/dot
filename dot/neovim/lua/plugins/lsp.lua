@@ -1,8 +1,8 @@
 local lsp = vim.lsp
 
 local configs = require 'lspconfig.configs'
-local lspconfig = require 'lspconfig'
 local lsp_win = require 'lspconfig.ui.windows'
+local lspconfig = require 'lspconfig'
 local mason_lspconfig = require 'mason-lspconfig'
 
 local root_pattern = lspconfig.util.root_pattern

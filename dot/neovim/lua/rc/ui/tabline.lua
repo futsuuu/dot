@@ -1,8 +1,8 @@
 local api = vim.api
 
+local hl = require 'rc.highlight'
 local line = require 'rc.ui.line'
 local ui = require 'rc.ui'
-local hl = require 'rc.highlight'
 
 ---@param new string
 ---@param base string
