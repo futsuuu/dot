@@ -1,4 +1,5 @@
 local lsp = vim.lsp
+local inlay_hint = lsp.inlay_hint
 
 local configs = require 'lspconfig.configs'
 local lsp_win = require 'lspconfig.ui.windows'
@@ -12,9 +13,9 @@ require('rc.utils').lsp.on_attach(function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
   end
 
-  if client.supports_method 'textDocument/inlayHint' and vim.lsp.inlay_hint then
+  if client.supports_method 'textDocument/inlayHint' and inlay_hint then
     vim.api.nvim_buf_create_user_command(bufnr, 'InlayHintToggle', function()
-      vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(bufnr))
+      inlay_hint.enable(not inlay_hint.is_enabled(bufnr), { bufnr = bufnr })
     end, {})
   end
 end)
@@ -200,6 +201,10 @@ if vim.fn.executable 'nu' then
   lspconfig.nu_ls.setup {
     autostart = false,
   }
+end
+
+if vim.fn.executable 'nil' then
+  lspconfig.nil_ls.setup {}
 end
 
 vim.diagnostic.config {
