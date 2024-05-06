@@ -1,3 +1,5 @@
+import { crypto } from "std/crypto";
+import { encodeHex } from "std/encoding/hex";
 import { ensureDir } from "std/fs";
 import { stringify as ini } from "std/ini";
 import * as path from "std/path";
@@ -22,6 +24,16 @@ class ConfigFile {
       this.path = path.join(...configPath);
     }
     this.content = content;
+  }
+
+  hashKey(): string {
+    return `${this.path}::${this.content}`;
+  }
+
+  async hash(): Promise<string> {
+    const msgBuffer = new TextEncoder().encode(this.hashKey());
+    const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+    return encodeHex(hashBuffer);
   }
 
   async write() {
@@ -151,6 +163,10 @@ export class Systemd extends ConfigFile {
   constructor(name: string, unit: SystemdService) {
     super(Deno.makeTempFileSync(), ini(unit));
     this.name = name;
+  }
+
+  hashKey(): string {
+    return `${this.name}::${this.content}`;
   }
 
   async write() {

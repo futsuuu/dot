@@ -1,3 +1,6 @@
+import * as fs from "std/fs";
+import * as path from "std/path";
+
 import alacritty from "./dot/alacritty.ts";
 import bat from "./dot/bat.ts";
 import chromiumFlags from "./dot/chromium.ts";
@@ -12,28 +15,47 @@ import { cargo, rustup } from "./dot/rust.ts";
 import wofi from "./dot/wofi.ts";
 import xremap from "./dot/xremap.ts";
 
-for (
-  const config of [
-    alacritty,
-    bat,
-    cargo,
-    chromiumFlags,
-    curl,
-    git,
-    glazewm,
-    goneovim,
-    hyprland,
-    lazygit,
-    paru,
-    rustup,
-    wofi,
-    xremap,
-  ]
-) {
-  if (config.enabled && !(await Promise.resolve(config.enabled()))) {
-    continue;
+const configs = [
+  alacritty,
+  bat,
+  cargo,
+  chromiumFlags,
+  curl,
+  git,
+  glazewm,
+  goneovim,
+  hyprland,
+  lazygit,
+  paru,
+  rustup,
+  wofi,
+  xremap,
+];
+
+async function main() {
+  const hashListFile = path.join(Deno.cwd(), "hash_list.txt");
+  if (!await fs.exists(hashListFile)) {
+    await Deno.writeTextFile(hashListFile, "");
   }
-  for (const file of await Promise.resolve(config.files())) {
-    await file.write();
+  const oldHashList = await Deno.readTextFile(hashListFile);
+  const newHashList = [];
+
+  for (const config of configs) {
+    if (config.enabled && !(await Promise.resolve(config.enabled()))) {
+      continue;
+    }
+    for (const file of await Promise.resolve(config.files())) {
+      const hash = await file.hash();
+      newHashList.push(hash);
+      if (!oldHashList.includes(hash)) {
+        await file.write();
+      }
+    }
   }
+
+  await Deno.writeTextFile(hashListFile, newHashList.join("\n"));
+}
+
+if (import.meta.main) {
+  await main();
 }
