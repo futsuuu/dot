@@ -6,7 +6,7 @@ local hl = require 'rc.highlight'
 local ui = require 'rc.ui'
 local utils = require 'rc.utils'
 
-local Config = setmetatable({}, {
+local config = setmetatable({}, {
   ---@type fun(table: table, key: string): function
   __index = function(_, key)
     return function()
@@ -15,7 +15,7 @@ local Config = setmetatable({}, {
   end,
 })
 
-function Config.dressing()
+function config.dressing()
   require('dressing').setup {
     input = {
       default_prompt = '> ',
@@ -32,7 +32,7 @@ function Config.dressing()
   }
 end
 
-function Config.oil()
+function config.oil()
   require('oil').setup {
     columns = {
       'size',
@@ -47,7 +47,7 @@ function Config.oil()
   }
 end
 
-function Config.treesitter()
+function config.treesitter()
   require('nvim-treesitter.configs').setup {
     ensure_installed = {
       'lua',
@@ -63,7 +63,7 @@ function Config.treesitter()
   }
 end
 
-function Config.neodim()
+function config.neodim()
   require('neodim').setup {
     regex = {
       rust = {
@@ -73,7 +73,7 @@ function Config.neodim()
   }
 end
 
-function Config.aerial()
+function config.aerial()
   require('aerial').setup {
     backends = { 'lsp', 'treesitter', 'markdown', 'man' },
     layout = {
@@ -92,7 +92,7 @@ function Config.aerial()
   }
 end
 
-function Config.crates()
+function config.crates()
   local crates = require 'crates'
 
   crates.setup {
@@ -117,7 +117,7 @@ function Config.crates()
   }
 end
 
-function Config.neogit()
+function config.neogit()
   require('neogit').setup {
     integrations = {
       diffview = false,
@@ -142,11 +142,11 @@ function Config.neogit()
   }
 end
 
-function Config.numb()
+function config.numb()
   require('numb').setup()
 end
 
-function Config.todo_comments()
+function config.todo_comments()
   local tc = require 'todo-comments'
   tc.setup {
     signs = false,
@@ -155,7 +155,7 @@ function Config.todo_comments()
   m('n', '[t', tc.jump_prev)
 end
 
-function Config.blankline()
+function config.blankline()
   require('ibl').setup {
     indent = {
       char = '▏',
@@ -179,7 +179,7 @@ function Config.blankline()
   }
 end
 
-function Config.gitsigns()
+function config.gitsigns()
   require('gitsigns').setup {
     signs = {
       add = { text = ' ▍' },
@@ -195,11 +195,11 @@ function Config.gitsigns()
   }
 end
 
-function Config.lastplace()
+function config.lastplace()
   require('nvim-lastplace').setup()
 end
 
-function Config.skkeleton()
+function config.skkeleton()
   local denops = utils.fn.denops
   local skkeleton = utils.fn.skkeleton
 
@@ -224,15 +224,21 @@ function Config.skkeleton()
   end)
 end
 
-function Config.tabscope()
+function config.tabscope()
   require('tabscope').setup {}
 end
 
-function Config.nvim_surround()
+function config.dmacro()
+  require('dmacro').setup {
+    dmacro_key = '<C-t>',
+  }
+end
+
+function config.nvim_surround()
   require('nvim-surround').setup()
 end
 
-function Config.overseer()
+function config.overseer()
   require('overseer').setup {
     templates = { 'builtin', 'user.python' },
     component_aliases = {
@@ -264,7 +270,7 @@ function Config.overseer()
   hl { OverSeerFAILURE = 'ErrorMsg', OverSserCANCELED = 'WarningMsg', OverSeerTaskBorder = 'WinSeparator' }
 end
 
-function Config.ccc()
+function config.ccc()
   local ccc = require 'ccc'
   ccc.setup {
     bar_char = '󰝤',
@@ -273,7 +279,7 @@ function Config.ccc()
   }
 end
 
-function Config.neodev()
+function config.neodev()
   require('neodev').setup {
     library = {
       plugins = false,
@@ -281,7 +287,7 @@ function Config.neodev()
   }
 end
 
-function Config.fidget()
+function config.fidget()
   require('fidget.spinner.patterns').dot_wave = {
     '( 󰧞 ·   · )',
     '(  󰧞 ·   )',
@@ -334,7 +340,7 @@ function Config.fidget()
   }
 end
 
-function Config.illuminate()
+function config.illuminate()
   require('illuminate').configure {
     delay = 300,
     filetypes_denylist = { 'aerial' },
@@ -342,14 +348,14 @@ function Config.illuminate()
   }
 end
 
-function Config.satellite()
+function config.satellite()
   require('satellite').setup {
     winblend = 60,
   }
   hl { SatelliteBar = 'PmenuThumb' }
 end
 
-function Config.navic()
+function config.navic()
   local kind = {}
   for k, v in pairs(ui.kind) do
     kind[k] = v .. ' '
@@ -375,15 +381,15 @@ function Config.navic()
   }
 end
 
-function Config.refs_info()
+function config.refs_info()
   require('refs_info').setup()
 end
 
-function Config.mason_lspconfig()
+function config.mason_lspconfig()
   require('mason-lspconfig').setup()
 end
 
-function Config.mason()
+function config.mason()
   local cb = ui.checkbox
   local mason = require 'mason'
   local registry = require 'mason-registry'
@@ -442,15 +448,15 @@ function Config.mason()
   end)
 end
 
-function Config.visual_eof()
+function config.visual_eof()
   require('visual-eof').setup {
     text_EOL = '',
     text_NOEOL = ' ',
   }
 end
 
-function Config.startuptime()
+function config.startuptime()
   vim.g.startuptime_tries = 50
 end
 
-return Config
+return config

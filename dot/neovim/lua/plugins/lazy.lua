@@ -25,7 +25,7 @@ return function(init, config)
       config = config.telescope,
       dependencies = {
         {
-          'lambdalisue/mr.vim',
+          'lambdalisue/vim-mr',
           init = init.mr,
           event = 'BufReadPre',
         },
@@ -178,13 +178,19 @@ return function(init, config)
     },
 
     {
-      cond = flags.map.i,
+      cond = flags.key.i,
+      'tani/dmacro.nvim',
+      lazy = false,
+      config = config.dmacro,
+    },
+    {
+      cond = flags.key.i,
       'hrsh7th/nvim-insx',
       event = { 'InsertEnter', 'CmdlineEnter' },
       config = config.insx,
     },
     {
-      cond = flags.map.n,
+      cond = flags.key.n,
       'kylechui/nvim-surround',
       version = '*',
       event = 'CursorMoved',
@@ -238,7 +244,7 @@ return function(init, config)
     },
 
     {
-      'lambdalisue/suda.vim',
+      'lambdalisue/vim-suda',
       cmd = {
         'SudaRead',
         'SudaWrite',

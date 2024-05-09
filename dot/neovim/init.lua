@@ -11,7 +11,7 @@ _G.config_flags = {
   on_open = true,
   git = true,
   filer = 'oil',
-  map = {
+  key = {
     i = true,
     n = true,
   },
