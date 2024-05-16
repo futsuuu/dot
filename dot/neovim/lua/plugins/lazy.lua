@@ -3,7 +3,7 @@ local ui = require 'rc.ui'
 
 local flags = _G.config_flags
 
-return function(init, config)
+return function(init, config, build)
   local plugins = {
     {
       'sainnhe/edge',
@@ -222,7 +222,7 @@ return function(init, config)
         'MasonUninstallAll',
         'MasonLog',
       },
-      build = ':MasonUpdate',
+      build = build.mason,
       config = config.mason,
     },
 

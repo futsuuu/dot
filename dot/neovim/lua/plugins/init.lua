@@ -1,5 +1,6 @@
 local m = vim.keymap.set
 
+local build = require 'plugins.build'
 local config = require 'plugins.config'
 local utils = require 'rc.utils'
 local req = utils.lazy_require
@@ -93,4 +94,4 @@ function init.overseer()
   m('n', '<Space>qt', '<Cmd>OverseerToggle<CR>')
 end
 
-require 'plugins.lazy'(init, config)
+require 'plugins.lazy'(init, config, build)
