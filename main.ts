@@ -10,6 +10,7 @@ import glazewm from "./dot/glazewm.ts";
 import goneovim from "./dot/goneovim.ts";
 import hyprland from "./dot/hyprland.ts";
 import lazygit from "./dot/lazygit.ts";
+import neovim from "./dot/neovim.ts";
 import paru from "./dot/paru.ts";
 import { cargo, rustup } from "./dot/rust.ts";
 import wofi from "./dot/wofi.ts";
@@ -26,6 +27,7 @@ const configs = [
   goneovim,
   hyprland,
   lazygit,
+  neovim,
   paru,
   rustup,
   wofi,
@@ -49,6 +51,7 @@ async function main() {
       newHashList.push(hash);
       if (!oldHashList.includes(hash)) {
         await file.write();
+        console.log(file.doneMsg());
       }
     }
   }

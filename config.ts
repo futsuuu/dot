@@ -1,6 +1,6 @@
 import { crypto } from "std/crypto";
 import { encodeHex } from "std/encoding/hex";
-import { ensureDir } from "std/fs";
+import { ensureDir, exists } from "std/fs";
 import { stringify as ini } from "std/ini";
 import * as path from "std/path";
 import { stringify as toml } from "std/toml";
@@ -39,11 +39,36 @@ class ConfigFile {
   async write() {
     await ensureDir(path.dirname(this.path));
     await Deno.writeTextFile(this.path, this.content);
-    console.log(this.path);
+  }
+
+  doneMsg(): string {
+    return `Write ${this.path}`;
   }
 }
 
 export { ConfigFile as Text };
+
+export class Link extends ConfigFile {
+  async write() {
+    if (Deno.build.os == "windows" && (await Deno.stat(this.content)).isFile) {
+      if (await exists(this.path)) {
+        await Deno.remove(this.path);
+      }
+      await Deno.link(this.content, this.path);
+    } else {
+      if (await exists(this.path)) {
+        Deno.remove(this.path, {
+          recursive: !(await Deno.lstat(this.path)).isSymlink,
+        });
+      }
+      await Deno.symlink(this.content, this.path, { type: "junction" });
+    }
+  }
+
+  doneMsg(): string {
+    return `Link ${this.path} from ${this.content}`;
+  }
+}
 
 export class Ini extends ConfigFile {
   constructor(configPath: string | string[], obj: Record<string, unknown>) {
@@ -175,7 +200,10 @@ export class Systemd extends ConfigFile {
     await $`sudo cp ${this.path} ${unitFile}`;
     await $`sudo systemctl daemon-reload`;
     await $`sudo systemctl enable --now ${this.name}.service`;
-    console.log(unitFile);
+  }
+
+  doneMsg(): string {
+    return `Start Systemd service '${this.name}'`;
   }
 }
 
@@ -188,6 +216,5 @@ export class Download extends ConfigFile {
       return;
     }
     await Deno.writeFile(this.path, data.body);
-    console.log(this.path);
   }
 }
