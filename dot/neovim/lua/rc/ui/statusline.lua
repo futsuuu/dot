@@ -10,7 +10,7 @@ function M.hide()
     stl = '─',
     stlnc = '─',
   }
-  hl { StatusLine = 'LineNr', StatusLineNC = 'StatusLine' }
+  hl.set { StatusLine = 'LineNr', StatusLineNC = 'StatusLine' }
 end
 
 return M

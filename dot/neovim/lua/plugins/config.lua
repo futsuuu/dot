@@ -135,7 +135,7 @@ function config.neogit()
       end)
     end,
   })
-  hl {
+  hl.set {
     NeogitDiffContextHighlight = 'CursorLine',
     NeogitDiffAddHighlight = 'DiffAdd',
     NeogitDiffDeleteHighlight = 'DiffDelete',
@@ -267,7 +267,7 @@ function config.overseer()
       m('n', 'q', '<Cmd>close<CR>')
     end,
   })
-  hl { OverSeerFAILURE = 'ErrorMsg', OverSserCANCELED = 'WarningMsg', OverSeerTaskBorder = 'WinSeparator' }
+  hl.set { OverSeerFAILURE = 'ErrorMsg', OverSserCANCELED = 'WarningMsg', OverSeerTaskBorder = 'WinSeparator' }
 end
 
 function config.ccc()
@@ -352,7 +352,7 @@ function config.satellite()
   require('satellite').setup {
     winblend = 60,
   }
-  hl { SatelliteBar = 'PmenuThumb' }
+  hl.set { SatelliteBar = 'PmenuThumb' }
 end
 
 function config.navic()
@@ -375,7 +375,7 @@ function config.navic()
     end
   end)
 
-  hl {
+  hl.set {
     NavicText = 'Winbar',
     NavicSeparator = 'NavicText',
   }

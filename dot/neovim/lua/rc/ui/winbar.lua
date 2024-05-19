@@ -72,7 +72,7 @@ end
 local M = {}
 
 function M.setup()
-  hl { WinBar = 'WinBarNC' }
+  hl.set { WinBar = 'WinBarNC' }
   api.nvim_create_autocmd('BufRead', {
     pattern = '*',
     callback = function(ev)
