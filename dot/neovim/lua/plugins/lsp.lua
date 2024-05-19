@@ -103,6 +103,9 @@ local settings = {
     },
   },
   ['rust-analyzer'] = {
+    lru = {
+      capacity = 64,
+    },
     check = {
       command = 'clippy',
     },
