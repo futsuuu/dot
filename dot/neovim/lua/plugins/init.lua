@@ -70,13 +70,31 @@ function init.skkeleton()
 end
 
 function init.gitsigns()
-  m({ 'n', 'v' }, '<Space>gr', '<Cmd>Gitsigns reset_hunk<CR>')
-  m('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
-  m('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
-  m('n', 'vih', '<Cmd>Gitsigns select_hunk<CR>')
-  m('n', '<Space>ga', '<Cmd>Gitsigns stage_hunk<CR>')
-  m('n', '<Space>gu', '<Cmd>Gitsigns undo_stage_hunk<CR>')
-  m('n', '<Space>gp', '<Cmd>Gitsigns preview_hunk_inline<CR>')
+  local gitsigns = require 'gitsigns'
+  m('n', '<Space>gr', function()
+    gitsigns.reset_hunk()
+  end)
+  m('n', '<Space>ga', function()
+    gitsigns.stage_hunk()
+  end)
+  m('n', ']g', function()
+    gitsigns.nav_hunk 'next'
+  end)
+  m('n', '[g', function()
+    gitsigns.nav_hunk 'prev'
+  end)
+  m('n', 'vih', function()
+    gitsigns.select_hunk()
+  end)
+  m('n', '<Space>gA', function()
+    gitsigns.stage_buffer()
+  end)
+  m('n', '<Space>gu', function()
+    gitsigns.undo_stage_hunk()
+  end)
+  m('n', '<Space>gp', function()
+    gitsigns.preview_hunk_inline()
+  end)
 end
 
 function init.bufdelete()
