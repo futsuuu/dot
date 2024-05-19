@@ -1,10 +1,7 @@
 local cmp = require 'cmp'
 
+local hl = require 'rc.highlight'
 local ui = require 'rc.ui'
-
-local ellipsis_char = ''
-local max_label_width = 50
-local min_label_width = 30
 
 local opts = {}
 
@@ -68,36 +65,59 @@ opts.snippet = {
   end,
 }
 
-local border = 'none'
+hl.set {
+  FloatBorder = 'Grey',
+  CmpItemMenu = 'Grey',
+  Pmenu = 'Normal',
+  PmenuThumb = 'Normal',
+}
+local border = 'rounded'
 
 opts.window = {
   completion = {
     border = border,
     winhighlight = 'Normal:Pmenu,CursorLine:PmenuSel,FloatBorder:FloatBorder,Search:None',
-    col_offset = -2,
+    col_offset = -4,
     side_padding = 0,
     scrollbar = true,
     scrolloff = 8,
+    winblend = 11,
   },
   documentation = {
     border = border,
     winhighlight = 'Normal:Pmenu,FloatBorder:FloatBorder,Search:None',
+    winblend = 11,
   },
 }
 
 opts.formatting = {
-  fields = { 'kind', 'abbr' },
+  fields = { 'kind', 'abbr', 'menu' },
   ---@type fun(entry, vim_item): any
   format = function(_, vim_item)
-    local label = vim_item.abbr
-    local truncated_label = vim.fn.strcharpart(label, 0, max_label_width)
-    if truncated_label ~= label then
-      vim_item.abbr = truncated_label .. ellipsis_char
-    elseif #label < max_label_width then
-      vim_item.abbr = label .. string.rep(' ', min_label_width - #label)
+    do
+      local kind
+      if vim_item.kind == 'File' then
+        local icon = require('clico').get { path = vim_item.abbr }
+        kind = icon.icon
+        vim_item.kind_hl_group = icon.hl
+      else
+        kind = ui.kind[vim_item.kind]
+      end
+      vim_item.kind = ' ' .. kind .. '⠀'
     end
-    vim_item.kind = ' ' .. ui.kind[vim_item.kind]
-    vim_item.menu = ''
+    vim_item.abbr = ui.truncate(vim_item.abbr:replace('...', ui.ellipsis), 50)
+    do
+      local menu = vim_item.menu or ''
+      if vim.bo.filetype == 'rust' then
+        menu = menu
+          :gsub('%(use ([^%)]+)%)%s*(.*)', '%2 (%1)')
+          :gsub('%(alias ([^%)]+)%)%s*(.*)', '%2 (alias %1)')
+          :gsub('%(as [^%)]+%)', '')
+          :gsub('unsafe ', '')
+          :gsub('const ', '')
+      end
+      vim_item.menu = ui.truncate(vim.fn.trim(menu), 70)
+    end
     return vim_item
   end,
 }

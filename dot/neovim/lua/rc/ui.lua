@@ -1,5 +1,6 @@
 local M = {
   bug = ' ',
+  ellipsis = '…',
 }
 
 ---@param percentage integer?
@@ -10,6 +11,17 @@ function M.progressbar(percentage)
   local max_length = 30
   local length = math.floor(percentage / (100 / max_length))
   return string.format(' %s%% %s%s', percentage, string.rep('━', length), string.rep('·', max_length - length))
+end
+
+---@param str string
+---@param len integer
+---@return string
+function M.truncate(str, len)
+  if vim.fn.strcharlen(str) > len then
+    return vim.fn.strcharpart(str, 0, len - 1) .. M.ellipsis
+  else
+    return str
+  end
 end
 
 M.checkbox = {
@@ -36,38 +48,38 @@ M.chevron = {
 }
 
 M.kind = {
-  Text = '󰦨',
-  String = '󱀍',
-  Number = '󰎠',
-  Boolean = '',
-  File = '󰈤',
-  Folder = '󰷏',
-  Method = '󰅲',
-  Function = '󰅲',
-  Constructor = '󰢻',
-  Field = '󰓼',
-  Variable = '󰆧',
-  Constant = '󰭸',
-  Class = '󱦜',
-  Struct = '󱦜',
-  Interface = '',
-  Package = '󱈎',
-  Module = '󱈎',
-  Namespace = '󰘦',
-  Object = '󰘦',
-  Array = '󰨾',
-  Property = '󰯠',
-  Unit = '󰑭',
-  Keyword = '󰷖',
-  Snippet = '󰗀',
-  Color = '󰸌',
-  Reference = '󰌹',
-  Enum = '󱍶',
-  EnumMember = '󰌖',
-  Value = '󰌖',
-  Event = '󰈾',
-  Operator = '󰆕',
-  TypeParameter = '󰊄',
+  Text = '',
+  String = '',
+  Number = '',
+  Boolean = '',
+  File = '',
+  Folder = '',
+  Method = '',
+  Function = '',
+  Constructor = '',
+  Variable = '',
+  Constant = '',
+  Class = '',
+  Struct = '',
+  Object = '',
+  Interface = '',
+  Unit = '',
+  Package = '',
+  Module = '',
+  Namespace = '',
+  Array = '',
+  Keyword = '',
+  Snippet = '',
+  Color = '',
+  Reference = '',
+  Enum = '',
+  EnumMember = '',
+  Value = '',
+  Field = '',
+  Property = '',
+  Event = '',
+  Operator = '',
+  TypeParameter = '',
 }
 
 return M
