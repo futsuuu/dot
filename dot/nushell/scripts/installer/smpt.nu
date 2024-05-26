@@ -1,16 +1,17 @@
 export def download [] {
-  let asset_name = (
-    "smpt-"
-    + $nu.os-info.arch
+  let link = (
+    "https://github.com/futsuuu/smpt/releases/latest/download/smpt-"
+    + (if $nu.os-info.name == macos { "unversal2" } else { $nu.os-info.arch })
     + "-"
     + (match $nu.os-info.name {
       linux => "unknown-linux-musl",
-      windows => "pc-windows-msvc",
+      windows => "pc-windows-msvc.exe",
       macos => "apple-darwin",
     })
-    + ".zip"
   )
-  curl -LO $"https://github.com/futsuuu/smpt/releases/latest/download/($asset_name)"
-  ^unzip -o $asset_name -d ($nu.home-path | path join "bin")
-  rm -vf $asset_name
+  let out_path = $nu.home-path | path join bin (if $nu.os-info.name == windows { "smpt.exe" } else { "smpt" })
+  curl -o $out_path -L $link
+  if (which chmod | is-not-empty) {
+    chmod +x $out_path
+  }
 }
