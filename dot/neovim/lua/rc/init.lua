@@ -67,7 +67,6 @@ au('CursorMoved', {
     opt.sidescroll = 1
     opt.sidescrolloff = 16
     opt.virtualedit = 'onemore'
-    opt.wrap = false
     m('n', '<Esc><Esc>', '<Cmd>nohlsearch<CR><Esc>')
   end,
 })
@@ -108,6 +107,7 @@ au('BufRead', {
     opt.number = true
     opt.signcolumn = 'yes:2'
     opt.statuscolumn = ' %=%l%r%s '
+    opt.wrap = false
 
     local function in_indent(include_head)
       return (vim.fn.col '.' - (include_head and 1 or 0)) <= vim.fn.indent '.'
@@ -159,6 +159,7 @@ au('BufRead', {
     m('n', 'K', hover)
     m('n', '<RightMouse>', hover)
 
+    m('n', '<Space>l<Space>', '<Cmd>LspStart<CR>')
     m('n', '<Space>ln', vim.lsp.buf.rename)
     m('n', '<Space>lf', vim.lsp.buf.format)
 

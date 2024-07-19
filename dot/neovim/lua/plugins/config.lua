@@ -352,7 +352,8 @@ function config.satellite()
   require('satellite').setup {
     winblend = 60,
   }
-  hl.set { SatelliteBar = 'PmenuThumb' }
+  hl.get('Fg'):reverse():set 'SatelliteBar'
+  hl.get('SatelliteBar'):extend('@none'):bold(true):set 'SatelliteCursor'
 end
 
 function config.navic()

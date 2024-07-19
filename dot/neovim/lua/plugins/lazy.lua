@@ -41,32 +41,37 @@ return function(init, config, build)
       cond = flags.cmp,
       'hrsh7th/cmp-buffer',
       event = 'InsertEnter',
+      dependencies = 'nvim-cmp',
     },
     {
       cond = flags.cmp and flags.nvim_lsp,
       'hrsh7th/cmp-nvim-lsp',
       event = 'InsertEnter',
+      dependencies = 'nvim-cmp',
     },
     {
       cond = flags.cmp and flags.nvim_lsp,
       'hrsh7th/cmp-nvim-lsp-signature-help',
       event = 'InsertEnter',
+      dependencies = 'nvim-cmp',
     },
     {
       cond = flags.cmp,
       'hrsh7th/cmp-path',
       event = { 'InsertEnter', 'CmdlineEnter' },
+      dependencies = 'nvim-cmp',
     },
     {
       cond = flags.cmp,
       'hrsh7th/cmp-cmdline',
       event = 'CmdlineEnter',
+      dependencies = 'nvim-cmp',
     },
     {
       cond = flags.cmp and flags.nvim_lsp,
       'dcampos/cmp-snippy',
       event = 'InsertEnter',
-      dependencies = 'dcampos/nvim-snippy',
+      dependencies = { 'dcampos/nvim-snippy', 'nvim-cmp' },
     },
 
     {
@@ -78,6 +83,7 @@ return function(init, config, build)
         {
           'williamboman/mason-lspconfig.nvim',
           config = config.mason_lspconfig,
+          dependencies = 'mason.nvim',
         },
         {
           'folke/neodev.nvim',
@@ -101,7 +107,6 @@ return function(init, config, build)
     {
       cond = flags.treesitter,
       'nvim-treesitter/nvim-treesitter',
-      module = false,
       cmd = { 'TSUpdate', 'TSInstall', 'TSInstallInfo', 'TSUninstall', 'TSEnable' },
       build = ':TSUpdate',
       event = 'BufRead',
@@ -353,6 +358,13 @@ return function(init, config, build)
   require('lazy').setup(plugins, {
     defaults = {
       lazy = true,
+    },
+    local_spec = false,
+    pkg = {
+      enabled = false,
+    },
+    rocks = {
+      enabled = false,
     },
     dev = {
       path = '~/dev/github.com/futsuuu',

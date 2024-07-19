@@ -122,28 +122,25 @@ local settings = {
   },
 }
 
+---@param override table?
+local function opts(override)
+  return vim.tbl_extend('keep', override or {}, { capabilities = capabilities, settings = settings })
+end
+
 mason_lspconfig.setup_handlers {
   function(server_name)
-    local opts = {
-      capabilities = capabilities,
-      settings = settings,
-    }
-    lspconfig[server_name].setup(opts)
+    lspconfig[server_name].setup(opts())
   end,
   vtsls = function()
-    lspconfig.vtsls.setup {
-      capabilities = capabilities,
-      settings = settings,
+    lspconfig.vtsls.setup(opts {
       root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
       single_file_support = false,
-    }
+    })
   end,
   rust_analyzer = function()
-    lspconfig.rust_analyzer.setup {
-      capabilities = capabilities,
-      settings = settings,
+    lspconfig.rust_analyzer.setup(opts {
       autostart = false,
-    }
+    })
   end,
   efm = function()
     lspconfig.efm.setup {
@@ -185,29 +182,25 @@ mason_lspconfig.setup_handlers {
 }
 
 if vim.fn.executable 'rust-analyzer' then
-  lspconfig.rust_analyzer.setup {
-    capabilities = capabilities,
-    settings = settings,
+  lspconfig.rust_analyzer.setup(opts {
     autostart = false,
-  }
+  })
 end
 
 if vim.fn.executable 'deno' then
-  lspconfig.denols.setup {
-    capabilities = capabilities,
-    settings = settings,
+  lspconfig.denols.setup(opts {
     root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock', 'deps.ts'),
-  }
+  })
 end
 
 if vim.fn.executable 'nu' then
-  lspconfig.nu_ls.setup {
+  lspconfig.nu_ls.setup(opts {
     autostart = false,
-  }
+  })
 end
 
 if vim.fn.executable 'nil' then
-  lspconfig.nil_ls.setup {}
+  lspconfig.nil_ls.setup(opts())
 end
 
 vim.diagnostic.config {

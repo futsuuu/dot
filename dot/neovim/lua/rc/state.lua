@@ -64,7 +64,7 @@ function M.setup()
     end,
   })
 
-  vim.cmd.colorscheme(M.state.colorscheme)
+  pcall(vim.cmd.colorscheme, M.state.colorscheme)
   autocmd('ColorScheme', {
     callback = function()
       M.state.colorscheme = vim.g.colors_name
