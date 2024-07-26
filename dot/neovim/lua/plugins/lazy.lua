@@ -247,6 +247,10 @@ return function(init, config, build)
       'tweekmonster/helpful.vim',
       cmd = 'HelpfulVersion',
     },
+    {
+      'tyru/capture.vim',
+      cmd = 'Capture',
+    },
 
     {
       'lambdalisue/vim-suda',

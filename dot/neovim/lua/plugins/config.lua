@@ -229,9 +229,7 @@ function config.tabscope()
 end
 
 function config.dmacro()
-  require('dmacro').setup {
-    dmacro_key = '<C-t>',
-  }
+  vim.keymap.set({ 'i', 'n' }, '<C-t>', '<Plug>(dmacro-play-macro)')
 end
 
 function config.nvim_surround()

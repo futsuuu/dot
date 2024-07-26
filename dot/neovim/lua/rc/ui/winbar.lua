@@ -53,8 +53,10 @@ local function get_winbar(bufnr)
 
   local path = file:split '/'
 
-  local file_name = table.remove(path)
-  table.insert(path, get_icon(bufnr) .. file_name)
+  if 0 < #path then
+    local file_name = table.remove(path)
+    table.insert(path, get_icon(bufnr) .. file_name)
+  end
 
   local navic_info = get_navic_info(bufnr)
 
