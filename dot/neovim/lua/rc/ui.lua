@@ -38,7 +38,7 @@ M.status = {
 }
 
 M.winbar_sep = {
-  path = ' 󰿟 ',
+  path = ' ',
   context = '  ',
 }
 

@@ -27,6 +27,39 @@ local function get_navic_info(bufnr)
 end
 
 ---@param bufnr number
+local function diagnostics(bufnr)
+  local severity = vim.diagnostic.severity
+  local hl_map = {
+    [severity.ERROR] = 'DiagnosticError',
+    [severity.WARN] = 'DiagnosticWarn',
+    [severity.INFO] = 'DiagnosticInfo',
+    [severity.HINT] = 'DiagnosticHint',
+  }
+  local severities = {
+    severity.HINT,
+    severity.WARN,
+    severity.ERROR,
+  }
+  local r = ' '
+  for _, s in pairs(severities) do
+    local count = #vim.diagnostic.get(bufnr, { severity = s })
+    if count == 0 then
+      r = r .. line.with_hl('󱓼 ', 'WinBar')
+    else
+      local level = math.min(20 + count * 8, 100)
+      r = r
+        .. line.with_hl(
+          '󱓻 ',
+          hl.ensure('WinBar' .. hl_map[s] .. level, function()
+            return hl.get('Whitespace'):mix(hl_map[s], level)
+          end).name
+        )
+    end
+  end
+  return r
+end
+
+---@param bufnr number
 ---@return string
 local function get_icon(bufnr)
   local icon = require('clico').get {
@@ -68,6 +101,8 @@ local function get_winbar(bufnr)
     winbar = winbar .. navic_info
   end
 
+  winbar = winbar .. '%=' .. diagnostics(bufnr)
+
   return winbar
 end
 
@@ -80,6 +115,9 @@ function M.setup()
     callback = function(ev)
       vim.opt_local.winbar = line.as_opt(get_winbar, tostring(ev.buf))
     end,
+  })
+  api.nvim_create_autocmd('DiagnosticChanged', {
+    command = 'redrawstatus',
   })
 end
 
