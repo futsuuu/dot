@@ -1,17 +1,17 @@
 {
   "imports": {
     "dax": "jsr:@david/dax@0.41.0",
-    "std/crypto": "jsr:@std/crypto@0.224.0",
-    "std/encoding": "jsr:@std/encoding@0.224.0",
-    "std/fs": "jsr:@std/fs@0.224.0",
-    "std/ini": "jsr:@std/ini@0.224.0",
-    "std/path": "jsr:@std/path@0.224.0",
-    "std/toml": "jsr:@std/toml@0.224.0",
-    "std/yaml": "jsr:@std/yaml@0.224.0"
+    "std/crypto": "jsr:@std/crypto@1.0.2",
+    "std/encoding": "jsr:@std/encoding@1.0.1",
+    "std/fs": "jsr:@std/fs@1.0.0",
+    "std/ini": "jsr:@std/ini@0.225.2",
+    "std/path": "jsr:@std/path@1.0.2",
+    "std/toml": "jsr:@std/toml@1.0.0",
+    "std/yaml": "jsr:@std/yaml@1.0.0"
   },
   "tasks": {
     "fmt": "deno fmt **/*.ts",
-    "molt": "deno run -A https://deno.land/x/molt/cli.ts",
+    "molt": "deno run --allow-env --allow-read --allow-write --allow-run=git,deno --allow-net jsr:@molt/cli",
     "update": "deno task molt ./main.ts ./dot/neovim/denops/deps/*.ts"
   }
 }
