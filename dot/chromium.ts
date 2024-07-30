@@ -12,6 +12,7 @@ const chromiumFlags: Config = {
       "electron-flags.conf",
       "chromium-flags.conf",
       "code-flags.conf",
+      "thorium-flags.conf",
       "vivaldi-stable.conf",
     ].map((name) => {
       return new Flag([CONFIG_DIR, name], {
