@@ -2,16 +2,18 @@ local api = vim.api
 
 local M = {}
 
----@class rc.highlightOperation
+---@class rc.HighlightOperation
 ---@field reverse? true
 ---@field extend? string | rc.Highlight
 ---@field mix? { hl: string | rc.Highlight, ratio: integer }
+---@field clear? 'fg' | 'bg' | 'sp'
 ---@field bold? boolean
 
 ---@class rc.Highlight
 ---@field name string
----@field operations rc.highlightOperation[]
+---@field package operations rc.HighlightOperation[]
 local Highlight = {}
+---@private
 Highlight.__index = Highlight
 
 ---@param hl_name string
@@ -120,6 +122,11 @@ function Highlight:get_hl_info()
       end
     end
 
+    local clear = op.clear
+    if clear ~= nil then
+      info[clear] = nil
+    end
+
     local bold = op.bold
     if bold ~= nil then
       info.bold = bold
@@ -139,7 +146,8 @@ function Highlight:exists()
   return not vim.tbl_isempty(api.nvim_get_hl(0, { name = self.name }))
 end
 
----@param op rc.highlightOperation
+---@private
+---@param op rc.HighlightOperation
 function Highlight:push_operation(op)
   table.insert(self.operations, op)
 end
@@ -154,6 +162,18 @@ end
 ---@return self
 function Highlight:reverse()
   self:push_operation { reverse = true }
+  return self
+end
+
+---@return self
+function Highlight:clear_fg()
+  self:push_operation { clear = 'fg' }
+  return self
+end
+
+---@return self
+function Highlight:clear_bg()
+  self:push_operation { clear = 'bg' }
   return self
 end
 
