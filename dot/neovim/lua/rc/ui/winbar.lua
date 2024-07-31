@@ -80,11 +80,11 @@ local function get_winbar(bufnr)
     return ''
   end
   local file = normalize(api.nvim_buf_get_name(bufnr))
-    :replace(normalize(uv.cwd() or ''), '')
-    :replace(RUNTIME, '')
-    :replace(HOME, '~')
+    :gsub(vim.pesc(normalize(uv.cwd() or '') .. '/'), '')
+    :gsub(vim.pesc(RUNTIME), '')
+    :gsub(vim.pesc(HOME), '~')
 
-  local path = file:split '/'
+  local path = vim.split(file, '/')
 
   if 0 < #path then
     local file_name = table.remove(path)

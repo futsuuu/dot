@@ -3,8 +3,6 @@ local o, opt, optl = vim.o, vim.opt, vim.opt_local
 local au = vim.api.nvim_create_autocmd
 local m = vim.keymap.set
 
-require 'rc.utils.table'
-require 'rc.utils.string'
 require 'rc.gui'
 require('rc.state').setup()
 require('rc.ui.tabline').setup()

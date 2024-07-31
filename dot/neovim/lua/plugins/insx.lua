@@ -211,7 +211,7 @@ add(
   '>',
   with({
     action = function(ctx)
-      local before = ctx.before():split '<' ---@type string[]
+      local before = vim.split(ctx.before())
       local name = before[#before]:match '%a[%w%.]*'
       local row, col = ctx.row(), ctx.col()
       ctx.send(('></' .. (name or '') .. '>'))

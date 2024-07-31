@@ -105,7 +105,7 @@ opts.formatting = {
       end
       vim_item.kind = ' ' .. kind .. '⠀'
     end
-    vim_item.abbr = ui.truncate(vim_item.abbr:replace('...', ui.ellipsis), 50)
+    vim_item.abbr = ui.truncate(vim_item.abbr:gsub(vim.pesc '...', ui.ellipsis), 50)
     do
       local menu = vim_item.menu or ''
       if vim.bo.filetype == 'rust' then
