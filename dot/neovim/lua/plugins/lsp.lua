@@ -1,6 +1,3 @@
-local lsp = vim.lsp
-local inlay_hint = lsp.inlay_hint
-
 local configs = require 'lspconfig.configs'
 local lsp_win = require 'lspconfig.ui.windows'
 local lspconfig = require 'lspconfig'
@@ -13,14 +10,14 @@ require('rc.utils').lsp.on_attach(function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
   end
 
-  if client.supports_method 'textDocument/inlayHint' and inlay_hint then
+  if client.supports_method 'textDocument/inlayHint' and vim.lsp.inlay_hint then
     vim.api.nvim_buf_create_user_command(bufnr, 'InlayHintToggle', function()
-      inlay_hint.enable(not inlay_hint.is_enabled(bufnr), { bufnr = bufnr })
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
     end, {})
   end
 end)
 
-local capabilities = lsp.protocol.make_client_capabilities()
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument = {
   foldingRange = {
     dynamicRegistration = false,
@@ -216,4 +213,4 @@ vim.diagnostic.config {
 }
 
 lsp_win.default_options.border = 'none'
-lsp.handlers['textDocument/hover'] = lsp.with(lsp.handlers.hover, { border = 'none' })
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'none' })
