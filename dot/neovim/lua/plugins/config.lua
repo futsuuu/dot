@@ -350,7 +350,7 @@ function config.satellite()
   require('satellite').setup {
     winblend = 60,
   }
-  hl.get('Fg'):reverse():set 'SatelliteBar'
+  hl.get('Normal'):reverse():clear_fg():set 'SatelliteBar'
   hl.get('SatelliteBar'):extend('@none'):bold(true):set 'SatelliteCursor'
 end
 

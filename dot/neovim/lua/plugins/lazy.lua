@@ -9,6 +9,7 @@ return function(init, config, build)
       'sainnhe/edge',
       init = init.edge,
     },
+    { 'futsuuu/vim-robot' },
     {
       cond = flags.filer == 'oil',
       'stevearc/oil.nvim',

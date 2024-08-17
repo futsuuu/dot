@@ -66,9 +66,6 @@ opts.snippet = {
 }
 
 hl.set {
-  FloatBorder = 'Grey',
-  CmpItemMenu = 'Grey',
-  Pmenu = 'Normal',
   PmenuThumb = 'Normal',
 }
 local border = 'rounded'
