@@ -4,23 +4,8 @@ let home = $nu.home-path
 
 $env.banner = true
 
-if $nu.os-info.name == "linux" {
-  $env.PATH = (
-    $env
-      | get PATH
-      | split row (char esep)
-      | append ($home | path join "bin")
-      | append ($home | path join ".cargo" "bin")
-      | append ($home | path join ".deno" "bin")
-      | uniq
-  )
-
-  $env.XDG_CONFIG_HOME = ($home | path join ".config")
-  $env.XDG_CACHE_HOME = ($home | path join ".cache")
-  $env.XDG_DATA_HOME = ($home | path join ".local" "share")
-  $env.XDG_STATE_HOME = ($home | path join ".local" "state")
-} else {
-  $env.Path = (
+export-env {
+  mut path = (
     $env
       | get PATH
       | split row (char esep)
@@ -28,12 +13,25 @@ if $nu.os-info.name == "linux" {
       | append ($home | path join ".nrtm" "bin")
       | append ($home | path join ".cargo" "bin")
       | append ($home | path join ".deno" "bin")
-      | uniq
   )
+
+  $path = ($path | uniq)
+
+  if $nu.os-info.name == "windows" {
+    $env.Path = $path
+  } else {
+    $env.PATH = $path
+  }
+}
+
+if $nu.os-info.name == "linux" {
+  $env.XDG_CONFIG_HOME = ($home | path join ".config")
+  $env.XDG_CACHE_HOME = ($home | path join ".cache")
+  $env.XDG_DATA_HOME = ($home | path join ".local" "share")
+  $env.XDG_STATE_HOME = ($home | path join ".local" "state")
 }
 
 $env.LANG = "en_US.UTF-8"
-$env.SHELL = $nu.current-exe
 $env.EDITOR = "nvim"
 $env.VISUAL = $env.EDITOR
 $env.BROWSER = "vivaldi-stable"
@@ -66,4 +64,4 @@ $env.NU_LIB_DIRS = [
 ]
 $env.NU_PLUGIN_DIRS = [
    ($nu.config-path | path dirname | path join 'plugins')
- ]
+]
