@@ -33,13 +33,9 @@ opt.inccommand = 'split'
 opt.splitright = true
 opt.splitbelow = true
 
-opt.shell = 'nu'
-opt.shellcmdflag = '-c'
-opt.shellxquote = ''
-
 m('n', '<Space>', '<Nop>')
 m('n', '<Space><CR>', function()
-  vim.cmd.terminal()
+  vim.cmd.terminal 'nu.exe'
 end)
 
 au('InsertEnter', {
