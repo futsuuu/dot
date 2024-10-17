@@ -109,7 +109,7 @@ $env.config = ($env.config | merge {
     metric: true # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
     format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, zb, zib, auto
   }
-  footer_mode: "25" # always, never, number_of_rows, auto
+  footer_mode: auto # always, never, number_of_rows, auto
   float_precision: 2
   use_ansi_coloring: true
   edit_mode: vi # emacs, vi
