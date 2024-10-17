@@ -35,7 +35,7 @@ opt.splitbelow = true
 
 m('n', '<Space>', '<Nop>')
 m('n', '<Space><CR>', function()
-  vim.cmd.terminal 'nu.exe'
+  vim.cmd.terminal(vim.fn.has('win32') == 1 and 'nu.exe' or 'nu')
 end)
 
 au('InsertEnter', {
