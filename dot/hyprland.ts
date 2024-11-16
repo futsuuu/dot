@@ -54,12 +54,13 @@ decoration {
     inactive_opacity = 0.8
     fullscreen_opacity = 1
 
-    drop_shadow = true
-    shadow_range = 80
-    shadow_offset = 0 0
-    shadow_render_power = 3
-    shadow_scale = 0.95
-    col.shadow = rgba(000000d4)
+    shadow {
+        range = 80
+        offset = 0 0
+        render_power = 3
+        scale = 0.95
+        color = rgba(000000d4)
+    }
 }
 
 animations {
