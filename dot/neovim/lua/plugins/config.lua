@@ -180,15 +180,17 @@ function config.blankline()
 end
 
 function config.gitsigns()
+  local signs = {
+    add = { text = ' ▌' },
+    change = { text = ' ▌' },
+    delete = { text = ' ▖' },
+    topdelete = { text = ' ▘' },
+    changedelete = { text = ' ▌' },
+    untracked = { text = ' ▌' },
+  }
   require('gitsigns').setup {
-    signs = {
-      add = { text = ' ▍' },
-      change = { text = ' ▍' },
-      delete = { text = ' ▖' },
-      topdelete = { text = ' ▘' },
-      changedelete = { text = ' ▍' },
-      untracked = { text = ' ▍' },
-    },
+    signs = signs,
+    signs_staged = signs,
     preview_config = {
       border = 'none',
     },
