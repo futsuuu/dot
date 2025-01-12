@@ -66,7 +66,7 @@ end
 ---@param color string | integer
 ---@return { r: integer, g: integer, b: integer }
 local function to_rgb(color)
-  local r, g, b = to_hex(color):lower():match '^#(%x%x)(%x%x)(%x%x)$'
+  local r, g, b = to_hex(color):lower():match('^#(%x%x)(%x%x)(%x%x)$')
   return { r = tonumber(r, 16), g = tonumber(g, 16), b = tonumber(b, 16) }
 end
 
@@ -115,7 +115,7 @@ function Highlight:get_hl_info()
         hl = M.get(hl)
       end
       local other = hl:copy():extend('Normal'):get_hl_info()
-      for _, key in ipairs { 'fg', 'bg', 'sp' } do
+      for _, key in ipairs({ 'fg', 'bg', 'sp' }) do
         if info[key] and other[key] then
           info[key] = to_hex(mix_colors(to_rgb(info[key]), to_rgb(other[key]), mix.ratio / 100))
         end
@@ -155,25 +155,25 @@ end
 ---@param other rc.Highlight | string
 ---@return self
 function Highlight:extend(other)
-  self:push_operation { extend = other }
+  self:push_operation({ extend = other })
   return self
 end
 
 ---@return self
 function Highlight:reverse()
-  self:push_operation { reverse = true }
+  self:push_operation({ reverse = true })
   return self
 end
 
 ---@return self
 function Highlight:clear_fg()
-  self:push_operation { clear = 'fg' }
+  self:push_operation({ clear = 'fg' })
   return self
 end
 
 ---@return self
 function Highlight:clear_bg()
-  self:push_operation { clear = 'bg' }
+  self:push_operation({ clear = 'bg' })
   return self
 end
 
@@ -181,14 +181,14 @@ end
 ---@param ratio integer 0 ~ 100
 ---@return self
 function Highlight:mix(hl, ratio)
-  self:push_operation { mix = { hl = hl, ratio = ratio } }
+  self:push_operation({ mix = { hl = hl, ratio = ratio } })
   return self
 end
 
 ---@param bold boolean
 ---@return self
 function Highlight:bold(bold)
-  self:push_operation { bold = bold }
+  self:push_operation({ bold = bold })
   return self
 end
 

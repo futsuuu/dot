@@ -1,9 +1,9 @@
-local dap = require 'dap'
+local dap = require('dap')
 
 local stdpath = require('rc.utils').stdpath
 
 local MASON = vim.fs.joinpath(stdpath.data, 'mason')
-local WINDOWS = vim.fn.has 'win32' == 1
+local WINDOWS = vim.fn.has('win32') == 1
 
 dap.adapters = {
   cppdbg = {

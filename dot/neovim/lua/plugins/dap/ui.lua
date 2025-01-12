@@ -1,11 +1,11 @@
-local ui = require 'rc.ui'
+local ui = require('rc.ui')
 
-require('dapui').setup {
+require('dapui').setup({
   icons = {
     expanded = ui.chevron.down,
     collapsed = ui.chevron.right,
   },
-}
+})
 
 local sign = vim.fn.sign_define
 

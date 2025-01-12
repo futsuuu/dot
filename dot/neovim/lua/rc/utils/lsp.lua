@@ -15,7 +15,7 @@ end
 ---@param buf buffer
 ---@param method string
 function M.support_method(buf, method)
-  for _, client in ipairs(vim.lsp.get_clients { bufnr = buf }) do
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
     if client.supports_method(method) then
       return true
     end

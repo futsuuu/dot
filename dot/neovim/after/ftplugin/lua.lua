@@ -14,13 +14,13 @@ end
 
 ---@return string?
 local function get_plugin_name()
-  local buf_path = vim.fn.expand '%:p'
+  local buf_path = vim.fn.expand('%:p')
   ---@cast buf_path string
   buf_path = vim.fs.normalize(buf_path, { expand_env = false })
   if buf_path:match(get_config_dir()) then
     return
   end
-  local matched = buf_path:match '/lua/.+%.lua$' ---@type string?
+  local matched = buf_path:match('/lua/.+%.lua$') ---@type string?
   if matched then
     return vim.split(matched:gsub('%.lua$', ''), '/', { trimempty = true })[2]
   end

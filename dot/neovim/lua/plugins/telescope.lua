@@ -1,6 +1,6 @@
-local telescope = require 'telescope'
+local telescope = require('telescope')
 
-telescope.setup {
+telescope.setup({
   defaults = {
     sorting_strategy = 'ascending',
     layout_config = {
@@ -14,9 +14,9 @@ telescope.setup {
   },
   pickers = {},
   extensions = {},
-}
+})
 
-telescope.load_extension 'mr'
+telescope.load_extension('mr')
 if vim.uv.fs_stat(require('zf').get_path()) then
-  telescope.load_extension 'zf-native'
+  telescope.load_extension('zf-native')
 end

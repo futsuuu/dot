@@ -1,5 +1,5 @@
 local autocmd = vim.api.nvim_create_autocmd
-local buffer = require 'string.buffer'
+local buffer = require('string.buffer')
 
 local stdpath = require('rc.utils').stdpath
 
@@ -36,7 +36,7 @@ function M.read()
   end
   ---@type rc.State
   ---@diagnostic disable-next-line: assign-type-mismatch
-  M.state = buffer.new():set(file:read '*a'):decode()
+  M.state = buffer.new():set(file:read('*a')):decode()
   file:close()
 end
 

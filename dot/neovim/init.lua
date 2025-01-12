@@ -1,6 +1,6 @@
 _G.config_flags = {
   nvim_lsp = true,
-  denops = vim.fn.executable 'deno' == 1,
+  denops = vim.fn.executable('deno') == 1,
   skkeleton = true,
   telescope = true,
   cmp = true,
@@ -21,5 +21,5 @@ _G.config_flags = {
   },
 }
 
-require 'plugins'
-require 'rc'
+require('plugins')
+require('rc')

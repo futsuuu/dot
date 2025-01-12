@@ -1,5 +1,5 @@
 local stdpath = require('rc.utils').stdpath
-local ui = require 'rc.ui'
+local ui = require('rc.ui')
 
 local flags = _G.config_flags
 
@@ -349,14 +349,14 @@ return function(init, config, build)
 
   local lazypath = vim.fs.joinpath(stdpath.data, 'lazy', 'lazy.nvim')
   if not vim.uv.fs_stat(lazypath) then
-    vim.fn.system {
+    vim.fn.system({
       'git',
       'clone',
       '--filter=blob:none',
       'https://github.com/folke/lazy.nvim.git',
       '--branch=stable',
       lazypath,
-    }
+    })
   end
   vim.opt.rtp:prepend(lazypath)
 

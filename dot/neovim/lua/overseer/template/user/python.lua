@@ -4,8 +4,8 @@ return {
     local expand = vim.fn.expand
     return {
       cmd = { 'python' },
-      args = { expand '%:p' },
-      name = 'run ' .. expand '%',
+      args = { expand('%:p') },
+      name = 'run ' .. expand('%'),
       components = { 'default' },
     }
   end,

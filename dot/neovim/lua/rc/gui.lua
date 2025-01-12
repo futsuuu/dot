@@ -1,4 +1,4 @@
-if not vim.fn.has 'gui_running' == 1 then
+if not vim.fn.has('gui_running') == 1 then
   return
 end
 

@@ -2,9 +2,9 @@ local api = vim.api
 local autocmd = api.nvim_create_autocmd
 local m = vim.keymap.set
 
-local hl = require 'rc.highlight'
-local ui = require 'rc.ui'
-local utils = require 'rc.utils'
+local hl = require('rc.highlight')
+local ui = require('rc.ui')
+local utils = require('rc.utils')
 
 local config = setmetatable({}, {
   ---@type fun(table: table, key: string): function
@@ -16,7 +16,7 @@ local config = setmetatable({}, {
 })
 
 function config.dressing()
-  require('dressing').setup {
+  require('dressing').setup({
     input = {
       default_prompt = '> ',
     },
@@ -29,11 +29,11 @@ function config.dressing()
         border = 'none',
       },
     },
-  }
+  })
 end
 
 function config.oil()
-  require('oil').setup {
+  require('oil').setup({
     columns = {
       'size',
       { 'icon', directory = '' },
@@ -44,11 +44,11 @@ function config.oil()
     view_options = {
       show_hidden = true,
     },
-  }
+  })
 end
 
 function config.treesitter()
-  require('nvim-treesitter.configs').setup {
+  require('nvim-treesitter.configs').setup({
     ensure_installed = {
       'lua',
     },
@@ -60,21 +60,21 @@ function config.treesitter()
       disable = { 'tsx' },
       additional_vim_regex_highlighting = false,
     },
-  }
+  })
 end
 
 function config.neodim()
-  require('neodim').setup {
+  require('neodim').setup({
     regex = {
       rust = {
         'warn%(unused_mut%)',
       },
     },
-  }
+  })
 end
 
 function config.aerial()
-  require('aerial').setup {
+  require('aerial').setup({
     backends = { 'lsp', 'treesitter', 'markdown', 'man' },
     layout = {
       default_direction = 'right',
@@ -89,13 +89,13 @@ function config.aerial()
       nested_top = '│ ',
       whitespace = '  ',
     },
-  }
+  })
 end
 
 function config.crates()
-  local crates = require 'crates'
+  local crates = require('crates')
 
-  crates.setup {
+  crates.setup({
     date_format = '%m/%d, %Y',
     curl_args = { package.config:sub(1, 1) == '/' and '-sL' or '-skL', '--retry', '1' },
     thousands_separator = ',',
@@ -114,11 +114,11 @@ function config.crates()
         keywords_label = ' keywords       ',
       },
     },
-  }
+  })
 end
 
 function config.neogit()
-  require('neogit').setup {
+  require('neogit').setup({
     integrations = {
       diffview = false,
     },
@@ -126,7 +126,7 @@ function config.neogit()
       section = { ui.chevron.right, ui.chevron.down },
       item = { ui.chevron.right, ui.chevron.down },
     },
-  }
+  })
   autocmd('FileType', {
     pattern = 'NeogitStatus',
     callback = function()
@@ -135,11 +135,11 @@ function config.neogit()
       end)
     end,
   })
-  hl.set {
+  hl.set({
     NeogitDiffContextHighlight = 'CursorLine',
     NeogitDiffAddHighlight = 'DiffAdd',
     NeogitDiffDeleteHighlight = 'DiffDelete',
-  }
+  })
 end
 
 function config.numb()
@@ -147,16 +147,16 @@ function config.numb()
 end
 
 function config.todo_comments()
-  local tc = require 'todo-comments'
-  tc.setup {
+  local tc = require('todo-comments')
+  tc.setup({
     signs = false,
-  }
+  })
   m('n', ']t', tc.jump_next)
   m('n', '[t', tc.jump_prev)
 end
 
 function config.blankline()
-  require('ibl').setup {
+  require('ibl').setup({
     indent = {
       char = '▏',
     },
@@ -176,7 +176,7 @@ function config.blankline()
         '',
       },
     },
-  }
+  })
 end
 
 function config.gitsigns()
@@ -188,13 +188,13 @@ function config.gitsigns()
     changedelete = { text = ' ▌' },
     untracked = { text = ' ▌' },
   }
-  require('gitsigns').setup {
+  require('gitsigns').setup({
     signs = signs,
     signs_staged = signs,
     preview_config = {
       border = 'none',
     },
-  }
+  })
 end
 
 function config.lastplace()
@@ -206,9 +206,9 @@ function config.skkeleton()
   local skkeleton = utils.fn.skkeleton
 
   denops.plugin.wait_async('skkeleton', function()
-    skkeleton.azik.add_table 'us'
+    skkeleton.azik.add_table('us')
 
-    skkeleton.config {
+    skkeleton.config({
       kanaTable = 'azik',
       markerHenkan = '∘',
       markerHenkanSelect = '•',
@@ -217,7 +217,7 @@ function config.skkeleton()
       setUndoPoint = false,
       globalDictionaries = { vim.fs.joinpath(utils.stdpath.data, 'SKK-JISYO.L') },
       userDictionary = vim.fs.joinpath(utils.stdpath.data, 'SKK-JISYO.user'),
-    }
+    })
 
     skkeleton.register_keymap('input', ';', 'henkanPoint')
     skkeleton.register_kanatable('azik', {
@@ -227,7 +227,7 @@ function config.skkeleton()
 end
 
 function config.tabscope()
-  require('tabscope').setup {}
+  require('tabscope').setup({})
 end
 
 function config.dmacro()
@@ -239,7 +239,7 @@ function config.nvim_surround()
 end
 
 function config.overseer()
-  require('overseer').setup {
+  require('overseer').setup({
     templates = { 'builtin', 'user.python' },
     component_aliases = {
       default = {
@@ -260,31 +260,31 @@ function config.overseer()
     form = { winblend = vim.o.winblend },
     confirm = { winblend = vim.o.winblend },
     task_win = { winblend = vim.o.winblend },
-  }
+  })
   autocmd('FileType', {
     pattern = 'OverseerList',
     callback = function()
       m('n', 'q', '<Cmd>close<CR>')
     end,
   })
-  hl.set { OverSeerFAILURE = 'ErrorMsg', OverSserCANCELED = 'WarningMsg', OverSeerTaskBorder = 'WinSeparator' }
+  hl.set({ OverSeerFAILURE = 'ErrorMsg', OverSserCANCELED = 'WarningMsg', OverSeerTaskBorder = 'WinSeparator' })
 end
 
 function config.ccc()
-  local ccc = require 'ccc'
-  ccc.setup {
+  local ccc = require('ccc')
+  ccc.setup({
     bar_char = '󰝤',
     point_char = '⎕', -- not a garbled character
     point_color = '#808080',
-  }
+  })
 end
 
 function config.neodev()
-  require('neodev').setup {
+  require('neodev').setup({
     library = {
       plugins = false,
     },
-  }
+  })
 end
 
 function config.fidget()
@@ -298,7 +298,7 @@ function config.fidget()
     '(   · 󰧞  )',
     '( ·   · 󰧞 )',
   }
-  require('fidget').setup {
+  require('fidget').setup({
     progress = {
       display = {
         done_icon = ui.status.success .. ' ',
@@ -337,23 +337,23 @@ function config.fidget()
         group_separator = '────────────── ',
       },
     },
-  }
+  })
 end
 
 function config.illuminate()
-  require('illuminate').configure {
+  require('illuminate').configure({
     delay = 300,
     filetypes_denylist = { 'aerial' },
     modes_denylist = { 'i' },
-  }
+  })
 end
 
 function config.satellite()
-  require('satellite').setup {
+  require('satellite').setup({
     winblend = 60,
-  }
-  hl.get('Normal'):reverse():clear_fg():set 'SatelliteBar'
-  hl.get('SatelliteBar'):extend('@none'):bold(true):set 'SatelliteCursor'
+  })
+  hl.get('Normal'):reverse():clear_fg():set('SatelliteBar')
+  hl.get('SatelliteBar'):extend('@none'):bold(true):set('SatelliteCursor')
 end
 
 function config.navic()
@@ -362,13 +362,13 @@ function config.navic()
     kind[k] = v .. ' '
   end
 
-  local navic = require 'nvim-navic'
+  local navic = require('nvim-navic')
 
-  navic.setup {
+  navic.setup({
     icons = kind,
     highlight = true,
     separator = ui.winbar_sep.context,
-  }
+  })
 
   utils.lsp.on_attach(function(client, bufnr)
     if client.server_capabilities.documentSymbolProvider then
@@ -376,10 +376,10 @@ function config.navic()
     end
   end)
 
-  hl.set {
+  hl.set({
     NavicText = 'Winbar',
     NavicSeparator = 'NavicText',
-  }
+  })
 end
 
 function config.refs_info()
@@ -392,9 +392,9 @@ end
 
 function config.mason()
   local cb = ui.checkbox
-  local mason = require 'mason'
+  local mason = require('mason')
 
-  mason.setup {
+  mason.setup({
     providers = {
       'mason.providers.client',
       'mason.providers.registry-api',
@@ -408,14 +408,14 @@ function config.mason()
         package_uninstalled = cb.close,
       },
     },
-  }
+  })
 end
 
 function config.visual_eof()
-  require('visual-eof').setup {
+  require('visual-eof').setup({
     text_EOL = '',
     text_NOEOL = ' ',
-  }
+  })
 end
 
 function config.startuptime()

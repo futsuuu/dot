@@ -1,7 +1,7 @@
 local build = {}
 
 function build.mason()
-  local registry = require 'mason-registry'
+  local registry = require('mason-registry')
 
   local packages = {
     'lua-language-server',

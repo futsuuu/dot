@@ -1,23 +1,23 @@
-local insx = require 'insx'
+local insx = require('insx')
 
 local function recipe(name)
   return require('insx.recipe.' .. name)
 end
 
-local delete_pair = recipe 'delete_pair'
-local jump_next = recipe 'jump_next'
-local pair_spacing = recipe 'pair_spacing'
-local fast_break = recipe 'fast_break'
-local fast_wrap = recipe 'fast_wrap'
+local delete_pair = recipe('delete_pair')
+local jump_next = recipe('jump_next')
+local pair_spacing = recipe('pair_spacing')
+local fast_break = recipe('fast_break')
+local fast_wrap = recipe('fast_wrap')
 
-local auto_pair_ext = recipe 'auto_pair_ext'
+local auto_pair_ext = recipe('auto_pair_ext')
 
 local helper = insx.helper
 local regex = helper.regex
 local with, add, esc, Tag = insx.with, insx.add, regex.esc, helper.search.Tag
 
 do
-  local standard = require 'insx.preset.standard'
+  local standard = require('insx.preset.standard')
   standard.config = {
     cmdline = {
       enabled = true,
@@ -26,15 +26,15 @@ do
   standard.setup_cmdline_mode()
 end
 
-for _, quote in ipairs { '"', "'", '`' } do
+for _, quote in ipairs({ '"', "'", '`' }) do
   -- jump_out
   add(
     quote,
-    jump_next {
+    jump_next({
       jump_pat = {
         [[\\\@<!\%#]] .. esc(quote) .. [[\zs]],
       },
-    }
+    })
   )
 
   -- auto_pair
@@ -45,18 +45,18 @@ for _, quote in ipairs { '"', "'", '`' } do
   -- lifetime in Rust
   if quote == "'" then
     vim.list_extend(pair_with, {
-      with.nomatch [[&\%#]],
-      with.nomatch [[\h\w*<.*\%#]],
+      with.nomatch([[&\%#]]),
+      with.nomatch([[\h\w*<.*\%#]]),
     })
   end
   -- "| ==> "|"
   add(
     quote,
     with(
-      auto_pair_ext.strings {
+      auto_pair_ext.strings({
         open = quote,
         close = quote,
-      },
+      }),
       pair_with
     )
   )
@@ -64,10 +64,10 @@ for _, quote in ipairs { '"', "'", '`' } do
   add(
     quote,
     with(
-      auto_pair_ext.strings {
+      auto_pair_ext.strings({
         open = quote,
         close = quote:rep(3),
-      },
+      }),
       {
         with.match(re),
       }
@@ -82,7 +82,7 @@ for _, quote in ipairs { '"', "'", '`' } do
     with({
       action = function(ctx)
         local row, col = ctx.row(), ctx.col()
-        ctx.send '<CR><CR>'
+        ctx.send('<CR><CR>')
         ctx.move(row + 1, col)
       end,
     }, { with.match(quote:rep(3) .. [[.*\%#]] .. quote:rep(3)) })
@@ -91,41 +91,41 @@ for _, quote in ipairs { '"', "'", '`' } do
   -- delete_pair
   add(
     '<BS>',
-    delete_pair.strings {
+    delete_pair.strings({
       open_pat = esc(quote),
       close_pat = esc(quote),
-    }
+    })
   )
 end
 
 -- pairs
-for open, close in pairs {
+for open, close in pairs({
   ['('] = ')',
   ['['] = ']',
   ['{'] = '}',
-} do
+}) do
   -- jump_out
   add(
     close,
-    jump_next {
+    jump_next({
       jump_pat = {
         [[\%#]] .. esc(close) .. [[\zs]],
       },
-    }
+    })
   )
 
   -- auto_pair
-  local pair = auto_pair_ext {
+  local pair = auto_pair_ext({
     open = open,
     close = close,
-  }
+  })
   if open == '[' then
     add(
       '[',
       with(pair, {
-        with.nomatch [[\033\%#]],
-        with.nomatch [[\027\%#]],
-        with.nomatch [[\x1b\%#]],
+        with.nomatch([[\033\%#]]),
+        with.nomatch([[\027\%#]]),
+        with.nomatch([[\x1b\%#]]),
       })
     )
   else
@@ -135,76 +135,76 @@ for open, close in pairs {
   -- delete_pair
   add(
     '<BS>',
-    delete_pair {
+    delete_pair({
       open_pat = esc(open),
       close_pat = esc(close),
-    }
+    })
   )
 
   -- spacing
   add(
     '<Space>',
-    pair_spacing.increase {
+    pair_spacing.increase({
       open_pat = esc(open),
       close_pat = esc(close),
-    }
+    })
   )
   add(
     '<BS>',
-    pair_spacing.decrease {
+    pair_spacing.decrease({
       open_pat = esc(open),
       close_pat = esc(close),
-    }
+    })
   )
 
   -- fast_break
   add(
     '<CR>',
-    fast_break {
+    fast_break({
       open_pat = esc(open),
       close_pat = esc(close),
       split = nil,
       html_attrs = true,
       arguments = true,
-    }
+    })
   )
 
   -- fast_wrap
   add(
     '<C-]>',
-    fast_wrap {
+    fast_wrap({
       close = close,
-    }
+    })
   )
 end
 
 -- tags
 add(
   '<CR>',
-  fast_break {
+  fast_break({
     open_pat = Tag.Open,
     close_pat = Tag.Close,
-  }
+  })
 )
 
-add('<BS>', delete_pair { open_pat = '<', close_pat = '>' })
+add('<BS>', delete_pair({ open_pat = '<', close_pat = '>' }))
 
-local tag_ft = with.filetype {
+local tag_ft = with.filetype({
   'astro',
   'html',
   'xml',
   'typescriptreact',
   'javascriptreact',
   'markdown',
-}
+})
 
-local arrowfunc_ft = with.filetype {
+local arrowfunc_ft = with.filetype({
   'astro',
   'typescript',
   'javascript',
   'typescriptreact',
   'javascriptreact',
-}
+})
 
 -- <foo| ==> <foo>|</foo>
 add(
@@ -212,7 +212,7 @@ add(
   with({
     action = function(ctx)
       local before = vim.split(ctx.before())
-      local name = before[#before]:match '%a[%w%.]*'
+      local name = before[#before]:match('%a[%w%.]*')
       local row, col = ctx.row(), ctx.col()
       ctx.send(('></' .. (name or '') .. '>'))
       ctx.move(row, col + 1)
@@ -220,9 +220,9 @@ add(
     enabled = function(ctx)
       return regex.match(ctx.before(), Tag.Open:gsub('>$', '')) ~= nil
         and regex.match(ctx.after(), Tag.Close) == nil
-        and ctx.before():match 'function' == nil
-        and ctx.before():match '|' == nil
-        and ctx.after():match '^[%(%)]' == nil
+        and ctx.before():match('function') == nil
+        and ctx.before():match('|') == nil
+        and ctx.after():match('^[%(%)]') == nil
     end,
   }, { tag_ft })
 )
@@ -232,10 +232,10 @@ add(
   '>',
   with({
     action = function(ctx)
-      ctx.send '<Del>) => {}<Left>'
+      ctx.send('<Del>) => {}<Left>')
     end,
     enabled = function(ctx)
-      return ctx.before():match '%([%w, ]*' and ctx.after():match '^%)'
+      return ctx.before():match('%([%w, ]*') and ctx.after():match('^%)')
     end,
   }, { arrowfunc_ft })
 )
@@ -246,11 +246,11 @@ add(
   with({
     action = function(ctx)
       local row, col = ctx.row(), ctx.col()
-      if ctx.before():match '%s+$' then
-        ctx.send '/>'
+      if ctx.before():match('%s+$') then
+        ctx.send('/>')
         ctx.move(row, col + 2)
       else
-        ctx.send ' />'
+        ctx.send(' />')
         ctx.move(row, col + 3)
       end
     end,

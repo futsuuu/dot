@@ -3,7 +3,7 @@ local o, opt, optl = vim.o, vim.opt, vim.opt_local
 local au = vim.api.nvim_create_autocmd
 local m = vim.keymap.set
 
-require 'rc.gui'
+require('rc.gui')
 require('rc.state').setup()
 require('rc.ui.tabline').setup()
 require('rc.ui.winbar').setup()
@@ -25,10 +25,10 @@ opt.swapfile = false
 opt.cmdheight = 0
 opt.laststatus = 0
 opt.termguicolors = true
-opt.fillchars:append {
+opt.fillchars:append({
   eob = ' ',
   diff = '╱',
-}
+})
 opt.inccommand = 'split'
 opt.splitright = true
 opt.splitbelow = true
@@ -104,11 +104,11 @@ au('BufRead', {
     opt.wrap = false
 
     local function in_indent(include_head)
-      return (vim.fn.col '.' - (include_head and 1 or 0)) <= vim.fn.indent '.'
+      return (vim.fn.col('.') - (include_head and 1 or 0)) <= vim.fn.indent('.')
     end
 
     m('n', 'a', function()
-      if vim.fn.line '.' == 1 or vim.fn.line '$' == 1 or not vim.api.nvim_get_current_line():match '^%s*$' then
+      if vim.fn.line('.') == 1 or vim.fn.line('$') == 1 or not vim.api.nvim_get_current_line():match('^%s*$') then
         return 'a'
       end
       return 'kJo'
@@ -125,7 +125,7 @@ au('BufRead', {
       if not in_indent() then
         return 'l'
       end
-      local col = vim.fn.col '.' - 1
+      local col = vim.fn.col('.') - 1
       local sw = vim.fn.shiftwidth()
       return (sw - col % sw) .. 'l'
     end, { expr = true })
@@ -133,7 +133,7 @@ au('BufRead', {
       if not in_indent(true) then
         return 'h'
       end
-      local col = vim.fn.col '.' - 1
+      local col = vim.fn.col('.') - 1
       local sw = vim.fn.shiftwidth()
       return (sw - col % sw) .. 'h'
     end, { expr = true })
@@ -141,10 +141,10 @@ au('BufRead', {
     local function hover()
       local filetype = vim.bo.filetype
       if vim.tbl_contains({ 'vim', 'help' }, filetype) then
-        vim.cmd('h ' .. vim.fn.expand '<cword>')
+        vim.cmd('h ' .. vim.fn.expand('<cword>'))
       elseif vim.tbl_contains({ 'man' }, filetype) then
-        vim.cmd('Man ' .. vim.fn.expand '<cword>')
-      elseif vim.fn.expand '%:t' == 'Cargo.toml' and require('crates').popup_available() then
+        vim.cmd('Man ' .. vim.fn.expand('<cword>'))
+      elseif vim.fn.expand('%:t') == 'Cargo.toml' and require('crates').popup_available() then
         require('crates').show_popup()
       else
         vim.lsp.buf.hover()

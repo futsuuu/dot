@@ -1,6 +1,6 @@
-local hl = require 'rc.highlight'
-local line = require 'rc.ui.line'
-local ui = require 'rc.ui'
+local hl = require('rc.highlight')
+local line = require('rc.ui.line')
+local ui = require('rc.ui')
 
 ---@return string
 local function overseer_info()
@@ -9,7 +9,7 @@ local function overseer_info()
     return result
   end
 
-  local tasks = require('overseer.task_list').list_tasks { unique = true }
+  local tasks = require('overseer.task_list').list_tasks({ unique = true })
   local tasks_by_status = require('overseer.util').tbl_group_by(tasks, 'status')
 
   for status, symbol in pairs(ui.status) do
@@ -20,7 +20,7 @@ local function overseer_info()
         .. line.with_hl(
           symbol .. ' ' .. #task,
           hl.ensure('TabLineOverseer' .. status, function()
-            return hl.get('Overseer' .. status):extend 'TabLineFill'
+            return hl.get('Overseer' .. status):extend('TabLineFill')
           end).name
         )
         .. ' '
@@ -53,10 +53,10 @@ local function buffer_info(buffer, is_selected)
     t = t .. line.with_hl('', sep_hl.name)
   end
   t = t .. line.with_hl((is_selected and '  ' or ' '), hl_group)
-  local icon = require('clico').get {
+  local icon = require('clico').get({
     path = bufname,
     ft = vim.api.nvim_get_option_value('filetype', { buf = buffer }),
-  }
+  })
   t = t
     .. line.with_hl(
       icon.icon,
@@ -97,7 +97,7 @@ local function get_tabline()
     :map(function(buf)
       return buffer_info(buf, buf == current_buf)
     end)
-    :join ''
+    :join('')
 
   tabline = tabline .. '%=' .. overseer_info()
   return tabline
@@ -106,7 +106,7 @@ end
 local M = {}
 
 function M.setup()
-  hl.set { TabLine = 'TabLineFill', TabLineFill = 'DiffChange', TabLineSel = 'Normal' }
+  hl.set({ TabLine = 'TabLineFill', TabLineFill = 'DiffChange', TabLineSel = 'Normal' })
   vim.opt.showtabline = 2
   vim.opt.tabline = line.as_opt(get_tabline)
   vim.api.nvim_create_autocmd({ 'BufAdd', 'BufDelete' }, {

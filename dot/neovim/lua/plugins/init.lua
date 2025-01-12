@@ -1,8 +1,8 @@
 local m = vim.keymap.set
 
-local build = require 'plugins.build'
-local config = require 'plugins.config'
-local utils = require 'rc.utils'
+local build = require('plugins.build')
+local config = require('plugins.config')
+local utils = require('rc.utils')
 local req = utils.lazy_require
 
 local init = {}
@@ -51,7 +51,7 @@ function init.mr()
   vim.g['mr#mrw#predicates'] = {
     ---@param filename string
     function(filename)
-      return filename:match '%.git[/\\]' == nil
+      return filename:match('%.git[/\\]') == nil
     end,
   }
 end
@@ -70,7 +70,7 @@ function init.skkeleton()
 end
 
 function init.gitsigns()
-  local gitsigns = require 'gitsigns'
+  local gitsigns = require('gitsigns')
   m('n', '<Space>gr', function()
     gitsigns.reset_hunk()
   end)
@@ -78,10 +78,10 @@ function init.gitsigns()
     gitsigns.stage_hunk()
   end)
   m('n', ']g', function()
-    gitsigns.nav_hunk 'next'
+    gitsigns.nav_hunk('next')
   end)
   m('n', '[g', function()
-    gitsigns.nav_hunk 'prev'
+    gitsigns.nav_hunk('prev')
   end)
   m('n', 'vih', function()
     gitsigns.select_hunk()
@@ -112,4 +112,4 @@ function init.overseer()
   m('n', '<Space>qt', '<Cmd>OverseerToggle<CR>')
 end
 
-require 'plugins.lazy'(init, config, build)
+require('plugins.lazy')(init, config, build)

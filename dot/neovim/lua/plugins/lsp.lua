@@ -1,7 +1,7 @@
-local configs = require 'lspconfig.configs'
-local lsp_win = require 'lspconfig.ui.windows'
-local lspconfig = require 'lspconfig'
-local mason_lspconfig = require 'mason-lspconfig'
+local configs = require('lspconfig.configs')
+local lsp_win = require('lspconfig.ui.windows')
+local lspconfig = require('lspconfig')
+local mason_lspconfig = require('mason-lspconfig')
 
 local root_pattern = lspconfig.util.root_pattern
 
@@ -10,9 +10,9 @@ require('rc.utils').lsp.on_attach(function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
   end
 
-  if client.supports_method 'textDocument/inlayHint' and vim.lsp.inlay_hint then
+  if client.supports_method('textDocument/inlayHint') and vim.lsp.inlay_hint then
     vim.api.nvim_buf_create_user_command(bufnr, 'InlayHintToggle', function()
-      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
     end, {})
   end
 end)
@@ -31,7 +31,7 @@ capabilities.textDocument = {
 }
 
 if _G.config_flags.cmp then
-  local cmp_nvim_lsp = require 'cmp_nvim_lsp'
+  local cmp_nvim_lsp = require('cmp_nvim_lsp')
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
@@ -124,23 +124,23 @@ local function opts(override)
   return vim.tbl_extend('keep', override or {}, { capabilities = capabilities, settings = settings })
 end
 
-mason_lspconfig.setup_handlers {
+mason_lspconfig.setup_handlers({
   function(server_name)
     lspconfig[server_name].setup(opts())
   end,
   vtsls = function()
-    lspconfig.vtsls.setup(opts {
+    lspconfig.vtsls.setup(opts({
       root_dir = root_pattern('package.json', 'tsconfig.json', 'jsconfig.json'),
       single_file_support = false,
-    })
+    }))
   end,
   rust_analyzer = function()
-    lspconfig.rust_analyzer.setup(opts {
+    lspconfig.rust_analyzer.setup(opts({
       autostart = false,
-    })
+    }))
   end,
   efm = function()
-    lspconfig.efm.setup {
+    lspconfig.efm.setup({
       init_options = {
         documentFormatting = true,
         documentRangeFormatting = true,
@@ -174,33 +174,33 @@ mason_lspconfig.setup_handlers {
           },
         },
       },
-    }
+    })
   end,
-}
+})
 
-if vim.fn.executable 'rust-analyzer' then
-  lspconfig.rust_analyzer.setup(opts {
+if vim.fn.executable('rust-analyzer') then
+  lspconfig.rust_analyzer.setup(opts({
     autostart = false,
-  })
+  }))
 end
 
-if vim.fn.executable 'deno' then
-  lspconfig.denols.setup(opts {
+if vim.fn.executable('deno') then
+  lspconfig.denols.setup(opts({
     root_dir = root_pattern('deno.json', 'deno.jsonc', 'deno.lock', 'deps.ts'),
-  })
+  }))
 end
 
-if vim.fn.executable 'nu' then
-  lspconfig.nu_ls.setup(opts {
+if vim.fn.executable('nu') then
+  lspconfig.nu_ls.setup(opts({
     autostart = false,
-  })
+  }))
 end
 
-if vim.fn.executable 'nil' then
+if vim.fn.executable('nil') then
   lspconfig.nil_ls.setup(opts())
 end
 
-vim.diagnostic.config {
+vim.diagnostic.config({
   signs = false,
   virtual_text = {
     prefix = '',
@@ -210,7 +210,7 @@ vim.diagnostic.config {
   },
   update_in_insert = true,
   severity_sort = true,
-}
+})
 
 lsp_win.default_options.border = 'none'
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'none' })

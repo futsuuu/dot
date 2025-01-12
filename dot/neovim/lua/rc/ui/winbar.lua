@@ -8,9 +8,9 @@ local function normalize(path)
   return path
 end
 
-local hl = require 'rc.highlight'
-local line = require 'rc.ui.line'
-local ui = require 'rc.ui'
+local hl = require('rc.highlight')
+local line = require('rc.ui.line')
+local ui = require('rc.ui')
 
 local HOME = normalize(uv.os_homedir() or '')
 local RUNTIME = normalize(vim.env.VIMRUNTIME)
@@ -62,10 +62,10 @@ end
 ---@param bufnr number
 ---@return string
 local function get_icon(bufnr)
-  local icon = require('clico').get {
+  local icon = require('clico').get({
     path = api.nvim_buf_get_name(bufnr),
     ft = api.nvim_get_option_value('filetype', { buf = bufnr }),
-  }
+  })
   return line.with_hl(icon.icon, icon.hl) .. ' '
 end
 
@@ -109,7 +109,7 @@ end
 local M = {}
 
 function M.setup()
-  hl.set { WinBar = hl.get('Whitespace'):mix('Normal', 40), WinBarNC = 'WinBar' }
+  hl.set({ WinBar = hl.get('Whitespace'):mix('Normal', 40), WinBarNC = 'WinBar' })
   api.nvim_create_autocmd('BufRead', {
     pattern = '*',
     callback = function(ev)

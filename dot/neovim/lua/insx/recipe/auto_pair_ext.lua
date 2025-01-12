@@ -1,4 +1,4 @@
-local insx = require 'insx'
+local insx = require('insx')
 
 local function auto_pair(option)
   return {
@@ -10,9 +10,9 @@ end
 
 return setmetatable({
   strings = function(option)
-    local overrides = { insx.with.nomatch [[\\\%#]] }
+    local overrides = { insx.with.nomatch([[\\\%#]]) }
     if option.open == [[']] then
-      table.insert(overrides, insx.with.nomatch [[\a\%#]])
+      table.insert(overrides, insx.with.nomatch([[\a\%#]]))
     end
     return insx.with(auto_pair(option), overrides)
   end,
