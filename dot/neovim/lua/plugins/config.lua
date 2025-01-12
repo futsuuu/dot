@@ -36,7 +36,7 @@ function config.oil()
   require('oil').setup {
     columns = {
       'size',
-      'icon',
+      { 'icon', directory = '' },
     },
     win_options = {
       number = false,
