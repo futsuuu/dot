@@ -34,7 +34,7 @@ if $nu.os-info.name == "linux" {
 $env.LANG = "en_US.UTF-8"
 $env.EDITOR = "nvim"
 $env.VISUAL = $env.EDITOR
-$env.BROWSER = "vivaldi-stable"
+$env.BROWSER = "thorium-browser"
 
 $env.DENO_TLS_CA_STORE = "system"
 $env.FZF_DEFAULT_OPTS = "
