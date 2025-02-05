@@ -79,8 +79,8 @@ if (await $.commandExists("gh")) {
   config['credential "https://gist.github.com"'] = { helper: helper };
 }
 
-if (await $.commandExists("ghq")) {
-  config.ghq = {
+if (await $.commandExists("grm")) {
+  config.grm = {
     root: "~/dev",
   };
 }
