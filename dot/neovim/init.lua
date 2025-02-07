@@ -3,6 +3,7 @@ _G.config_flags = {
   denops = vim.fn.executable('deno') == 1,
   skkeleton = true,
   telescope = true,
+  deck = true,
   cmp = true,
   vsnip = true,
   treesitter = true,

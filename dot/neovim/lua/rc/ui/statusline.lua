@@ -5,6 +5,8 @@ local hl = require('rc.highlight')
 local M = {}
 
 function M.hide()
+  opt.cmdheight = 0
+  opt.laststatus = 0
   opt.statusline = "%{''}"
   opt.fillchars:append({
     stl = '─',

@@ -22,8 +22,6 @@ opt.backup = false
 opt.writebackup = false
 opt.swapfile = false
 
-opt.cmdheight = 0
-opt.laststatus = 0
 opt.termguicolors = true
 opt.fillchars:append({
   eob = ' ',

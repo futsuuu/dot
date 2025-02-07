@@ -34,6 +34,12 @@ return function(init, config, build)
       },
     },
     {
+      cond = flags.deck,
+      'hrsh7th/nvim-deck',
+      cmd = 'Deck',
+      config = config.deck,
+    },
+    {
       cond = flags.cmp,
       'hrsh7th/nvim-cmp',
       config = config.cmp,
