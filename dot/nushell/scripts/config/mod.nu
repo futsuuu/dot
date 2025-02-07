@@ -106,8 +106,7 @@ $env.config = ($env.config | merge {
     }
   }
   filesize: {
-    metric: true # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
-    format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, zb, zib, auto
+    unit: metric
   }
   footer_mode: auto # always, never, number_of_rows, auto
   float_precision: 2
