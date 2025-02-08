@@ -35,9 +35,17 @@ return function(init, config, build)
     },
     {
       cond = flags.deck,
-      'hrsh7th/nvim-deck',
+      'futsuuu/nvim-deck',
       cmd = 'Deck',
+      init = init.deck,
       config = config.deck,
+      dependencies = {
+        {
+          'lambdalisue/vim-mr',
+          init = init.mr,
+          event = 'BufReadPre',
+        },
+      },
     },
     {
       cond = flags.cmp,

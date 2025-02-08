@@ -40,10 +40,16 @@ function init.oil()
   m('n', '<Space>e', '<Cmd>Oil<CR>')
 end
 
+function init.deck()
+  m('n', '<Space>fs', '<Cmd>Deck files<CR>')
+  m('n', '<Space>fh', '<Cmd>Deck mrw<CR>')
+  m('n', '<Space>fg', '<Cmd>Deck grep<CR>')
+end
+
 function init.telescope()
-  m('n', '<Space>fs', '<Cmd>Telescope find_files hidden=true<CR>')
-  m('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
-  m('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
+  -- m('n', '<Space>fs', '<Cmd>Telescope find_files hidden=true<CR>')
+  -- m('n', '<Space>fh', '<Cmd>Telescope mr mrw<CR>')
+  -- m('n', '<Space>fg', '<Cmd>Telescope live_grep<CR>')
   m('n', '<Space>fl', '<Cmd>Telescope highlights<CR>')
 end
 
