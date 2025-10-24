@@ -10,7 +10,7 @@ install_arch() {
 
   # disk cleanup
   cryptsetup open --type plain /dev/sda container --key-file /dev/random
-  dd if=/dev/zero of=/dev/mapper/container bs=4096 status=progress || true
+  dd if=/dev/zero of=/dev/mapper/container bs=8M status=progress || true
   cryptsetup close container
 
   # partition
@@ -39,6 +39,77 @@ install_arch() {
   mount --mkdir /dev/system/home /mnt/home
   mount --mkdir -o fmask=0137,dmask=0027 /dev/sda1 /mnt/boot
   swapon /dev/system/swap
+
+  local packages=(base base-devel linux-zen lvm2 efibootmgr sudo)
+  if ! systemd-detect-virt; then
+    packages+=(linux-firmware)
+    if grep -q AuthenticAMD /proc/cpuinfo; then
+      packages+=(amd-ucode)
+    elif grep -q GenuineIntel /proc/cpuinfo; then
+      packages+=(intel-ucode)
+    fi
+  fi
+  pacstrap -K /mnt "${packages[@]}"
+
+  genfstab -U /mnt >> /mnt/etc/fstab
+
+  setup_arch_chroot() {
+    set -eux
+
+    useradd -m -g users -G wheel -s /bin/bash futsuuu
+    passwd futsuuu
+    echo '%wheel ALL=(ALL:ALL) ALL' > /etc/sudoers.d/wheel
+    passwd -l root
+
+    echo myarchlinux > /etc/hostname
+
+    ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+    hwclock --systohc
+
+    echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+    echo 'ja_JP.UTF-8 UTF-8' >> /etc/locale.gen
+    locale-gen
+    echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+    touch /etc/vconsole.conf
+
+    # mkinitcpio
+    sed -i \
+      -e 's/^MODULES=.*/MODULES=(tpm_tis?)/' \
+      -e 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt lvm2 filesystems fsck)/' \
+      /etc/mkinitcpio.conf
+    sed -i \
+      -e 's/^PRESETS=.*/PRESETS=("default")/' \
+      -e 's/^default_/#default_/' \
+      -e 's/^fallback_/#fallback_/' \
+      /etc/mkinitcpio.d/linux-zen.preset
+    echo 'default_uki="/boot/EFI/Linux/arch-linux-zen.efi"' >> /etc/mkinitcpio.d/linux-zen.preset
+    echo 'default_options="--splash=/usr/share/systemd/bootctl/splash-arch.bmp"' >> /etc/mkinitcpio.d/linux-zen.preset
+
+    # kernel parameters
+    local system_uuid=$(lsblk --filter 'PATH == "/dev/sda2"' --output UUID --noheadings)
+    local kernel_params=""
+    kernel_params+="rd.luks.name=${system_uuid}=cryptolvm "
+    kernel_params+="rd.luks.options=${system_uuid}=tpm2-device-auto "
+    kernel_params+="root=/dev/system/root "
+    kernel_params+="rw"
+    mkdir -p /etc/cmdline.d
+    echo ${kernel_params} > /etc/cmdline.d/root.conf
+
+    # initramfs
+    rm -f /boot/initramfs-*.img
+    mkdir -p /boot/EFI/Linux
+    mkinitcpio -P
+
+    # UEFI boot entry
+    pacman -S --noconfirm efibootmgr
+    efibootmgr --create \
+      --disk /dev/sda --part 1 \
+      --label "Arch Linux" \
+      --loader '\EFI\Linux\arch-linux-zen.efi' \
+      --unicode
+  }
+  arch-chroot /mnt bash -c "$(declare -f setup_arch_chroot); setup_arch_chroot"
+  reboot
 }
 
 if [ -d /run/archiso ]; then
