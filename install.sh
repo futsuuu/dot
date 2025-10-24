@@ -23,22 +23,22 @@ install_arch() {
 
   # LVM
   pvcreate /dev/mapper/cryptolvm
-  vgcreate myvolume /dev/mapper/cryptolvm
-  lvcreate -L "$(grep MemTotal /proc/meminfo | awk '{print $2}')K" myvolume -n swap
-  lvcreate -l 25%FREE myvolume -n root
-  lvcreate -l 100%FREE myvolume -n home
+  vgcreate system /dev/mapper/cryptolvm
+  lvcreate -L "$(grep MemTotal /proc/meminfo | awk '{print $2}')K" system -n swap
+  lvcreate -l 25%FREE system -n root
+  lvcreate -l 100%FREE system -n home
 
   # format
-  mkfs.ext4 /dev/mapper/myvolume-root
-  mkfs.ext4 /dev/mapper/myvolume-home
+  mkfs.ext4 /dev/system/root
+  mkfs.ext4 /dev/system/home
   mkfs.fat -F 32 /dev/sda1
-  mkswap /dev/mapper/myvolume-swap
+  mkswap /dev/system/swap
 
   # mount
-  mount /dev/mapper/myvolume-root /mnt
-  mount --mkdir /dev/mapper/myvolume-home /mnt/home
+  mount /dev/system/root /mnt
+  mount --mkdir /dev/system/home /mnt/home
   mount --mkdir -o fmask=0137,dmask=0027 /dev/sda1 /mnt/boot
-  swapon /dev/mapper/myvolume-swap
+  swapon /dev/system/swap
 }
 
 if [ -d /run/archiso ]; then
