@@ -9,9 +9,11 @@ install_arch() {
   timedatectl set-ntp true
 
   # disk cleanup
-  cryptsetup open --type plain /dev/sda container --key-file /dev/random
-  dd if=/dev/zero of=/dev/mapper/container bs=8M status=progress || true
-  cryptsetup close container
+  if ! systemd-detect-virt -q; then
+    cryptsetup open --type plain /dev/sda container --key-file /dev/random
+    dd if=/dev/zero of=/dev/mapper/container bs=8M status=progress || true
+    cryptsetup close container
+  fi
 
   # partition
   sgdisk --new 0::+1G --typecode 0:ef00 --change-name 0:boot /dev/sda  # EFI system
@@ -41,7 +43,7 @@ install_arch() {
   swapon /dev/system/swap
 
   local packages=(base base-devel linux-zen lvm2 efibootmgr sudo)
-  if ! systemd-detect-virt; then
+  if ! systemd-detect-virt -q; then
     packages+=(linux-firmware)
     if grep -q AuthenticAMD /proc/cpuinfo; then
       packages+=(amd-ucode)
@@ -91,7 +93,7 @@ install_arch() {
     kernel_params+="rd.luks.name=${system_uuid}=cryptolvm "
     kernel_params+="rd.luks.options=${system_uuid}=tpm2-device-auto "
     kernel_params+="root=/dev/system/root "
-    kernel_params+="rw"
+    kernel_params+="rw quiet bgrt_disable"
     mkdir -p /etc/cmdline.d
     echo ${kernel_params} > /etc/cmdline.d/root.conf
 
