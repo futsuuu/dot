@@ -42,7 +42,7 @@ install_arch() {
   mount --mkdir -o fmask=0137,dmask=0027 /dev/sda1 /mnt/boot
   swapon /dev/system/swap
 
-  local packages=(base base-devel linux-zen lvm2 efibootmgr sudo)
+  local packages=(base base-devel linux-zen lvm2 efibootmgr sudo networkmanager)
   if ! systemd-detect-virt -q; then
     packages+=(linux-firmware)
     if grep -q AuthenticAMD /proc/cpuinfo; then
@@ -58,16 +58,20 @@ install_arch() {
   setup_arch_chroot() {
     set -eux
 
+    passwd
     useradd -m -g users -G wheel -s /bin/bash futsuuu
     passwd futsuuu
     echo '%wheel ALL=(ALL:ALL) ALL' > /etc/sudoers.d/wheel
-    passwd -l root
 
+    # network
     echo myarchlinux > /etc/hostname
+    systemctl enable NetworkManager.service
 
+    # time zone
     ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
     hwclock --systohc
 
+    # localization
     echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
     echo 'ja_JP.UTF-8 UTF-8' >> /etc/locale.gen
     locale-gen
@@ -103,7 +107,6 @@ install_arch() {
     mkinitcpio -P
 
     # UEFI boot entry
-    pacman -S --noconfirm efibootmgr
     efibootmgr --create \
       --disk /dev/sda --part 1 \
       --label "Arch Linux" \
@@ -111,6 +114,7 @@ install_arch() {
       --unicode
   }
   arch-chroot /mnt bash -c "$(declare -f setup_arch_chroot); setup_arch_chroot"
+
   reboot
 }
 
