@@ -24,13 +24,18 @@ if (import.meta.main) {
 async function installArchLinux() {
   await $`timedatectl set-ntp true`;
 
-  const diskList = await getDiskList();
-  const targetDisk = diskList[
-    await $.select({
+  const targetDisk = await (async () => {
+    const diskList = await getDiskList();
+    if (diskList.length === 0) {
+      $.logError("Disk not found");
+      Deno.exit(1);
+    }
+    const index = await $.select({
       message: "Select the disk to install",
       options: diskList,
-    })
-  ];
+    });
+    return diskList[index];
+  })();
 
   if (
     !await isInContainerOrVM() &&
@@ -121,6 +126,7 @@ async function installArchLinux() {
       "efibootmgr",
       "sudo",
       "networkmanager",
+      "deno",
     ];
     if (!await isInContainerOrVM()) {
       pkgs.push("linux-firmware");
@@ -135,7 +141,7 @@ async function installArchLinux() {
   });
 
   await $`genfstab -U /mnt >> /mnt/etc/fstab`;
-  await $`arch-chroot /mnt ${Deno.execPath()} ${import.meta.url} ${Deno.args}`;
+  await $`arch-chroot /mnt deno ${import.meta.url} ${Deno.args}`;
 }
 
 async function configureArchLinux() {
@@ -159,7 +165,7 @@ function isInstallingArchLinux() {
 }
 
 async function isInContainerOrVM() {
-  const res = await $`systemd-detect-virt -q --cotainer --vm`.noThrow();
+  const res = await $`systemd-detect-virt -q --container --vm`.noThrow();
   return res.code == 0;
 }
 
