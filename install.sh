@@ -5,9 +5,11 @@ set -eux
 if [ -d /run/archiso ]; then
   timedatectl set-ntp true
   systemctl restart systemd-timesyncd
-  pacman -Sy git deno
+  pacman -Sy --noconfirm archlinux-keyring
+  pacman -S --noconfirm git deno
   git clone -b renewal https://github.com/futsuuu/dot.git
-  deno run -A ./dot/archInstaller.ts
+  cd dot
+  deno task install-arch
 else
   echo "nothing to do"
   exit 1

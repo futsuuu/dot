@@ -10,7 +10,10 @@ async function main() {
     $.logStep("Installing", "Arch Linux");
     await $.logGroup(async () => {
       const configOpts = JSON.stringify(await installArchLinux());
-      await $`arch-chroot /mnt deno run -A ${import.meta.url} ${configOpts}`;
+      // I don't know why, but /mnt/tmp is not accessible from arch-chroot.
+      await Deno.copyFile(new URL(import.meta.url), "/mnt/var/tmp/archInstaller.js");
+      await $`arch-chroot /mnt deno run -A /var/tmp/archInstaller.js ${configOpts}`;
+      await Deno.remove("/mnt/var/tmp/archInstaller.js");
     });
     if (await $.confirm("Reboot now?", { default: true })) {
       $`reboot`;
@@ -180,7 +183,7 @@ async function configureArchLinux(opts: ConfigOpts) {
     await $`useradd --create-home --gid users --groups wheel --shell /bin/bash --password ${opts.newUser.password} ${opts.newUser.name}`;
     await Deno.writeTextFile(
       "/etc/sudoers.d/wheel",
-      "%wheel ALL=(ALL:ALL) ALL",
+      "%wheel ALL=(ALL:ALL) ALL\n",
     );
   });
 }
