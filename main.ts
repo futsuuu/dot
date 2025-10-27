@@ -161,7 +161,7 @@ async function installArchLinux(): Promise<ConfigOpts> {
   });
 
   return {
-    targetDisk: targetDisk,
+    targetDisk,
     rootVolume: logicalVolumes.root,
     bootPartition: 1,
     systemPartition: 2,
@@ -188,8 +188,9 @@ async function configureArchLinux(opts: ConfigOpts) {
   });
 }
 
-function hashPassword(password: string) {
-  return $`openssl passwd -6 -salt $(openssl rand -base64 12) -stdin`
+async function hashPassword(password: string) {
+  const salt = await $`openssl rand -base64 12`.text();
+  return await $`openssl passwd -6 -salt ${salt} -stdin`
     .stdinText(password)
     .text();
 }
