@@ -1,29 +1,26 @@
-import * as fs from "jsr:@std/fs@1";
+import { $ } from "@david/dax";
 
-import { $ } from "jsr:@david/dax@0.43";
+if (import.meta.main) {
+  await main();
+}
 
 async function main() {
   $.setPrintCommand(true);
-  if (await isInstallingArchLinux()) {
-    if (!await isInChroot()) {
-      $.logStep("Installing", "Arch Linux");
-      await $.logGroup(async () => {
-        const configOpts = JSON.stringify(await installArchLinux());
-        await $`arch-chroot /mnt deno run -A ${import.meta.url} ${configOpts}`;
-      });
-      if (await $.confirm("Reboot now?", { default: true })) {
-        $`reboot`;
-      }
-    } else {
-      $.logStep("Configuring", "Arch Linux");
-      await $.logGroup(async () => {
-        const configOpts = JSON.parse(Deno.args[0]);
-        await configureArchLinux(configOpts);
-      });
+  if (!await isInChroot()) {
+    $.logStep("Installing", "Arch Linux");
+    await $.logGroup(async () => {
+      const configOpts = JSON.stringify(await installArchLinux());
+      await $`arch-chroot /mnt deno run -A ${import.meta.url} ${configOpts}`;
+    });
+    if (await $.confirm("Reboot now?", { default: true })) {
+      $`reboot`;
     }
   } else {
-    $.log("nothing to do :(");
-    Deno.exit(1);
+    $.logStep("Configuring", "Arch Linux");
+    await $.logGroup(async () => {
+      const configOpts = JSON.parse(Deno.args[0]);
+      await configureArchLinux(configOpts);
+    });
   }
 }
 
@@ -224,10 +221,6 @@ function getPartitionPath(disk: string, n: number) {
     : `${disk}${n}`;
 }
 
-function isInstallingArchLinux() {
-  return fs.exists("/run/archiso");
-}
-
 async function isInContainerOrVM() {
   const res = await $`systemd-detect-virt -q --container --vm`.noThrow();
   return res.code == 0;
@@ -236,8 +229,4 @@ async function isInContainerOrVM() {
 async function isInChroot() {
   const res = await $`systemd-detect-virt -q --chroot`.noThrow();
   return res.code == 0;
-}
-
-if (import.meta.main) {
-  await main();
 }

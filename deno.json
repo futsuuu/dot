@@ -1,0 +1,6 @@
+{
+  "$schema": "https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json",
+  "imports": {
+    "@david/dax": "jsr:@david/dax@0.43"
+  }
+}
