@@ -5,6 +5,9 @@ set -eux
 if [ -d /run/archiso ]; then
   timedatectl set-ntp true
   systemctl restart systemd-timesyncd
+  while timedatectl status | grep -q 'System clock synchronized: no'; do
+    sleep 1
+  done
   pacman -Sy --noconfirm archlinux-keyring
   pacman -S --noconfirm git deno
   git clone -b renewal https://github.com/futsuuu/dot.git

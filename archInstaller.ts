@@ -10,6 +10,7 @@ async function main() {
     $.logStep("Installing", "Arch Linux");
     await $.logGroup(async () => {
       const configOpts = JSON.stringify(await installArchLinux());
+      $.logStep("Entering", "chroot environment");
       // I don't know why, but /mnt/tmp is not accessible from arch-chroot.
       await Deno.copyFile(new URL(import.meta.url), "/mnt/var/tmp/archInstaller.js");
       await $`arch-chroot /mnt deno run -A /var/tmp/archInstaller.js ${configOpts}`;
@@ -43,8 +44,6 @@ interface ConfigOpts {
 }
 
 async function installArchLinux(): Promise<ConfigOpts> {
-  await $`timedatectl set-ntp true`;
-
   const targetDisk = await (async () => {
     const diskList = await getDiskList();
     if (diskList.length === 0) {
@@ -177,7 +176,7 @@ async function installArchLinux(): Promise<ConfigOpts> {
 }
 
 async function configureArchLinux(opts: ConfigOpts) {
-  $.logStep("Configuring", "users");
+  $.logStep("Applying", "account settings");
   await $.logGroup(async () => {
     await $`usermod --password ${opts.rootUser.password} root`;
     await $`useradd --create-home --gid users --groups wheel --shell /bin/bash --password ${opts.newUser.password} ${opts.newUser.name}`;
