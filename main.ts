@@ -2,18 +2,24 @@ import * as fs from "jsr:@std/fs@1";
 
 import { $ } from "jsr:@david/dax@0.43";
 
-if (import.meta.main) {
+async function main() {
   $.setPrintCommand(true);
   if (await isInstallingArchLinux()) {
     if (!await isInChroot()) {
       $.logStep("Installing", "Arch Linux");
-      await $.logGroup(installArchLinux);
+      await $.logGroup(async () => {
+        const configOpts = JSON.stringify(await installArchLinux());
+        await $`arch-chroot /mnt deno run -A ${import.meta.url} ${configOpts}`;
+      });
       if (await $.confirm("Reboot now?", { default: true })) {
         $`reboot`;
       }
     } else {
       $.logStep("Configuring", "Arch Linux");
-      await $.logGroup(configureArchLinux);
+      await $.logGroup(async () => {
+        const configOpts = JSON.parse(Deno.args[0]);
+        await configureArchLinux(configOpts);
+      });
     }
   } else {
     $.log("nothing to do :(");
@@ -21,7 +27,22 @@ if (import.meta.main) {
   }
 }
 
-async function installArchLinux() {
+interface ConfigOpts {
+  targetDisk: string;
+  rootVolume: string;
+  bootPartition: number;
+  systemPartition: number;
+  hostName: string;
+  rootUser: {
+    password: string;
+  };
+  newUser: {
+    name: string;
+    password: string;
+  };
+}
+
+async function installArchLinux(): Promise<ConfigOpts> {
   await $`timedatectl set-ntp true`;
 
   const targetDisk = await (async () => {
@@ -36,6 +57,15 @@ async function installArchLinux() {
     });
     return diskList[index];
   })();
+  const luksPassword = await passwordPrompt("LUKS");
+  const rootPassword = await passwordPrompt("root user");
+  const newUserName = await $.prompt("Enter a new user name:");
+  const newUserPassword =
+    await $.confirm("Do you want to use the same password as root?", {
+        default: true,
+      })
+      ? rootPassword
+      : await passwordPrompt(newUserName);
 
   if (
     !await isInContainerOrVM() &&
@@ -61,25 +91,12 @@ async function installArchLinux() {
 
   $.logStep("Creating", "LUKS container");
   const luksContainer = await $.logGroup(async () => {
-    while (true) {
-      const password = await $.prompt(
-        "Enter a new LUKS password:",
-        { mask: true },
-      );
-      const reentered = await $.prompt(
-        "Re-enter the password for confirmation:",
-        { mask: true },
-      );
-      if (reentered !== password) {
-        $.logError("Password mismatch");
-        continue;
-      }
-      await $`cryptsetup luksFormat ${partitions.system}`.stdinText(password);
-      const containerName = "cryptolvm";
-      await $`cryptsetup open --type luks ${partitions.system} ${containerName}`
-        .stdinText(password);
-      return `/dev/mapper/${containerName}` as const;
-    }
+    const containerName = "cryptolvm";
+    await $`cryptsetup luksFormat ${partitions.system} --key-file -`
+      .stdinText(luksPassword);
+    await $`cryptsetup open --type luks ${partitions.system} ${containerName} --key-file -`
+      .stdinText(luksPassword);
+    return `/dev/mapper/${containerName}` as const;
   });
 
   $.logStep("Setting up", "LVM");
@@ -114,6 +131,7 @@ async function installArchLinux() {
     await $`mount --mkdir ${logicalVolumes.home} /mnt/home`;
     await $`mount --mkdir -o fmask=0137,dmask=0027 ${partitions.boot} /mnt/boot`;
     await $`swapon ${logicalVolumes.swap}`;
+    await $`genfstab -U /mnt >> /mnt/etc/fstab`;
   });
 
   $.logStep("Executing", "pacstrap");
@@ -140,18 +158,61 @@ async function installArchLinux() {
     await $`pacstrap -K /mnt ${pkgs}`;
   });
 
-  await $`genfstab -U /mnt >> /mnt/etc/fstab`;
-  await $`arch-chroot /mnt deno ${import.meta.url} ${Deno.args}`;
+  return {
+    targetDisk: targetDisk,
+    rootVolume: logicalVolumes.root,
+    bootPartition: 1,
+    systemPartition: 2,
+    hostName: "myarchlinux",
+    rootUser: {
+      password: await hashPassword(rootPassword),
+    },
+    newUser: {
+      name: newUserName,
+      password: await hashPassword(newUserPassword),
+    },
+  };
 }
 
-async function configureArchLinux() {
-  await $`passwd`;
+async function configureArchLinux(opts: ConfigOpts) {
+  $.logStep("Configuring", "users");
+  await $.logGroup(async () => {
+    await $`usermod --password ${opts.rootUser.password} root`;
+    await $`useradd --create-home --gid users --groups wheel --shell /bin/bash --password ${opts.newUser.password} ${opts.newUser.name}`;
+    await Deno.writeTextFile(
+      "/etc/sudoers.d/wheel",
+      "%wheel ALL=(ALL:ALL) ALL",
+    );
+  });
+}
+
+function hashPassword(password: string) {
+  return $`openssl passwd -6 -salt $(openssl rand -base64 12) -stdin`
+    .stdinText(password)
+    .text();
+}
+
+async function passwordPrompt(name: string) {
+  while (true) {
+    const password = await $.prompt(
+      `Enter a new password of ${name}:`,
+      { mask: true },
+    );
+    const reentered = await $.prompt(
+      "Re-enter the password for confirmation:",
+      { mask: true },
+    );
+    if (reentered === password) {
+      return password;
+    }
+    $.logError("Password mismatch");
+  }
 }
 
 async function getDiskList() {
   const stdout =
     await $`lsblk --filter 'TYPE=="disk"' --output PATH --noheadings`.text();
-  return stdout.trim().split("\n");
+  return stdout.split("\n");
 }
 
 function getPartitionPath(disk: string, n: number) {
@@ -172,4 +233,8 @@ async function isInContainerOrVM() {
 async function isInChroot() {
   const res = await $`systemd-detect-virt -q --chroot`.noThrow();
   return res.code == 0;
+}
+
+if (import.meta.main) {
+  await main();
 }
