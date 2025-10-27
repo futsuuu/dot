@@ -131,6 +131,8 @@ async function installArchLinux(): Promise<ConfigOpts> {
     await $`mount --mkdir ${logicalVolumes.home} /mnt/home`;
     await $`mount --mkdir -o fmask=0137,dmask=0027 ${partitions.boot} /mnt/boot`;
     await $`swapon ${logicalVolumes.swap}`;
+
+    await Deno.mkdir("/mnt/etc", { recursive: true });
     await $`genfstab -U /mnt >> /mnt/etc/fstab`;
   });
 
