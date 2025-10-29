@@ -1,5 +1,7 @@
 import { $ } from "@david/dax";
 
+import * as mkinitcpio from "./mkinitcpio.ts";
+
 if (import.meta.main) {
   await main();
 }
@@ -12,7 +14,10 @@ async function main() {
       const configOpts = JSON.stringify(await installArchLinux());
       $.logStep("Entering", "chroot environment");
       // I don't know why, but /mnt/tmp is not accessible from arch-chroot.
-      await Deno.copyFile(new URL(import.meta.url), "/mnt/var/tmp/archInstaller.js");
+      await Deno.copyFile(
+        new URL(import.meta.url),
+        "/mnt/var/tmp/archInstaller.js",
+      );
       await $`arch-chroot /mnt deno run -A /var/tmp/archInstaller.js ${configOpts}`;
       await Deno.remove("/mnt/var/tmp/archInstaller.js");
     });
@@ -95,15 +100,19 @@ async function installArchLinux(): Promise<ConfigOpts> {
       .stdinText(luksPassword);
     await $`cryptsetup open --type luks ${partitions.system} ${containerName} --key-file -`
       .stdinText(luksPassword);
-    return `/dev/mapper/${containerName}` as const;
+    return {
+      name: containerName,
+      device: partitions.system,
+      mapper: `/dev/mapper/${containerName}`,
+    } as const;
   });
 
   $.logStep("Setting up", "LVM");
   const logicalVolumes = await $.logGroup(async () => {
-    await $`pvcreate ${luksContainer}`;
+    await $`pvcreate ${luksContainer.mapper}`;
 
     const vg = "system";
-    await $`vgcreate ${vg} ${luksContainer}`;
+    await $`vgcreate ${vg} ${luksContainer.mapper}`;
 
     await $`lvcreate -L ${Deno.systemMemoryInfo().total}B ${vg} -n swap`;
     await $`lvcreate -l 25%FREE ${vg} -n root`;
@@ -135,12 +144,78 @@ async function installArchLinux(): Promise<ConfigOpts> {
     await $`genfstab -U /mnt >> /mnt/etc/fstab`;
   });
 
+  const kernel: LinuxKernel = "linux";
+
+  $.logStep("Configuring", "mkinitcpio");
+  await $.logGroup(async () => {
+    await Deno.writeTextFile(
+      "/mnt/etc/mkinitcpio.conf",
+      mkinitcpio.generateConfig({
+        modules: ["tpm_tis?"],
+        binaries: [],
+        files: [],
+        hooks: [
+          "base",
+          "systemd",
+          "autodetect",
+          "microcode",
+          "modconf",
+          "kms",
+          "keyboard",
+          "sd-vconsole",
+          "block",
+          "sd-encrypt",
+          "lvm2",
+          "filesystems",
+          "fsck",
+        ],
+      }),
+    );
+
+    await Deno.mkdir("/mnt/etc/cmdline.d", { recursive: true });
+    const luksContainerUuid = await getUuid(luksContainer.device);
+    await Deno.writeTextFile(
+      "/mnt/etc/cmdline.d/root.conf",
+      mkinitcpio.generateKernelParams([
+        {
+          root: logicalVolumes.root,
+          rw: true,
+          bgrt_disable: true,
+          "rd.luks": {
+            name: `${luksContainerUuid}=${luksContainer.name}`,
+            options: `${luksContainerUuid}=tpm2-device-auto`,
+          },
+        },
+      ]),
+    );
+
+    await Deno.mkdir("/mnt/etc/mkinitcpio.d", { recursive: true });
+    await Deno.writeTextFile(
+      `/mnt/etc/mkinitcpio.d/${kernel}.preset`,
+      mkinitcpio.generatePreset({
+        all: {
+          kver: `/boot/vmlinuz-${kernel}`,
+        },
+        presets: {
+          default: {
+            uki: `/boot/EFI/Linux/arch-${kernel}.efi`,
+            splash: "/usr/share/systemd/bootctl/splash-arch.bmp",
+          },
+          fallback: {
+            uki: `/boot/EFI/Linux/arch-${kernel}-fallback.efi`,
+            options: "-S autodetect",
+          },
+        },
+      }),
+    );
+  });
+
   $.logStep("Executing", "pacstrap");
   await $.logGroup(async () => {
     const pkgs = [
       "base",
       "base-devel",
-      "linux",
+      kernel,
       "lvm2",
       "efibootmgr",
       "sudo",
@@ -178,14 +253,66 @@ async function installArchLinux(): Promise<ConfigOpts> {
 async function configureArchLinux(opts: ConfigOpts) {
   $.logStep("Applying", "account settings");
   await $.logGroup(async () => {
-    await $`usermod --password ${opts.rootUser.password} root`;
-    await $`useradd --create-home --gid users --groups wheel --shell /bin/bash --password ${opts.newUser.password} ${opts.newUser.name}`;
+    await $`usermod ${[
+      "--password",
+      opts.rootUser.password,
+      "root",
+    ]}`;
+    await $`useradd ${[
+      "--create-home",
+      "--gid",
+      "users",
+      "--groups",
+      "wheel",
+      "--shell",
+      "/bin/bash",
+      "--password",
+      opts.newUser.password,
+      opts.newUser.name,
+    ]}`;
     await Deno.writeTextFile(
       "/etc/sudoers.d/wheel",
       "%wheel ALL=(ALL:ALL) ALL\n",
     );
+    await Deno.writeTextFile("/etc/hostname", opts.hostName + "\n");
   });
+
+  $.logStep("Setting", "locale and time zone");
+  await $.logGroup(async () => {
+    await Deno.symlink("/usr/share/zoneinfo/Asia/Tokyo", "/etc/localtime");
+    await $`hwclock --systohc`;
+
+    await Deno.writeTextFile(
+      "/etc/locale.gen",
+      "en_US.UTF-8 UTF-8\n" + "ja_JP.UTF-8 UTF-8\n",
+      { append: true },
+    );
+    await $`locale-gen`;
+    await Deno.writeTextFile("/etc/locale.conf", "LANG=en_US.UTF-8\n");
+    await Deno.writeTextFile("/etc/vconsole.conf", "");
+  });
+
+  await $`efibootmgr ${[
+    "--create",
+    "--disk",
+    opts.targetDisk,
+    "--part",
+    opts.bootPartition,
+    "--label",
+    "Arch Linux",
+    "--loader",
+    "\\EFI\\Linux\\arch-linux.efi",
+    "--unicode",
+  ]}`;
 }
+
+type LinuxKernel =
+  | "linux"
+  | "linux-hardened"
+  | "linux-lts"
+  | "linux-rt"
+  | "linux-rt-lts"
+  | "linux-zen";
 
 async function hashPassword(password: string) {
   const salt = await $`openssl rand -base64 12`.text();
@@ -215,6 +342,11 @@ async function getDiskList() {
   const stdout =
     await $`lsblk --filter 'TYPE=="disk"' --output PATH --noheadings`.text();
   return stdout.split("\n");
+}
+
+function getUuid(device: string) {
+  return $`lsblk --filter 'PATH=="${device}"' --output UUID --noheadings`
+    .text();
 }
 
 function getPartitionPath(disk: string, n: number) {

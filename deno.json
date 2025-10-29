@@ -4,6 +4,7 @@
     "install-arch": "deno bundle --frozen --outdir ./dist ./archInstaller.ts && deno run -A ./dist/archInstaller.js"
   },
   "imports": {
-    "@david/dax": "jsr:@david/dax@0.43"
+    "@david/dax": "jsr:@david/dax@0.43",
+    "@std/assert": "jsr:@std/assert@1"
   }
 }
