@@ -224,7 +224,7 @@ async function installArchLinux(): Promise<ConfigOpts> {
       kernel,
       "mkinitcpio",
       "lvm2",
-      "efibootmgr",
+      // "efibootmgr",
       "sudo",
       "networkmanager",
       "deno",
@@ -298,18 +298,19 @@ async function configureArchLinux(opts: ConfigOpts) {
     await Deno.writeTextFile("/etc/locale.conf", "LANG=en_US.UTF-8\n");
   });
 
-  await $`efibootmgr ${[
-    "--create",
-    "--disk",
-    opts.targetDisk,
-    "--part",
-    opts.bootPartition,
-    "--label",
-    "Arch Linux",
-    "--loader",
-    "\\EFI\\Linux\\arch-linux.efi",
-    "--unicode",
-  ]}`;
+  await $`bootctl install`;
+  // await $`efibootmgr ${[
+  //   "--create",
+  //   "--disk",
+  //   opts.targetDisk,
+  //   "--part",
+  //   opts.bootPartition,
+  //   "--label",
+  //   "Arch Linux",
+  //   "--loader",
+  //   "\\EFI\\Linux\\arch-linux.efi",
+  //   "--unicode",
+  // ]}`;
 }
 
 type LinuxKernel =
