@@ -20,6 +20,33 @@ COMPRESSION="lz4"
   assertEquals(actual, expected);
 });
 
+Deno.test(function generatePreset() {
+  const actual = mkinitcpio.generatePreset({
+    all: {
+      kver: "/boot/vmlinuz-linux-lts",
+    },
+    presets: {
+      default: {
+        uki: "/boot/EFI/Linux/arch-lts.efi",
+        splash: "/usr/share/systemd/bootctl/splash-arch.bmp",
+      },
+      fallback: {
+        uki: "/boot/EFI/Linux/arch-lts-fallback.efi",
+        options: "-S autodetect",
+      },
+    },
+  });
+  const expected = `\
+ALL_kver='/boot/vmlinuz-linux-lts'
+PRESETS=('default' 'fallback')
+default_splash='/usr/share/systemd/bootctl/splash-arch.bmp'
+default_uki='/boot/EFI/Linux/arch-lts.efi'
+fallback_options='-S autodetect'
+fallback_uki='/boot/EFI/Linux/arch-lts-fallback.efi'
+`;
+  assertEquals(actual, expected);
+});
+
 Deno.test(function generateKernelParams() {
   const actual = mkinitcpio.generateKernelParams([
     {
@@ -40,6 +67,6 @@ Deno.test(function generateKernelParams() {
     "root=/dev/system/root",
     "rw",
     "splash",
-  ].join(" ");
+  ].join(" ") + "\n";
   assertEquals(actual, expected);
 });

@@ -42,13 +42,13 @@ export function generatePreset({ all, presets }: {
 }) {
   let s = "";
   for (const [key, val] of sortedEntries(all)) {
-    s += `ALL_${key}=${val}\n`;
+    s += `ALL_${key}='${val}'\n`;
   }
   const sortedPresets = sortedEntries(presets);
-  s += `PRESETS=(${sortedPresets.map(([k]) => k).join(" ")})\n`;
+  s += `PRESETS=(${sortedPresets.map(([k]) => `'${k}'`).join(" ")})\n`;
   for (const [presetName, preset] of sortedPresets) {
     for (const [key, val] of sortedEntries(preset)) {
-      s += `${presetName}_${key}=${val}\n`;
+      s += `${presetName}_${key}='${val}'\n`;
     }
   }
   return s;
@@ -82,7 +82,7 @@ export function generateKernelParams(
       }
     }
   }
-  return ss.join(" ");
+  return ss.join(" ") + "\n";
 }
 
 function sortedEntries<T>(rec: { [s: string]: T }) {
