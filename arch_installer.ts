@@ -22,7 +22,7 @@ async function main() {
       await Deno.remove("/mnt/var/tmp/arch_installer.js");
     });
     if (await $.confirm("Reboot now?", { default: true })) {
-      $`reboot`;
+      await $`reboot`;
     }
   } else {
     $.logStep("Configuring", "Arch Linux");
@@ -169,8 +169,11 @@ async function installArchLinux(): Promise<ConfigOpts> {
           "filesystems",
           "fsck",
         ],
+        compression: "lz4",
+        compressionOptions: ["-9"],
       }),
     );
+    await Deno.writeTextFile("/etc/vconsole.conf", "");
 
     await Deno.mkdir("/mnt/etc/cmdline.d", { recursive: true });
     const luksContainerUuid = await getUuid(luksContainer.device);
@@ -180,6 +183,7 @@ async function installArchLinux(): Promise<ConfigOpts> {
         {
           root: logicalVolumes.root,
           rw: true,
+          quiet: true,
           bgrt_disable: true,
           "rd.luks": {
             name: `${luksContainerUuid}=${luksContainer.name}`,
@@ -199,7 +203,7 @@ async function installArchLinux(): Promise<ConfigOpts> {
         presets: {
           default: {
             uki: `/boot/EFI/Linux/arch-${kernel}.efi`,
-            splash: "/usr/share/systemd/bootctl/splash-arch.bmp",
+            options: "--splash=/usr/share/systemd/bootctl/splash-arch.bmp",
           },
           fallback: {
             uki: `/boot/EFI/Linux/arch-${kernel}-fallback.efi`,
@@ -218,6 +222,7 @@ async function installArchLinux(): Promise<ConfigOpts> {
       "base",
       "base-devel",
       kernel,
+      "mkinitcpio",
       "lvm2",
       "efibootmgr",
       "sudo",
@@ -291,7 +296,6 @@ async function configureArchLinux(opts: ConfigOpts) {
     );
     await $`locale-gen`;
     await Deno.writeTextFile("/etc/locale.conf", "LANG=en_US.UTF-8\n");
-    await Deno.writeTextFile("/etc/vconsole.conf", "");
   });
 
   await $`efibootmgr ${[

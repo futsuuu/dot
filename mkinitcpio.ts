@@ -3,7 +3,15 @@ export function generateConfig(conf: {
   binaries: string[];
   files: string[];
   hooks: string[];
-  compression?: "zstd" | "gzip" | "bzip2" | "lzma" | "xz" | "lzop" | "lz4";
+  compression?:
+    | "cat"
+    | "zstd"
+    | "gzip"
+    | "bzip2"
+    | "lzma"
+    | "xz"
+    | "lzop"
+    | "lz4";
   compressionOptions?: string[];
   modulesDecompress?: boolean;
 }) {
