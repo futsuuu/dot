@@ -169,11 +169,9 @@ async function installArchLinux(): Promise<ConfigOpts> {
           "filesystems",
           "fsck",
         ],
-        compression: "lz4",
-        compressionOptions: ["-9"],
       }),
     );
-    await Deno.writeTextFile("/etc/vconsole.conf", "");
+    await Deno.writeTextFile("/mnt/etc/vconsole.conf", "");
 
     await Deno.mkdir("/mnt/etc/cmdline.d", { recursive: true });
     const luksContainerUuid = await getUuid(luksContainer.device);
