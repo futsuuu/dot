@@ -208,6 +208,8 @@ async function installArchLinux(): Promise<ConfigOpts> {
         },
       }),
     );
+
+    await Deno.mkdir("/mnt/boot/EFI/Linux", { recursive: true });
   });
 
   $.logStep("Executing", "pacstrap");
