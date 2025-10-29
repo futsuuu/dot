@@ -16,10 +16,10 @@ async function main() {
       // I don't know why, but /mnt/tmp is not accessible from arch-chroot.
       await Deno.copyFile(
         new URL(import.meta.url),
-        "/mnt/var/tmp/archInstaller.js",
+        "/mnt/var/tmp/arch_installer.js",
       );
-      await $`arch-chroot /mnt deno run -A /var/tmp/archInstaller.js ${configOpts}`;
-      await Deno.remove("/mnt/var/tmp/archInstaller.js");
+      await $`arch-chroot /mnt deno run -A /var/tmp/arch_installer.js ${configOpts}`;
+      await Deno.remove("/mnt/var/tmp/arch_installer.js");
     });
     if (await $.confirm("Reboot now?", { default: true })) {
       $`reboot`;

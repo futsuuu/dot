@@ -1,7 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/denoland/deno/refs/heads/main/cli/schemas/config-file.v1.json",
   "tasks": {
-    "install-arch": "deno bundle --frozen --outdir ./dist ./archInstaller.ts && deno run -A ./dist/archInstaller.js"
+    "install-arch": {
+      "command": "deno run -A ./dist/arch_installer.js",
+      "dependencies": ["bundle"]
+    },
+    "bundle": "deno bundle --frozen --outdir ./dist ./arch_installer.ts"
   },
   "imports": {
     "@david/dax": "jsr:@david/dax@0.43",
