@@ -18,7 +18,8 @@ async function main() {
         new URL(import.meta.url),
         "/mnt/var/tmp/arch_installer.js",
       );
-      await $`arch-chroot /mnt deno run -A /var/tmp/arch_installer.js ${configOpts}`;
+      // https://github.com/systemd/systemd/issues/39002
+      await $`arch-chroot -S /mnt deno run -A /var/tmp/arch_installer.js ${configOpts}`;
       await Deno.remove("/mnt/var/tmp/arch_installer.js");
     });
     if (await $.confirm("Reboot now?", { default: true })) {
@@ -296,7 +297,7 @@ async function configureArchLinux(opts: ConfigOpts) {
     await Deno.writeTextFile("/etc/locale.conf", "LANG=en_US.UTF-8\n");
   });
 
-  await $`bootctl install`;
+  await $`bootctl --variables=yes install`;
   // await $`efibootmgr ${[
   //   "--create",
   //   "--disk",
