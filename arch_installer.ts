@@ -13,14 +13,13 @@ async function main() {
     await $.logGroup(async () => {
       const configOpts = JSON.stringify(await installArchLinux());
       $.logStep("Entering", "chroot environment");
-      // I don't know why, but /mnt/tmp is not accessible from arch-chroot.
-      await Deno.copyFile(
-        new URL(import.meta.url),
-        "/mnt/var/tmp/arch_installer.js",
-      );
+      const tempDir = "/var/tmp/arch_installer";
+      await Deno.mkdir(`/mnt${tempDir}`, { recursive: true });
+      await Deno.copyFile(Deno.execPath(), `/mnt${tempDir}/deno`);
+      await Deno.copyFile(new URL(import.meta.url), `/mnt${tempDir}/main.js`);
       // https://github.com/systemd/systemd/issues/39002
-      await $`arch-chroot -S /mnt deno run -A /var/tmp/arch_installer.js ${configOpts}`;
-      await Deno.remove("/mnt/var/tmp/arch_installer.js");
+      await $`arch-chroot -S /mnt ${tempDir}/deno run -A ${tempDir}/main.js ${configOpts}`;
+      await Deno.remove(`/mnt${tempDir}`, { recursive: true });
     });
     if (await $.confirm("Reboot now?", { default: true })) {
       await $`reboot`;
@@ -170,6 +169,8 @@ async function installArchLinux(): Promise<ConfigOpts> {
           "filesystems",
           "fsck",
         ],
+        compression: "lz4",
+        compressionOptions: ["-9"],
       }),
     );
     await Deno.writeTextFile("/mnt/etc/vconsole.conf", "");
@@ -186,7 +187,7 @@ async function installArchLinux(): Promise<ConfigOpts> {
           bgrt_disable: true,
           "rd.luks": {
             name: `${luksContainerUuid}=${luksContainer.name}`,
-            options: `${luksContainerUuid}=tpm2-device-auto`,
+            options: `${luksContainerUuid}=tpm2-device=auto`,
           },
         },
       ]),
@@ -222,11 +223,11 @@ async function installArchLinux(): Promise<ConfigOpts> {
       "base-devel",
       kernel,
       "mkinitcpio",
+      "lz4",
       "lvm2",
       // "efibootmgr",
       "sudo",
-      "networkmanager",
-      "deno",
+      "iwd",
     ];
     if (!await isInContainerOrVM()) {
       pkgs.push("linux-firmware");
