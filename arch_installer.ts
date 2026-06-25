@@ -55,11 +55,11 @@ async function installArchLinux(): Promise<ConfigOpts> {
       $.logError("Disk not found");
       Deno.exit(1);
     }
-    const index = await $.select({
+    const selected = await $.select({
       message: "Select the disk to install",
       options: diskList,
     });
-    return diskList[index];
+    return selected.value;
   })();
   const luksPassword = await passwordPrompt("LUKS");
   const rootPassword = await passwordPrompt("root user");
