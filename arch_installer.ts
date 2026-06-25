@@ -1,6 +1,7 @@
 import { $ } from "@david/dax";
 
 import * as mkinitcpio from "./mkinitcpio.ts";
+import { isInChroot, isInContainerOrVM } from "./systemd_detect_virt.ts";
 
 if (import.meta.main) {
   await main();
@@ -360,14 +361,4 @@ function getPartitionPath(disk: string, n: number) {
   return (disk.startsWith("/dev/nvme") || disk.startsWith("/dev/mmcblk"))
     ? `${disk}p${n}`
     : `${disk}${n}`;
-}
-
-async function isInContainerOrVM() {
-  const res = await $`systemd-detect-virt -q --container --vm`.noThrow();
-  return res.code == 0;
-}
-
-async function isInChroot() {
-  const res = await $`systemd-detect-virt -q --chroot`.noThrow();
-  return res.code == 0;
 }
